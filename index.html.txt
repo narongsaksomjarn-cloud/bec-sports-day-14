@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BEC SPORTS DAY ครั้งที่ 14 - แบบฟอร์มสั่งจองเสื้อออนไลน์</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>body { font-family: 'Prompt', sans-serif; }</style>
+</head>
+<body class="bg-gray-100 min-h-screen">
+
+    <!-- 1. หน้าจอ "ปิดรับการสั่งจอง" (ซ่อนไว้เป็นค่าเริ่มต้น) -->
+    <div id="closedScreen" class="hidden h-screen flex items-center justify-center bg-[#f3e5f5] m-0">
+        <div class="text-center bg-white p-10 rounded-2xl shadow-lg max-w-lg w-full mx-4">
+            <h1 class="text-6xl mb-5">⛔</h1>
+            <h2 class="text-[#dc3545] text-2xl font-bold mb-5">ปิดรับการสั่งจองแล้วครับ</h2>
+            <p class="text-[1.1rem] text-[#555]">ขณะนี้ทางสโมสรนิสิตฯ ได้ปิดรับการสั่งจองเสื้อ BEC SPORTS DAY ครั้งที่ 14 แล้ว</p>
+            <hr class="my-5 border-t border-gray-200">
+            <p class="text-[0.9rem] text-[#888]">ขอบคุณทุกท่านที่ให้ความสนใจ</p>
+        </div>
+    </div>
+
+    <!-- 2. หน้าฟอร์มสั่งจองปกติ -->
+    <div id="formScreen" class="py-10 px-4 flex justify-center">
+        <div class="max-w-2xl w-full bg-white rounded-2xl shadow-md p-8">
+            <h2 class="text-2xl font-bold text-center text-gray-800 mb-6">ฟอร์มสั่งจองเสื้อ BEC Sports Day 14</h2>
+            
+            <form id="orderForm" class="space-y-4">
+                <!-- ข้อมูลผู้สั่ง -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700">ประเภทผู้สั่ง</label>
+                        <select id="userType" required class="mt-1 w-full p-2 border rounded-md">
+                            <option value="นิสิตคณะบริหารธุรกิจฯ">นิสิตคณะบริหารธุรกิจฯ</option>
+                            <option value="บุคลากรคณะบริหารธุรกิจฯ">บุคลากรคณะบริหารธุรกิจฯ</option>
+                            <option value="ศิษย์เก่าคณะบริหารธุรกิจฯ">ศิษย์เก่าคณะบริหารธุรกิจฯ</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700">รหัสนิสิต (ถ้ามี)</label>
+                        <input type="text" id="studentId" class="mt-1 w-full p-2 border rounded-md">
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <div class="col-span-1">
+                        <label class="block text-sm font-medium text-gray-700">คำนำหน้า</label>
+                        <input type="text" id="nameTitle" required class="mt-1 w-full p-2 border rounded-md">
+                    </div>
+                    <div class="col-span-2">
+                        <label class="block text-sm font-medium text-gray-700">ชื่อ - นามสกุล</label>
+                        <input type="text" id="fullName" required class="mt-1 w-full p-2 border rounded-md">
+                    </div>
+                </div>
+
+                <div>
+                    <label class="block text-sm font-medium text-gray-700">เบอร์โทรศัพท์</label>
+                    <input type="tel" id="phone" required class="mt-1 w-full p-2 border rounded-md">
+                </div>
+
+                <!-- ข้อมูลเสื้อ -->
+                <div class="p-4 bg-orange-50 rounded-lg space-y-4">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700">สีเสื้อ</label>
+                            <input type="text" id="shirtColor" required class="mt-1 w-full p-2 border rounded-md">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700">ไซส์เสื้อ (เช่น S, M, L, XL, 3XL)</label>
+                            <input type="text" id="shirtSize" required class="mt-1 w-full p-2 border rounded-md" placeholder="พิมพ์ไซส์เสื้อ">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- การจัดส่งและการชำระเงิน -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700">การรับเสื้อ</label>
+                        <select id="shippingMethod" required class="mt-1 w-full p-2 border rounded-md">
+                            <option value="pickup">รับที่คณะ (ฟรี)</option>
+                            <option value="post">จัดส่งไปรษณีย์ (+50 บาท)</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700">แนบสลิปโอนเงิน</label>
+                        <input type="file" id="slipFile" accept="image/*" required class="mt-1 w-full p-2 border rounded-md text-sm">
+                    </div>
+                </div>
+
+                <button type="submit" id="submitBtn" class="w-full bg-orange-600 hover:bg-orange-700 text-white font-bold py-3 rounded-lg mt-6">
+                    ยืนยันการสั่งจอง
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // --- 1. ตั้งค่าระบบ ---
+        const STATUS = "ON"; // เปลี่ยนเป็น "OFF" เพื่อแสดงหน้าปิดรับสมัคร
+        
+        // เชื่อมต่อ Supabase
+        const supabaseUrl = 'https://dbebgpeilylrnsidform.supabase.co';
+        const supabaseKey = 'sb_publishable_Y_Vppj0gv0Rh-OzmmX0gaA_Zq9Ji2SM';
+        const supabase = supabase.createClient(supabaseUrl, supabaseKey);
+
+        // จัดการหน้าจอแสดงผล
+        if (STATUS === "OFF") {
+            document.getElementById('formScreen').classList.add('hidden');
+            document.getElementById('closedScreen').classList.remove('hidden');
+        }
+
+        // --- 2. ฟังก์ชันอัปโหลดสลิปไป Google Drive ---
+        // (ต้องเอาโค้ด Apps Script ส่วนรับไฟล์ไป Deploy ใหม่ แล้วเอา URL มาใส่ตรงนี้)
+        const GOOGLE_SCRIPT_URL = 'ใส่_URL_ของ_APPS_SCRIPT_ที่นี่'; 
+
+        const toBase64 = file => new Promise((resolve, reject) => {
+            const reader = new FileReader();
+            reader.readAsDataURL(file);
+            reader.onload = () => resolve(reader.result.split(',')[1]);
+            reader.onerror = error => reject(error);
+        });
+
+        // --- 3. จัดการตอนกดปุ่ม Submit ---
+        document.getElementById('orderForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const submitBtn = document.getElementById('submitBtn');
+            submitBtn.innerText = 'กำลังประมวลผล...';
+            submitBtn.disabled = true;
+
+            try {
+                // เก็บค่าจากฟอร์ม
+                const formData = {
+                    userType: document.getElementById('userType').value,
+                    studentId: document.getElementById('studentId').value,
+                    nameTitle: document.getElementById('nameTitle').value,
+                    fullName: document.getElementById('fullName').value,
+                    phone: document.getElementById('phone').value,
+                    shirtColor: document.getElementById('shirtColor').value,
+                    size: document.getElementById('shirtSize').value,
+                    shippingMethod: document.getElementById('shippingMethod').value,
+                };
+
+                // โลจิกคำนวณราคาตามโค้ดเดิมของคุณ
+                const priceMap = {
+                    'XS':250, 'S':250, 'M':250, 'L':250, 'XL':250, '2XL':250,
+                    '3XL':260, '4XL':260, '5XL':260,
+                    '6XL':270, '7XL':270, '8XL':270, '9XL':270, '10XL':270
+                };
+                
+                let pureSize = formData.size.toUpperCase().trim();
+                let itemsTotal = priceMap[pureSize] || 250;
+                let shippingCost = (formData.shippingMethod === "post") ? 50 : 0;
+                let grandTotal = itemsTotal + shippingCost;
+                let shippingLabel = (formData.shippingMethod === "post") ? "จัดส่งไปรษณีย์" : "รับที่คณะ";
+
+                // อัปโหลดรูปลง Google Drive
+                const slipFile = document.getElementById('slipFile').files[0];
+                const base64Data = await toBase64(slipFile);
+                
+                const uploadRes = await fetch(GOOGLE_SCRIPT_URL, {
+                    method: 'POST',
+                    body: JSON.stringify({
+                        fileName: slipFile.name,
+                        mimeType: slipFile.type,
+                        base64: base64Data
+                    })
+                });
+                const uploadResult = await uploadRes.json();
+                
+                if(uploadResult.status !== 'success') throw new Error("อัปโหลดรูปไม่สำเร็จ");
+
+                // บันทึกข้อมูลลง Supabase
+                const { error } = await supabase.from('shirt_orders').insert([{
+                    order_type: formData.userType,
+                    student_id: formData.studentId || "-",
+                    title: formData.nameTitle,
+                    full_name: formData.fullName,
+                    phone_number: formData.phone,
+                    shirt_color: formData.shirtColor,
+                    shirt_size: pureSize,
+                    quantity: 1, // กำหนดเริ่มต้นเป็น 1
+                    total_shirt_price: itemsTotal,
+                    delivery_method: shippingLabel,
+                    address: "-",
+                    shipping_fee: shippingCost,
+                    total_transfer: grandTotal,
+                    slip_url: uploadResult.url
+                }]);
+
+                if (error) throw error;
+
+                alert('บันทึกข้อมูลเรียบร้อย! ขอบคุณที่ร่วมกิจกรรมครับ');
+                document.getElementById('orderForm').reset();
+
+            } catch (error) {
+                console.error(error);
+                alert('เกิดข้อผิดพลาด: ' + error.message);
+            } finally {
+                submitBtn.innerText = 'ยืนยันการสั่งจอง';
+                submitBtn.disabled = false;
+            }
+        });
+    </script>
+</body>
+</html>
