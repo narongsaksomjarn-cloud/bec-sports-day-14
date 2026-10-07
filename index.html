@@ -1,208 +1,1232 @@
 <!DOCTYPE html>
-<html lang="th">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BEC SPORTS DAY ครั้งที่ 14 - แบบฟอร์มสั่งจองเสื้อออนไลน์</title>
-    <script src="https://cdn.tailwindcss.com"></script>
+<html>
+  <head>
+    <base target="_top">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css">
+    
+    <!-- เพิ่มไลบรารี Supabase -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600&display=swap" rel="stylesheet">
-    <style>body { font-family: 'Prompt', sans-serif; }</style>
-</head>
-<body class="bg-gray-100 min-h-screen">
+    
+    <style>
+      body { font-family: 'Sarabun', sans-serif; background-color: #f3e5f5; padding-bottom: 50px; }
+      .container { max-width: 600px; margin-top: 20px; }
+      
+      .app-header {
+        background: white; border-top: 8px solid #512da8; border-radius: 10px;
+        padding: 30px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); margin-bottom: 20px;
+        position: relative;
+      }
+      .lang-switch { position: absolute; top: 15px; right: 15px; }
+      .lang-btn { border: 1px solid #512da8; background: white; color: #512da8; padding: 2px 10px; border-radius: 20px; font-size: 0.8rem; cursor: pointer; transition: 0.3s; }
+      .lang-btn.active { background: #512da8; color: white; }
 
-    <!-- 1. หน้าจอ "ปิดรับการสั่งจอง" (ซ่อนไว้เป็นค่าเริ่มต้น) -->
-    <div id="closedScreen" class="hidden h-screen flex items-center justify-center bg-[#f3e5f5] m-0">
-        <div class="text-center bg-white p-10 rounded-2xl shadow-lg max-w-lg w-full mx-4">
-            <h1 class="text-6xl mb-5">⛔</h1>
-            <h2 class="text-[#dc3545] text-2xl font-bold mb-5">ปิดรับการสั่งจองแล้วครับ</h2>
-            <p class="text-[1.1rem] text-[#555]">ขณะนี้ทางสโมสรนิสิตฯ ได้ปิดรับการสั่งจองเสื้อ BEC SPORTS DAY ครั้งที่ 14 แล้ว</p>
-            <hr class="my-5 border-t border-gray-200">
-            <p class="text-[0.9rem] text-[#888]">ขอบคุณทุกท่านที่ให้ความสนใจ</p>
+      .content-card { background: white; padding: 30px; border-radius: 10px; box-shadow: 0 5px 15px rgba(0,0,0,0.05); min-height: 400px; position: relative; border-top: 5px solid #673ab7; }
+      .step-indicator { display: flex; justify-content: center; margin-bottom: 25px; }
+      .step-dot { width: 12px; height: 12px; background-color: #e0e0e0; border-radius: 50%; margin: 0 6px; transition: all 0.3s; }
+      .step-dot.active { background-color: #673ab7; transform: scale(1.3); }
+      .major-option { border: 2px solid #f0f0f0; border-radius: 10px; padding: 15px; margin-bottom: 10px; cursor: pointer; transition: all 0.2s; display: flex; align-items: center; }
+      .major-option.selected { border-color: #673ab7; background-color: #ede7f6; font-weight: bold; color: #4527a0; }
+      .shirt-grid-img { width: 100%; border-radius: 8px; border: 1px solid #ddd; transition: transform 0.2s; }
+      .shirt-label { font-size: 0.8rem; text-align: center; margin-top: 5px; color: #666; font-weight: bold; }
+      .payment-box { background-color: #f8f9fa; border: 1px solid #ddd; border-radius: 10px; padding: 20px; text-align: center; margin-bottom: 20px; }
+      .bank-logo { width: 50px; height: 50px; margin-bottom: 10px; border-radius: 50%; }
+      .qr-img { max-width: 180px; border: 1px solid #eee; margin: 10px 0; border-radius: 5px; }
+      .d-none { display: none !important; }
+      .text-alert { color: #d32f2f; font-weight: 600; font-size: 0.9rem; }
+      .validation-error { color: #dc3545; font-size: 0.85em; display: none; margin-top: 5px; }
+      .price-detail { font-size: 0.85rem; color: #555; background-color: #f8f9fa; border-radius: 8px; padding: 10px; margin-bottom: 15px; border: 1px dashed #ccc; }
+      
+      @keyframes popIn { 0% { transform: scale(0.8); opacity: 0; } 100% { transform: scale(1); opacity: 1; } }
+      .success-icon { font-size: 80px; color: #198754; animation: popIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
+    </style>
+  </head>
+  <body>
+    
+    <div class="container">
+      
+      <div class="app-header text-center" id="mainHeader">
+        <div class="lang-switch">
+            <button type="button" class="lang-btn active" id="btnTH" onclick="setLanguage('th')">TH</button>
+            <button type="button" class="lang-btn" id="btnEN" onclick="setLanguage('en')">EN</button>
         </div>
-    </div>
 
-    <!-- 2. หน้าฟอร์มสั่งจองปกติ -->
-    <div id="formScreen" class="py-10 px-4 flex justify-center">
-        <div class="max-w-2xl w-full bg-white rounded-2xl shadow-md p-8">
-            <h2 class="text-2xl font-bold text-center text-gray-800 mb-6">ฟอร์มสั่งจองเสื้อ BEC Sports Day 14</h2>
-            
-            <form id="orderForm" class="space-y-4">
-                <!-- ข้อมูลผู้สั่ง -->
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div>
-                        <label class="block text-sm font-medium text-gray-700">ประเภทผู้สั่ง</label>
-                        <select id="userType" required class="mt-1 w-full p-2 border rounded-md">
-                            <option value="นิสิตคณะบริหารธุรกิจฯ">นิสิตคณะบริหารธุรกิจฯ</option>
-                            <option value="บุคลากรคณะบริหารธุรกิจฯ">บุคลากรคณะบริหารธุรกิจฯ</option>
-                            <option value="ศิษย์เก่าคณะบริหารธุรกิจฯ">ศิษย์เก่าคณะบริหารธุรกิจฯ</option>
-                        </select>
-                    </div>
-                    <div>
-                        <label class="block text-sm font-medium text-gray-700">รหัสนิสิต (ถ้ามี)</label>
-                        <input type="text" id="studentId" class="mt-1 w-full p-2 border rounded-md">
-                    </div>
-                </div>
-
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                    <div class="col-span-1">
-                        <label class="block text-sm font-medium text-gray-700">คำนำหน้า</label>
-                        <input type="text" id="nameTitle" required class="mt-1 w-full p-2 border rounded-md">
-                    </div>
-                    <div class="col-span-2">
-                        <label class="block text-sm font-medium text-gray-700">ชื่อ - นามสกุล</label>
-                        <input type="text" id="fullName" required class="mt-1 w-full p-2 border rounded-md">
-                    </div>
-                </div>
-
-                <div>
-                    <label class="block text-sm font-medium text-gray-700">เบอร์โทรศัพท์</label>
-                    <input type="tel" id="phone" required class="mt-1 w-full p-2 border rounded-md">
-                </div>
-
-                <!-- ข้อมูลเสื้อ -->
-                <div class="p-4 bg-orange-50 rounded-lg space-y-4">
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <div>
-                            <label class="block text-sm font-medium text-gray-700">สีเสื้อ</label>
-                            <input type="text" id="shirtColor" required class="mt-1 w-full p-2 border rounded-md">
-                        </div>
-                        <div>
-                            <label class="block text-sm font-medium text-gray-700">ไซส์เสื้อ (เช่น S, M, L, XL, 3XL)</label>
-                            <input type="text" id="shirtSize" required class="mt-1 w-full p-2 border rounded-md" placeholder="พิมพ์ไซส์เสื้อ">
-                        </div>
-                    </div>
-                </div>
-
-                <!-- การจัดส่งและการชำระเงิน -->
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div>
-                        <label class="block text-sm font-medium text-gray-700">การรับเสื้อ</label>
-                        <select id="shippingMethod" required class="mt-1 w-full p-2 border rounded-md">
-                            <option value="pickup">รับที่คณะ (ฟรี)</option>
-                            <option value="post">จัดส่งไปรษณีย์ (+50 บาท)</option>
-                        </select>
-                    </div>
-                    <div>
-                        <label class="block text-sm font-medium text-gray-700">แนบสลิปโอนเงิน</label>
-                        <input type="file" id="slipFile" accept="image/*" required class="mt-1 w-full p-2 border rounded-md text-sm">
-                    </div>
-                </div>
-
-                <button type="submit" id="submitBtn" class="w-full bg-orange-600 hover:bg-orange-700 text-white font-bold py-3 rounded-lg mt-6">
-                    ยืนยันการสั่งจอง
-                </button>
-            </form>
-        </div>
-    </div>
-
-    <script>
-        // --- 1. ตั้งค่าระบบ ---
-        const STATUS = "ON"; // เปลี่ยนเป็น "OFF" เพื่อแสดงหน้าปิดรับสมัคร
+        <h2 class="fw-bold text-dark mb-3">BEC SPORTS DAY <span data-i18n="header_title_sub">ครั้งที่ 14</span><br> <span data-i18n="header_form_name">แบบฟอร์มสั่งจองเสื้อออนไลน์</span></h2>
         
-        // เชื่อมต่อ Supabase
-        const supabaseUrl = 'https://dbebgpeilylrnsidform.supabase.co';
-        const supabaseKey = 'sb_publishable_Y_Vppj0gv0Rh-OzmmX0gaA_Zq9Ji2SM';
-        const supabase = supabase.createClient(supabaseUrl, supabaseKey);
+        <div class="alert alert-light border small text-secondary text-start">
+          <p class="mb-1 fw-bold text-dark" data-i18n="instruct_title">โปรดอ่านคำแนะนำก่อนสั่งเสื้อกีฬาสีคณะ❤️💙💚💜</p>
+          <ul class="mb-2 ps-3">
+            <li data-i18n="instruct_1">จัดจำหน่ายให้นิสิต ศิษย์เก่า บุคลากร สำหรับใส่ร่วมงานกีฬาสีและกิจกรรมอื่น ๆ</li>
+            <li data-i18n="instruct_2">โปรดตรวจทานข้อมูลให้ถูกต้องก่อนกดส่งข้อมูล</li>
+            <li data-i18n="instruct_3">สอบถามเพิ่มเติม: Inbox เพจสโมสรนิสิตฯ หรือ IG @smobec_nu</li>
+          </ul>
+          <hr>
+          <p class="mb-1">✨ <strong data-i18n="event_date_label">กำหนดจัดงาน:</strong> <span data-i18n="event_date_val">27 - 31 มกราคม 2569</span></p>
+          <p class="mb-1 text-danger fw-bold">📍 <span data-i18n="order_period">สั่งจองได้ตั้งแต่บัดนี้ - 14 ธันวาคม 2568 (18.00 น.)</span></p>
+          
+          <p class="mb-0 text-muted fst-italic" data-i18n="note_1">* เมื่อสั่งซื้อแล้วไม่สามารถเปลี่ยนไซส์ได้</p>
+          <p class="mb-0 text-muted fst-italic" data-i18n="note_2">** ไม่จำกัดจำนวนการสั่งซื้อ</p>
+          <p class="mb-0 text-muted fst-italic" data-i18n="note_3">*** เฉพาะนิสิต ป.ตรี สามารถสั่งซื้อได้เฉพาะสีตนเอง เท่านั้น</p>
+          
+          <p class="mb-1 text-danger fw-bold mt-2" data-i18n="note_closing">หมายเหตุ : หลังจากปิดรับพรีออเดอร์จะไม่สามารถสั่งซื้อเพิ่มในภายหลังได้</p>
+        </div>
+      </div>
 
-        // จัดการหน้าจอแสดงผล
-        if (STATUS === "OFF") {
-            document.getElementById('formScreen').classList.add('hidden');
-            document.getElementById('closedScreen').classList.remove('hidden');
+      <div id="successPage" class="content-card text-center d-none" style="padding: 50px 20px;">
+         <div class="success-icon mb-3"><i class="bi bi-check-circle-fill"></i></div>
+         <h2 class="fw-bold text-success mb-3" data-i18n="success_title">ได้รับข้อมูลการสั่งจองแล้ว</h2>
+         <p class="text-secondary fs-5" data-i18n="success_subtitle">ขอบคุณที่ร่วมเป็นส่วนหนึ่งในงาน<br>BEC SPORTS DAY ครั้งที่ 14</p>
+         <hr class="my-4 w-50 mx-auto">
+         <p class="text-muted small" data-i18n="success_desc">ระบบได้บันทึกข้อมูลและสลิปการโอนเงินของท่านเรียบร้อยแล้ว</p>
+         <button class="btn btn-primary rounded-pill px-5 py-2 mt-3 shadow-sm" onclick="location.reload()">
+            <i class="bi bi-cart-plus"></i> <span data-i18n="btn_order_more">สั่งจองเพิ่ม</span>
+         </button>
+      </div>
+
+      <form id="orderForm">
+        <div class="content-card" id="formCard">
+          <div class="step-indicator">
+            <div class="step-dot active" id="dot1"></div>
+            <div class="step-dot" id="dot2"></div>
+            <div class="step-dot" id="dot3"></div>
+            <div class="step-dot" id="dot4"></div>
+          </div>
+
+          <div id="step1">
+            <h5 class="text-primary mb-3 fw-bold"><span data-i18n="step1_title">1. ข้อมูลผู้สั่งจอง</span></h5>
+            <div class="mb-3">
+              <label class="form-label fw-bold"><span data-i18n="label_user_type">ประเภทผู้สั่ง</span> <span class="text-danger">*</span></label>
+              <div class="d-flex flex-wrap gap-3">
+                <div class="form-check">
+                  <input class="form-check-input" type="radio" name="userType" value="นิสิตคณะบริหารธุรกิจฯ" checked onchange="toggleUserType()">
+                  <label class="form-check-label" data-i18n="opt_student">นิสิตปัจจุบัน</label>
+                </div>
+                <div class="form-check">
+                  <input class="form-check-input" type="radio" name="userType" value="ศิษย์เก่าคณะบริหารธุรกิจฯ" onchange="toggleUserType()">
+                  <label class="form-check-label" data-i18n="opt_alumni">ศิษย์เก่า</label>
+                </div>
+                <div class="form-check">
+                  <input class="form-check-input" type="radio" name="userType" value="บุคลากรคณะบริหารธุรกิจฯ" onchange="toggleUserType()">
+                  <label class="form-check-label" data-i18n="opt_staff">บุคลากรคณะบริหารธุรกิจฯ</label>
+                </div>
+              </div>
+            </div>
+            
+            <div class="mb-3 d-none" id="staffTypeDiv">
+               <label class="form-label"><span data-i18n="label_staff_type">ประเภทบุคลากร</span> <span class="text-danger">*</span></label>
+               <select name="staffType" id="inputStaffType" class="form-select" onchange="handleStaffTypeChange()">
+                 <option value="" disabled selected data-i18n="ph_select_type">เลือกประเภท...</option>
+                 <option value="สายวิชาการ" data-i18n="opt_academic">สายวิชาการ</option>
+                 <option value="สายสนับสนุน" data-i18n="opt_support">สายสนับสนุน</option>
+               </select>
+            </div>
+
+            <div class="mb-3" id="eduLevelDiv">
+               <label class="form-label"><span data-i18n="label_edu_level">ระดับการศึกษา</span> <span class="text-danger">*</span></label>
+               <select name="eduLevel" id="inputEduLevel" class="form-select" onchange="handleEduLevelChange()">
+                 <option value="ปริญญาตรี" selected data-i18n="opt_bachelor">ปริญญาตรี</option>
+                 <option value="ปริญญาโท" data-i18n="opt_master">ปริญญาโท</option>
+                 <option value="ปริญญาเอก" data-i18n="opt_doctor">ปริญญาเอก</option>
+               </select>
+            </div>
+
+            <div class="mb-3" id="bachelorMajorDiv">
+                <label class="form-label"><span data-i18n="label_major">สาขาวิชา</span> <span class="text-danger">*</span></label>
+                <select name="bachelorMajor" id="inputBachelorMajor" class="form-select">
+                  <option value="" disabled selected data-i18n="ph_select_major">เลือกสาขาวิชา...</option>
+                </select>
+            </div>
+
+            <div class="mb-3 d-none" id="gradMajorDiv">
+               <label class="form-label"><span data-i18n="label_major">สาขาวิชา</span> <span class="text-danger">*</span></label>
+               <select name="gradMajor" id="inputGradMajor" class="form-select"></select>
+            </div>
+            
+            <div class="mb-3" id="studentIdDiv">
+              <label class="form-label"><span data-i18n="label_student_id">รหัสนิสิต</span> <span class="text-danger">*</span></label>
+              <input type="text" class="form-control" name="studentId" id="inputStudentId" placeholder="6xxxxxxx" maxlength="8">
+              <div class="validation-error" id="studentIdError" data-i18n="err_student_id">⚠️ รหัสนิสิตต้องเป็นตัวเลข 8 หลัก</div>
+            </div>
+
+            <div class="row g-2 mb-3">
+              <div class="col-4">
+                <label class="form-label" data-i18n="label_title">คำนำหน้า</label>
+                <select name="nameTitle" id="inputNameTitle" class="form-select"></select>
+              </div>
+              <div class="col-8">
+                <label class="form-label"><span data-i18n="label_fullname">ชื่อ-นามสกุล</span> <span class="text-danger">*</span></label>
+                <input type="text" class="form-control" name="fullName" id="inputFullName" placeholder="ไม่ต้องใส่คำนำหน้า" required>
+              </div>
+            </div>
+
+            <div class="mb-4">
+              <label class="form-label"><span data-i18n="label_phone">เบอร์โทรศัพท์</span> (10 <span data-i18n="digits">หลัก</span>) <span class="text-danger">*</span></label>
+              <input type="tel" class="form-control" name="phone" id="phoneInput" placeholder="0xxxxxxxxx" maxlength="10" required>
+              <div class="validation-error" id="phoneError" data-i18n="err_phone">⚠️ กรุณากรอกเบอร์โทรให้ครบ 10 หลัก (เฉพาะตัวเลข)</div>
+            </div>
+
+            <div class="mb-4">
+              <div id="studentYearDiv">
+                <label class="form-label"><span data-i18n="label_year">ชั้นปี</span> <span class="text-danger">*</span></label>
+                <select name="yearLevel" id="inputStudentYear" class="form-select">
+                  <option value="" disabled selected data-i18n="ph_select_year">เลือกชั้นปี...</option>
+                  <option value="ปี 1 (รหัส 68)">ปี 1 (Year 1 - ID 68)</option>
+                  <option value="ปี 2 (รหัส 67)">ปี 2 (Year 2 - ID 67)</option>
+                  <option value="ปี 3 (รหัส 66)">ปี 3 (Year 3 - ID 66)</option>
+                  <option value="ปี 4 (รหัส 65)">ปี 4 (Year 4 - ID 65)</option>
+                  <option value="อื่นๆ" data-i18n="opt_other">อื่นๆ (Other)</option>
+                </select>
+              </div>
+              <div class="d-none" id="alumniYearDiv">
+                <label class="form-label"><span data-i18n="label_entry_year">ปีที่เข้าศึกษา</span> <span class="text-danger">*</span></label>
+                <input type="text" name="alumniYear" id="inputAlumniYear" class="form-control" placeholder="Ex. 58">
+              </div>
+            </div>
+
+            <div class="d-grid">
+              <button type="button" class="btn btn-primary rounded-pill py-2" onclick="validateStep1()"><span data-i18n="btn_next">ถัดไป</span> <i class="bi bi-arrow-right"></i></button>
+            </div>
+          </div>
+
+          <div id="step2" class="d-none">
+            <div id="multiColorSection" class="d-none">
+                <h5 class="text-primary mb-3 fw-bold"><span data-i18n="step2_title">2. เลือกรายการสั่งซื้อ</span></h5>
+                <div class="row g-2 mb-4" id="colorGrid"></div>
+                <div class="text-center mb-3">
+                    <button type="button" class="btn btn-link btn-sm" data-bs-toggle="modal" data-bs-target="#sizeModal" data-i18n="btn_size_chart">ดูตารางไซส์</button>
+                </div>
+                <div class="price-detail text-center">
+                    <div><strong data-i18n="price_label">อัตราค่าเสื้อ:</strong></div>
+                    <div>XS - 2XL: 250 <span data-i18n="thb">บาท</span></div>
+                    <div>3XL - 5XL: 260 <span data-i18n="thb">บาท</span></div>
+                    <div>6XL+: 270 <span data-i18n="thb">บาท</span></div>
+                </div>
+                <div class="text-alert mb-3 small text-center">
+                   <i class="bi bi-exclamation-triangle-fill"></i> <span data-i18n="alert_number">หากไม่ประสงค์เลือกเลขหลังเสื้อ ทางสโมสรนิสิตขอสงวนสิทธิ์ ใส่เบอร์หลังเสื้อหมายเลข 33 ให้</span>
+                </div>
+                <div id="alumniItemList"></div>
+                <button type="button" class="btn btn-outline-primary w-100 mb-3 dashed-btn" onclick="addItem('alumni')">
+                    <i class="bi bi-plus-circle"></i> <span data-i18n="btn_add_item">เพิ่มรายการเสื้อ</span>
+                </button>
+                <div class="d-flex justify-content-between align-items-center mb-4 pt-2 border-top">
+                   <span class="text-muted" data-i18n="total_shirt_price">ราคารวม (เฉพาะเสื้อ)</span>
+                   <strong class="text-primary fs-5" id="alumniItemsPriceDisplay">0 ฿</strong>
+                </div>
+                <div class="d-flex justify-content-between mt-4">
+                  <button type="button" class="btn btn-secondary rounded-pill px-4" onclick="nextStep(1)" data-i18n="btn_back">กลับ</button>
+                  <button type="button" class="btn btn-primary rounded-pill px-4" onclick="nextStep(4)"><span data-i18n="btn_pay">ไปชำระเงิน</span> <i class="bi bi-arrow-right"></i></button>
+                </div>
+            </div>
+          </div>
+
+          <div id="step3" class="d-none">
+            <h5 class="text-primary mb-3 fw-bold"><span data-i18n="step2_title">2. เลือกรายการสั่งซื้อ</span></h5>
+            <div class="text-center mb-4 p-3 border rounded bg-light">
+              <img id="shirtPreview" src="" style="max-width:220px; border-radius:10px; box-shadow:0 4px 6px rgba(0,0,0,0.1);">
+              <div class="mt-2"><span id="colorTitle" class="badge bg-secondary"></span></div>
+              <input type="hidden" name="shirtColor" id="shirtColorInput">
+              <button type="button" class="btn btn-link btn-sm mt-2" data-bs-toggle="modal" data-bs-target="#sizeModal" data-i18n="btn_size_chart">ดูตารางไซส์</button>
+              <div class="price-detail mt-2">
+                  <div><strong data-i18n="price_label">อัตราค่าเสื้อ:</strong></div>
+                  <div>XS - 2XL: 250 <span data-i18n="thb">บาท</span></div>
+                  <div>3XL - 5XL: 260 <span data-i18n="thb">บาท</span></div>
+                  <div>6XL+: 270 <span data-i18n="thb">บาท</span></div>
+              </div>
+              <div class="text-alert mt-3 small">
+                <i class="bi bi-exclamation-triangle-fill"></i> <span data-i18n="alert_number">หากไม่ประสงค์เลือกเลขหลังเสื้อ ทางสโมสรนิสิตขอสงวนสิทธิ์ ใส่เบอร์หลังเสื้อหมายเลข 33 ให้</span>
+              </div>
+            </div>
+            <div id="studentItemList"></div>
+            <button type="button" class="btn btn-outline-secondary w-100 mb-3 dashed-btn" onclick="addItem('student')">+ <span data-i18n="btn_add_item">เพิ่มรายการเสื้อ</span></button>
+            <div class="d-flex justify-content-between align-items-center mb-4 pt-2 border-top">
+               <span class="text-muted" data-i18n="total_shirt_price">ราคารวม (เฉพาะเสื้อ)</span>
+               <strong class="text-primary fs-5" id="studentItemsPriceDisplay">0 ฿</strong>
+            </div>
+            <div class="d-flex justify-content-between">
+              <button type="button" class="btn btn-secondary rounded-pill px-4" onclick="nextStep(1)" data-i18n="btn_back">กลับ</button>
+              <button type="button" class="btn btn-primary rounded-pill px-4" onclick="nextStep(4)"><span data-i18n="btn_pay">ไปชำระเงิน</span> <i class="bi bi-arrow-right"></i></button>
+            </div>
+          </div>
+
+          <div id="step4" class="d-none">
+            <h5 class="text-primary mb-3 fw-bold"><span data-i18n="step3_title">3. สรุปยอดและชำระเงิน</span></h5>
+            <div class="mb-4">
+              <h6 class="fw-bold small mb-2"><span data-i18n="label_shipping">วิธีการจัดส่ง</span> <span class="text-danger">*</span></h6>
+              <div class="form-check card p-3 mb-2">
+                <div class="d-flex align-items-center">
+                  <input class="form-check-input ms-1" type="radio" name="shippingMethod" id="shipPickup" value="pickup" checked onchange="renderStep4()">
+                  <label class="form-check-label ms-3 w-100" for="shipPickup">
+                    <i class="bi bi-building"></i> <span data-i18n="ship_pickup">รับที่คณะ (ฟรี)</span>
+                    <div class="text-muted small ms-4" data-i18n="ship_pickup_desc">รอประกาศวันรับเสื้ออีกครั้ง</div>
+                  </label>
+                </div>
+              </div>
+              <div class="form-check card p-3">
+                <div class="d-flex align-items-center">
+                  <input class="form-check-input ms-1" type="radio" name="shippingMethod" id="shipPost" value="post" onchange="renderStep4()">
+                  <label class="form-check-label ms-3 w-100" for="shipPost">
+                      <i class="bi bi-box-seam"></i> <span data-i18n="ship_post">จัดส่งไปรษณีย์ (+50 บาท)</span>
+                      <div class="text-muted small ms-4" data-i18n="ship_post_desc">จัดส่งแบบลงทะเบียน</div>
+                  </label>
+                </div>
+              </div>
+              <div id="addressBox" class="mt-3 d-none animate__animated animate__fadeIn">
+                 <label class="form-label small fw-bold"><span data-i18n="label_address">ที่อยู่สำหรับจัดส่ง</span> <span class="text-danger">*</span></label>
+                 <textarea class="form-control" name="shippingAddress" id="inputAddress" rows="3" placeholder="ระบุบ้านเลขที่ หมู่ ซอย ถนน ตำบล อำเภอ จังหวัด รหัสไปรษณีย์"></textarea>
+              </div>
+            </div>
+            <div class="bg-light p-3 rounded mb-3 border">
+               <h6 class="fw-bold small text-muted mb-2" data-i18n="label_summary">รายการสั่งซื้อของคุณ</h6>
+               <table class="table table-sm table-borderless mb-0 small text-secondary"><tbody id="summaryTable"></tbody></table>
+            </div>
+            <div class="d-flex justify-content-between align-items-center mb-4 pt-3 border-top">
+              <span class="fs-5 fw-bold text-dark" data-i18n="label_grand_total">ยอดโอนสุทธิ</span>
+              <span class="fs-3 fw-bold text-primary" id="grandTotalDisplay">0 ฿</span>
+            </div>
+            <div class="payment-box">
+               <img src="https://upload.wikimedia.org/wikipedia/en/thumb/5/5a/Kasikornbank_Logo.svg/1200px-Kasikornbank_Logo.svg.png" class="bank-logo">
+               <h6 class="fw-bold mb-1" data-i18n="bank_name">ธนาคารกสิกรไทย</h6>
+               <div class="small text-muted lh-sm my-2">น.ส. นภัสวรรณ ตุ้มพงษ์ <br> น.ส. ชญานิศ จำปาทอง <br> นาย พงศธร บานเย็นงาม</div>
+               <h4 class="fw-bold text-success my-2" style="letter-spacing: 1px;">208-8-91057-8</h4>
+               <img src="" class="qr-img" id="qrImage">
+               <div class="alert alert-warning p-2 mt-3 small text-start border-warning bg-warning bg-opacity-10">
+                  <i class="bi bi-exclamation-circle-fill text-warning"></i> <strong data-i18n="slip_warn_1">โปรดระบุ ชื่อ-นามสกุล และสาขา ในช่องบันทึกช่วยจำของสลิป</strong><br>
+                  <span class="text-muted fst-italic">Ex. นางสาวสายน้ำ ประกายจิต CA</span>
+               </div>
+            </div>
+            <div class="mb-3">
+              <label class="form-label fw-bold"><span data-i18n="label_slip">อัปโหลดสลิปการโอน</span> <span class="text-danger">*</span></label>
+              <input type="file" class="form-control" id="slipFile" accept="image/*" required>
+            </div>
+            <div class="mb-4">
+                <label class="form-label text-muted small" data-i18n="label_note">กรณีลืมบันทึกข้อมูลท้ายสลิป (แต่หากบันทึกแล้วไม่ต้องตอบ)</label>
+                <input type="text" class="form-control form-control-sm" name="slipMemoNote" id="inputNote" placeholder="ระบุชื่อ-สาขาที่นี่ (ถ้าลืมพิมพ์ในสลิป)">
+            </div>
+            <div class="form-check mb-4 p-3 bg-white border rounded shadow-sm">
+                <input class="form-check-input" type="checkbox" id="confirmCheck" style="transform: scale(1.2);">
+                <label class="form-check-label fw-bold ms-2 text-primary" for="confirmCheck" data-i18n="label_verify">ตรวจสอบข้อมูลการสั่งเสื้อเรียบร้อยแล้ว</label>
+            </div>
+            <div class="d-flex justify-content-between">
+              <button type="button" class="btn btn-secondary rounded-pill px-4" onclick="nextStep(3)" data-i18n="btn_back">กลับ</button>
+              <button type="button" class="btn btn-success rounded-pill px-4" onclick="submitFinalOrder(event)">
+                <i class="bi bi-check-circle"></i> <span data-i18n="btn_confirm">ยืนยันการสั่งจอง</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+
+    <div class="modal fade" id="sizeModal" tabindex="-1">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-body p-0"><img src="" id="sizeChartImg" class="img-fluid"></div>
+          <div class="modal-footer p-0"><button type="button" class="btn btn-secondary w-100" data-bs-dismiss="modal" data-i18n="btn_close">ปิด</button></div>
+        </div>
+      </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+      // ==========================================
+      // ตั้งค่า Supabase & Google Apps Script ตรงนี้
+      // ==========================================
+      const supabaseUrl = 'https://dbebgpeilylrnsidform.supabase.co';
+      const supabaseKey = 'sb_publishable_Y_Vppj0gv0Rh-OzmmX0gaA_Zq9Ji2SM';
+      const supabaseClient = supabase.createClient(supabaseUrl, supabaseKey);
+      
+      const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbw669TEuxBsWIZiucYhXGO9UJp0dpV4uVuQqoSVECDiseIDYYYaEQ1XhJy7T4j7b9wxQg/exec'; // << เอา URL ใหม่มาใส่ตรงนี้
+      // ==========================================
+
+      let currentLang = 'th';
+      let currentStep = 1;
+
+      const translations = {
+        th: {
+            header_title_sub: "ครั้งที่ 14",
+            header_form_name: "แบบฟอร์มสั่งจองเสื้อออนไลน์",
+            instruct_title: "โปรดอ่านคำแนะนำก่อนสั่งเสื้อกีฬาสีคณะ❤️💙💚💜",
+            instruct_1: "จัดจำหน่ายให้นิสิต ศิษย์เก่า บุคลากร สำหรับใส่ร่วมงานกีฬาสีและกิจกรรมอื่น ๆ",
+            instruct_2: "โปรดตรวจทานข้อมูลให้ถูกต้องก่อนกดส่งข้อมูล",
+            instruct_3: "สอบถามเพิ่มเติม: Inbox เพจสโมสรนิสิตฯ หรือ IG @smobec_nu",
+            event_date_label: "กำหนดจัดงาน:",
+            event_date_val: "27 - 31 มกราคม 2569",
+            order_period: "สั่งจองได้ตั้งแต่บัดนี้ - 14 ธันวาคม 2568 (18.00 น.)",
+            note_1: "* เมื่อสั่งซื้อแล้วไม่สามารถเปลี่ยนไซส์ได้",
+            note_2: "** ไม่จำกัดจำนวนการสั่งซื้อ",
+            note_3: "*** เฉพาะนิสิต ป.ตรี สามารถสั่งซื้อได้เฉพาะสีตนเอง เท่านั้น",
+            note_closing: "หมายเหตุ : หลังจากปิดรับพรีออเดอร์จะไม่สามารถสั่งซื้อเพิ่มในภายหลังได้",
+            step1_title: "1. ข้อมูลผู้สั่งจอง",
+            label_user_type: "ประเภทผู้สั่ง",
+            opt_student: "นิสิตปัจจุบัน",
+            opt_alumni: "ศิษย์เก่า",
+            opt_staff: "บุคลากรคณะบริหารธุรกิจฯ",
+            label_staff_type: "ประเภทบุคลากร",
+            ph_select_type: "เลือกประเภท...",
+            opt_academic: "สายวิชาการ",
+            opt_support: "สายสนับสนุน",
+            label_edu_level: "ระดับการศึกษา",
+            opt_bachelor: "ปริญญาตรี",
+            opt_master: "ปริญญาโท",
+            opt_doctor: "ปริญญาเอก",
+            label_major: "สาขาวิชา",
+            ph_select_major: "เลือกสาขาวิชา...",
+            label_student_id: "รหัสนิสิต",
+            err_student_id: "⚠️ รหัสนิสิตต้องเป็นตัวเลข 8 หลัก",
+            label_title: "คำนำหน้า",
+            label_fullname: "ชื่อ-นามสกุล",
+            ph_fullname: "ไม่ต้องใส่คำนำหน้า",
+            label_phone: "เบอร์โทรศัพท์",
+            digits: "หลัก",
+            err_phone: "⚠️ กรุณากรอกเบอร์โทรให้ครบ 10 หลัก (เฉพาะตัวเลข)",
+            label_year: "ชั้นปี",
+            ph_select_year: "เลือกชั้นปี...",
+            opt_other: "อื่นๆ",
+            label_entry_year: "ปีที่เข้าศึกษา",
+            btn_next: "ถัดไป",
+            step2_title: "2. เลือกรายการสั่งซื้อ",
+            btn_size_chart: "ดูตารางไซส์",
+            price_label: "อัตราค่าเสื้อ:",
+            thb: "บาท",
+            alert_number: "หากไม่ประสงค์เลือกเลขหลังเสื้อ ทางสโมสรนิสิตขอสงวนสิทธิ์ ใส่เบอร์หลังเสื้อหมายเลข 33 ให้",
+            btn_add_item: "เพิ่มรายการเสื้อ",
+            total_shirt_price: "ราคารวม (เฉพาะเสื้อ)",
+            btn_back: "กลับ",
+            btn_pay: "ไปชำระเงิน",
+            step3_title: "3. สรุปยอดและชำระเงิน",
+            label_shipping: "วิธีการจัดส่ง",
+            ship_pickup: "รับที่คณะ (ฟรี)",
+            ship_pickup_desc: "รอประกาศวันรับเสื้ออีกครั้ง",
+            ship_post: "จัดส่งไปรษณีย์ (+50 บาท)",
+            ship_post_desc: "จัดส่งแบบลงทะเบียน",
+            label_address: "ที่อยู่สำหรับจัดส่ง",
+            ph_address: "ระบุบ้านเลขที่ หมู่ ซอย ถนน ตำบล อำเภอ จังหวัด รหัสไปรษณีย์",
+            label_summary: "รายการสั่งซื้อของคุณ",
+            label_grand_total: "ยอดโอนสุทธิ",
+            bank_name: "ธนาคารกสิกรไทย",
+            slip_warn_1: "โปรดระบุ ชื่อ-นามสกุล และสาขา ในช่องบันทึกช่วยจำของสลิป",
+            label_slip: "อัปโหลดสลิปการโอน",
+            label_note: "กรณีลืมบันทึกข้อมูลท้ายสลิป (แต่หากบันทึกแล้วไม่ต้องตอบ)",
+            ph_note: "ระบุชื่อ-สาขาที่นี่ (ถ้าลืมพิมพ์ในสลิป)",
+            label_verify: "ตรวจสอบข้อมูลการสั่งเสื้อเรียบร้อยแล้ว",
+            btn_confirm: "ยืนยันการสั่งจอง",
+            btn_close: "ปิด",
+            success_title: "ได้รับข้อมูลการสั่งจองแล้ว",
+            success_subtitle: "ขอบคุณที่ร่วมเป็นส่วนหนึ่งในงาน<br>BEC SPORTS DAY ครั้งที่ 14",
+            success_desc: "ระบบได้บันทึกข้อมูลและสลิปการโอนเงินของท่านเรียบร้อยแล้ว",
+            btn_order_more: "สั่งจองเพิ่ม",
+            shirt_size: "ไซส์",
+            shirt_num: "เบอร์หลังเสื้อ",
+            color_pink: "สีชมพู", color_green: "สีเขียว", color_red: "สีแดง", color_blue: "สีน้ำเงิน", color_black: "สีดำ"
+        },
+        en: {
+            header_title_sub: "No. 14",
+            header_form_name: "Online Shirt Pre-order Form",
+            instruct_title: "Please read instructions before ordering ❤️💙💚💜",
+            instruct_1: "Available for Students, Alumni, and Staff for BEC Sports Day.",
+            instruct_2: "Please verify your information before submitting.",
+            instruct_3: "For inquiries: Inbox Student Club Page or IG @smobec_nu",
+            event_date_label: "Event Date:",
+            event_date_val: "27 - 31 January 2026",
+            order_period: "Order Period: Now - 14 Dec 2025 (18:00)",
+            note_1: "* Sizes cannot be changed after ordering.",
+            note_2: "** Unlimited order quantity.",
+            note_3: "*** Undergraduate students can only order their specific color.",
+            note_closing: "Note: No additional orders will be accepted after the pre-order closes.",
+            step1_title: "1. Personal Information",
+            label_user_type: "User Type",
+            opt_student: "Current Student",
+            opt_alumni: "Alumni",
+            opt_staff: "Faculty Staff",
+            label_staff_type: "Staff Type",
+            ph_select_type: "Select Type...",
+            opt_academic: "Academic Staff",
+            opt_support: "Support Staff",
+            label_edu_level: "Education Level",
+            opt_bachelor: "Bachelor's Degree",
+            opt_master: "Master's Degree",
+            opt_doctor: "Doctoral Degree",
+            label_major: "Major",
+            ph_select_major: "Select Major...",
+            label_student_id: "Student ID",
+            err_student_id: "⚠️ Student ID must be 8 digits",
+            label_title: "Title",
+            label_fullname: "Full Name",
+            ph_fullname: "Enter full name without title",
+            label_phone: "Phone Number",
+            digits: "digits",
+            err_phone: "⚠️ Please enter 10 digits",
+            label_year: "Year Level",
+            ph_select_year: "Select Year...",
+            opt_other: "Other",
+            label_entry_year: "Entry Year (e.g. 58)",
+            btn_next: "Next",
+            step2_title: "2. Select Items",
+            btn_size_chart: "Size Chart",
+            price_label: "Price Rates:",
+            thb: "THB",
+            alert_number: "If no number is selected, the Student Club reserves the right to assign number 33.",
+            btn_add_item: "Add Item",
+            total_shirt_price: "Total Price (Shirts Only)",
+            btn_back: "Back",
+            btn_pay: "Proceed to Payment",
+            step3_title: "3. Summary & Payment",
+            label_shipping: "Shipping Method",
+            ship_pickup: "Pick up at Faculty (Free)",
+            ship_pickup_desc: "Pick-up date to be announced",
+            ship_post: "Postal Delivery (+50 THB)",
+            ship_post_desc: "Registered Mail",
+            label_address: "Shipping Address",
+            ph_address: "House No., Street, District, Province, Postal Code",
+            label_summary: "Your Order Summary",
+            label_grand_total: "Grand Total",
+            bank_name: "Kasikornbank",
+            slip_warn_1: "Please specify Name and Major in the transfer slip memo.",
+            label_slip: "Upload Transfer Slip",
+            label_note: "Note (if forgotten in slip)",
+            ph_note: "Enter Name-Major here",
+            label_verify: "I have verified the order information.",
+            btn_confirm: "Confirm Order",
+            btn_close: "Close",
+            success_title: "Order Received",
+            success_subtitle: "Thank you for joining<br>BEC SPORTS DAY No. 14",
+            success_desc: "Your data and payment slip have been recorded.",
+            btn_order_more: "Order More",
+            shirt_size: "Size",
+            shirt_num: "Back Number",
+            color_pink: "Pink", color_green: "Green", color_red: "Red", color_blue: "Blue", color_black: "Black"
+        }
+      };
+
+      const majorsData = {
+          bachelor: [
+             { val: "การเงิน (FIN)", en: "Finance (FIN)", th: "การเงิน (FIN)", color: "blue" },
+             { val: "การบัญชี (ACC)", en: "Accountancy (ACC)", th: "การบัญชี (ACC)", color: "blue" },
+             { val: "นวัตกรรมฯ (ICM)", en: "Innovation (ICM)", th: "นวัตกรรมฯ (ICM)", color: "blue" },
+             { val: "ธุรกิจดิจิทัล (DB)", en: "Digital Business (DB)", th: "ธุรกิจดิจิทัล (DB)", color: "pink" },
+             { val: "เศรษฐศาสตร์ (ECON)", en: "Economics (ECON)", th: "เศรษฐศาสตร์ (ECON)", color: "pink" },
+             { val: "บริหารธุรกิจ (BA)", en: "Business Admin (BA)", th: "บริหารธุรกิจ (BA)", color: "green" },
+             { val: "การท่องเที่ยว (TOUR)", en: "Tourism (TOUR)", th: "การท่องเที่ยว (TOUR)", color: "green" },
+             { val: "นิเทศศาสตร์ (CA)", en: "Comm. Arts (CA)", th: "นิเทศศาสตร์ (CA)", color: "red" }
+          ],
+          master: [
+             { val: "บริหารธุรกิจมหาบัณฑิต (M.B.A)", en: "Master of Business Administration (M.B.A)", th: "บริหารธุรกิจมหาบัณฑิต (M.B.A)" },
+             { val: "การบริหารธุรกิจดิจิทัลเชิงกลยุทธ์", en: "Strategic Digital Business Management", th: "การบริหารธุรกิจดิจิทัลเชิงกลยุทธ์" },
+             { val: "การจัดการการท่องเที่ยวและจิตบริการ", en: "Tourism and Hospitality Management", th: "การจัดการการท่องเที่ยวและจิตบริการ" },
+             { val: "เศรษฐศาสตรมหาบัณฑิต", en: "Master of Economics", th: "เศรษฐศาสตรมหาบัณฑิต" },
+             { val: "การสื่อสาร", en: "Master of Communication Arts", th: "การสื่อสาร" },
+             { val: "การตลาดอัจฉริยะเชิงนวัตกรรมและวิทยาการข้อมูล (พหุวิทยาการ)", en: "Innovative Intelligence Marketing (Multidisciplinary)", th: "การตลาดอัจฉริยะเชิงนวัตกรรมและวิทยาการข้อมูล (พหุวิทยาการ)" },
+             { val: "บัญชีมหาบัณฑิต", en: "Master of Accountancy", th: "บัญชีมหาบัณฑิต" }
+          ],
+          doctor: [
+             { val: "การบริหารธุรกิจ", en: "Ph.D. in Business Administration", th: "การบริหารธุรกิจ" },
+             { val: "การสื่อสาร", en: "Ph.D. in Communication", th: "การสื่อสาร" },
+             { val: "การจัดการการท่องเที่ยวและจิตบริการ", en: "Ph.D. in Tourism and Hospitality", th: "การจัดการการท่องเที่ยวและจิตบริการ" },
+             { val: "เศรษฐศาสตร์", en: "Ph.D. in Economics", th: "เศรษฐศาสตร์" }
+          ]
+      };
+
+      const shirtData = {
+        'blue': { img: 'https://i.postimg.cc/Fs2gbNB0/S-4759575-0.jpg', name: 'สีน้ำเงิน (Indigo dye)', theme: 'primary' },
+        'pink': { img: 'https://i.postimg.cc/90DZTnPN/S-4759572-0.jpg', name: 'สีชมพู (Powder pink)', theme: 'danger' },
+        'green': { img: 'https://i.postimg.cc/Njqm9bKb/S-4759574-0.jpg', name: 'สีเขียว (Hunter green)', theme: 'success' },
+        'red': { img: 'https://i.postimg.cc/yN0f3k6L/S-4759571-0.jpg', name: 'สีแดง (Cordovan)', theme: 'danger' }
+      };
+
+      const sizeChartUrl = "https://i.postimg.cc/nLqKjm2t/unnamed.png";
+      const qrCodeUrl = "https://i.postimg.cc/nccGMMNB/unnamed-(4).jpg"; 
+
+      document.getElementById('sizeChartImg').src = sizeChartUrl;
+      document.getElementById('qrImage').src = qrCodeUrl;
+
+      // Populate Bachelor Majors Initial (TH)
+      const bachSelect = document.getElementById('inputBachelorMajor');
+      majorsData.bachelor.forEach(m => {
+          let opt = document.createElement('option');
+          opt.value = m.val; opt.innerText = m.th;
+          bachSelect.appendChild(opt);
+      });
+
+      let selectedColorKey = '';
+      const prices = {'XS':250,'S':250,'M':250,'L':250,'XL':250,'2XL':250,'3XL':260,'4XL':260,'5XL':260,'6XL':270,'7XL':270,'8XL':270,'9XL':270,'10XL':270};
+
+      // --- Functions ---
+      
+      function setLanguage(lang) {
+          currentLang = lang;
+          document.getElementById('btnTH').classList.toggle('active', lang === 'th');
+          document.getElementById('btnEN').classList.toggle('active', lang === 'en');
+          
+          document.querySelectorAll('[data-i18n]').forEach(el => {
+              const key = el.getAttribute('data-i18n');
+              if(translations[lang][key]) el.innerHTML = translations[lang][key];
+          });
+          
+          document.getElementById('inputFullName').placeholder = translations[lang]['ph_fullname'];
+          document.getElementById('inputAddress').placeholder = translations[lang]['ph_address'];
+          document.getElementById('inputNote').placeholder = translations[lang]['ph_note'];
+          
+          refreshOptions();
+          renderStep4(); 
+      }
+      
+      function refreshOptions() {
+          const t = translations[currentLang];
+          updateSelectText('inputStaffType', { 'สายวิชาการ': t.opt_academic, 'สายสนับสนุน': t.opt_support });
+          updateSelectText('inputEduLevel', { 'ปริญญาตรี': t.opt_bachelor, 'ปริญญาโท': t.opt_master, 'ปริญญาเอก': t.opt_doctor });
+          updateSelectText('inputStudentYear', { 'อื่นๆ': t.opt_other }); 
+          
+          // Refresh Majors Dropdown text
+          updateMajorDropdown('inputBachelorMajor', majorsData.bachelor);
+          updateMajorDropdown('inputGradMajor', [...majorsData.master, ...majorsData.doctor]); 
+
+          renderTitleOptions();
+      }
+
+      function renderTitleOptions() {
+          const titleSel = document.getElementById('inputNameTitle');
+          const currentVal = titleSel.value;
+          const userType = document.querySelector('input[name="userType"]:checked').value;
+          const eduLevel = document.getElementById('inputEduLevel').value;
+          
+          let includeMrs = true;
+          if(userType === 'นิสิตคณะบริหารธุรกิจฯ' && eduLevel === 'ปริญญาตรี') {
+              includeMrs = false;
+          }
+
+          if(currentLang === 'en') {
+              titleSel.innerHTML = `<option>Mr.</option><option>Ms.</option>` + (includeMrs ? `<option>Mrs.</option>` : ``);
+          } else {
+              titleSel.innerHTML = `<option>นาย</option><option>นางสาว</option>` + (includeMrs ? `<option>นาง</option>` : ``);
+          }
+
+          const options = Array.from(titleSel.options).map(o => o.value);
+          if(options.includes(currentVal)) titleSel.value = currentVal;
+      }
+      
+      function updateSelectText(id, map) {
+          const sel = document.getElementById(id);
+          for(let i=0; i<sel.options.length; i++) {
+              if(map[sel.options[i].value]) {
+                  sel.options[i].text = map[sel.options[i].value];
+              }
+          }
+      }
+
+      function updateMajorDropdown(id, dataList) {
+          const sel = document.getElementById(id);
+          const currentVal = sel.value; 
+          
+          sel.innerHTML = `<option value="" disabled ${currentVal===""?"selected":""}>${translations[currentLang].ph_select_major}</option>`;
+
+          dataList.forEach(item => {
+              let opt = document.createElement('option');
+              opt.value = item.val;
+              opt.innerText = (currentLang === 'en') ? item.en : item.th;
+              if(item.val === currentVal) opt.selected = true;
+              sel.appendChild(opt);
+          });
+      }
+
+      const phoneInput = document.getElementById('phoneInput');
+      phoneInput.addEventListener('input', function() {
+          this.value = this.value.replace(/[^0-9]/g, '');
+          if(this.value.length === 10) {
+             document.getElementById('phoneError').style.display = 'none';
+             this.classList.remove('is-invalid');
+          }
+      });
+      
+      const studentIdInput = document.getElementById('inputStudentId');
+      studentIdInput.addEventListener('input', function() {
+          this.value = this.value.replace(/[^0-9]/g, '');
+          if(this.value.length === 8) {
+             document.getElementById('studentIdError').style.display = 'none';
+             this.classList.remove('is-invalid');
+          }
+      });
+
+      function validateStep1() {
+          try {
+              const fullName = document.getElementById('inputFullName').value.trim();
+              if(!fullName) { alert(currentLang==='th'?'กรุณากรอกชื่อ-นามสกุล':'Please enter your name'); document.getElementById('inputFullName').focus(); return; }
+              
+              const phone = document.getElementById('phoneInput').value;
+              if(phone.length !== 10) { 
+                  document.getElementById('phoneError').style.display = 'block';
+                  document.getElementById('phoneInput').focus();
+                  return; 
+              }
+
+              const userType = document.querySelector('input[name="userType"]:checked').value;
+              
+              if(userType === 'นิสิตคณะบริหารธุรกิจฯ') {
+                  const studentId = document.getElementById('inputStudentId').value;
+                  if(studentId.length !== 8) {
+                      document.getElementById('studentIdError').style.display = 'block';
+                      document.getElementById('inputStudentId').focus();
+                      return;
+                  }
+
+                  const eduLevel = document.getElementById('inputEduLevel').value;
+                  if(eduLevel === 'ปริญญาตรี') {
+                      const major = document.getElementById('inputBachelorMajor').value;
+                      if(!major) { alert(currentLang==='th'?'กรุณาเลือกสาขาวิชา':'Please select major'); return; }
+                      
+                      const majorObj = majorsData.bachelor.find(m => m.val === major);
+                      if(majorObj) selectedColorKey = majorObj.color;
+                  } else {
+                      const gradMajor = document.getElementById('inputGradMajor').value;
+                      if(!gradMajor) { alert(currentLang==='th'?'กรุณาเลือกสาขาวิชา':'Please select major'); return; }
+                  }
+
+                  const year = document.getElementById('inputStudentYear').value;
+                  if(eduLevel === 'ปริญญาตรี' && !year) { alert(currentLang==='th'?'กรุณาเลือกชั้นปี':'Please select year'); return; }
+
+              } else if(userType === 'บุคลากรคณะบริหารธุรกิจฯ') {
+                   const staffType = document.getElementById('inputStaffType').value;
+                   if(!staffType) { alert(currentLang==='th'?'กรุณาเลือกประเภทบุคลากร':'Please select staff type'); return; }
+                   
+                   if(staffType === 'สายวิชาการ') {
+                       const major = document.getElementById('inputBachelorMajor').value;
+                       if(!major) { alert(currentLang==='th'?'กรุณาเลือกสาขาวิชา':'Please select major'); return; }
+                   }
+              } else {
+                  const alumniYear = document.getElementById('inputAlumniYear').value.trim();
+                  if(!alumniYear) { alert(currentLang==='th'?'กรุณาระบุปีที่เข้าศึกษา':'Please enter entry year'); document.getElementById('inputAlumniYear').focus(); return; }
+              }
+
+              const eduLevel = document.getElementById('inputEduLevel').value;
+              if(userType === 'นิสิตคณะบริหารธุรกิจฯ' && eduLevel === 'ปริญญาตรี') {
+                  nextStep(3);
+              } else {
+                  nextStep(2);
+              }
+
+          } catch(e) {
+              console.error(e);
+              alert("System Error: " + e.message);
+          }
+      }
+
+      function toggleUserType() {
+        const val = document.querySelector('input[name="userType"]:checked').value;
+        const isStudent = (val === 'นิสิตคณะบริหารธุรกิจฯ');
+        const isStaff = (val === 'บุคลากรคณะบริหารธุรกิจฯ');
+        const isAlumni = (val === 'ศิษย์เก่าคณะบริหารธุรกิจฯ');
+        
+        document.getElementById('studentYearDiv').classList.toggle('d-none', !isStudent);
+        document.getElementById('studentIdDiv').classList.toggle('d-none', !isStudent);
+        document.getElementById('eduLevelDiv').classList.toggle('d-none', !isStudent);
+        document.getElementById('alumniYearDiv').classList.toggle('d-none', !isAlumni);
+        document.getElementById('staffTypeDiv').classList.toggle('d-none', !isStaff);
+        
+        document.getElementById('bachelorMajorDiv').classList.add('d-none');
+        document.getElementById('gradMajorDiv').classList.add('d-none');
+
+        if(isStudent) {
+            handleEduLevelChange(); 
+        } 
+        else if(isStaff) {
+            handleStaffTypeChange();
+        }
+        else {
+            renderTitleOptions(); 
+        }
+        
+        resetOrders();
+      }
+      
+      function handleEduLevelChange() {
+          const level = document.getElementById('inputEduLevel').value;
+          const isGrad = (level === 'ปริญญาโท' || level === 'ปริญญาเอก');
+          
+          const gradMajorDiv = document.getElementById('gradMajorDiv');
+          const bachelorMajorDiv = document.getElementById('bachelorMajorDiv');
+          const yearDiv = document.getElementById('studentYearDiv');
+
+          if(isGrad) {
+              gradMajorDiv.classList.remove('d-none');
+              updateMajorDropdown('inputGradMajor', [...majorsData.master, ...majorsData.doctor]);
+              
+              bachelorMajorDiv.classList.add('d-none');
+              yearDiv.classList.add('d-none');
+              renderTitleOptions(); 
+          } else {
+              gradMajorDiv.classList.add('d-none');
+              bachelorMajorDiv.classList.remove('d-none');
+              updateMajorDropdown('inputBachelorMajor', majorsData.bachelor);
+              
+              yearDiv.classList.remove('d-none');
+              renderTitleOptions(); 
+          }
+      }
+
+      function handleStaffTypeChange() {
+          const type = document.getElementById('inputStaffType').value;
+          const isAcademic = (type === 'สายวิชาการ');
+          
+          document.getElementById('bachelorMajorDiv').classList.toggle('d-none', !isAcademic);
+          if(isAcademic) updateMajorDropdown('inputBachelorMajor', majorsData.bachelor);
+          
+          renderTitleOptions(); 
+      }
+      
+      function resetOrders() {
+        document.getElementById('studentItemList').innerHTML = '';
+        document.getElementById('alumniItemList').innerHTML = '';
+        document.getElementById('studentItemsPriceDisplay').innerText = '0 ฿';
+        document.getElementById('alumniItemsPriceDisplay').innerText = '0 ฿';
+      }
+
+      toggleUserType();
+      renderTitleOptions(); 
+
+      function nextStep(step) {
+        const userType = document.querySelector('input[name="userType"]:checked').value;
+        let isBachelor = false;
+        if(userType === 'นิสิตคณะบริหารธุรกิจฯ') {
+            isBachelor = (document.getElementById('inputEduLevel').value === 'ปริญญาตรี');
         }
 
-        // --- 2. ฟังก์ชันอัปโหลดสลิปไป Google Drive ---
-        // (ต้องเอาโค้ด Apps Script ส่วนรับไฟล์ไป Deploy ใหม่ แล้วเอา URL มาใส่ตรงนี้)
-        const GOOGLE_SCRIPT_URL = 'ใส่_URL_ของ_APPS_SCRIPT_ที่นี่'; 
-
-        const toBase64 = file => new Promise((resolve, reject) => {
-            const reader = new FileReader();
-            reader.readAsDataURL(file);
-            reader.onload = () => resolve(reader.result.split(',')[1]);
-            reader.onerror = error => reject(error);
-        });
-
-        // --- 3. จัดการตอนกดปุ่ม Submit ---
-        document.getElementById('orderForm').addEventListener('submit', async function(e) {
-            e.preventDefault();
-            
-            const submitBtn = document.getElementById('submitBtn');
-            submitBtn.innerText = 'กำลังประมวลผล...';
-            submitBtn.disabled = true;
-
-            try {
-                // เก็บค่าจากฟอร์ม
-                const formData = {
-                    userType: document.getElementById('userType').value,
-                    studentId: document.getElementById('studentId').value,
-                    nameTitle: document.getElementById('nameTitle').value,
-                    fullName: document.getElementById('fullName').value,
-                    phone: document.getElementById('phone').value,
-                    shirtColor: document.getElementById('shirtColor').value,
-                    size: document.getElementById('shirtSize').value,
-                    shippingMethod: document.getElementById('shippingMethod').value,
-                };
-
-                // โลจิกคำนวณราคาตามโค้ดเดิมของคุณ
-                const priceMap = {
-                    'XS':250, 'S':250, 'M':250, 'L':250, 'XL':250, '2XL':250,
-                    '3XL':260, '4XL':260, '5XL':260,
-                    '6XL':270, '7XL':270, '8XL':270, '9XL':270, '10XL':270
-                };
-                
-                let pureSize = formData.size.toUpperCase().trim();
-                let itemsTotal = priceMap[pureSize] || 250;
-                let shippingCost = (formData.shippingMethod === "post") ? 50 : 0;
-                let grandTotal = itemsTotal + shippingCost;
-                let shippingLabel = (formData.shippingMethod === "post") ? "จัดส่งไปรษณีย์" : "รับที่คณะ";
-
-                // อัปโหลดรูปลง Google Drive
-                const slipFile = document.getElementById('slipFile').files[0];
-                const base64Data = await toBase64(slipFile);
-                
-                const uploadRes = await fetch(GOOGLE_SCRIPT_URL, {
-                    method: 'POST',
-                    body: JSON.stringify({
-                        fileName: slipFile.name,
-                        mimeType: slipFile.type,
-                        base64: base64Data
-                    })
-                });
-                const uploadResult = await uploadRes.json();
-                
-                if(uploadResult.status !== 'success') throw new Error("อัปโหลดรูปไม่สำเร็จ");
-
-                // บันทึกข้อมูลลง Supabase
-                const { error } = await supabase.from('shirt_orders').insert([{
-                    order_type: formData.userType,
-                    student_id: formData.studentId || "-",
-                    title: formData.nameTitle,
-                    full_name: formData.fullName,
-                    phone_number: formData.phone,
-                    shirt_color: formData.shirtColor,
-                    shirt_size: pureSize,
-                    quantity: 1, // กำหนดเริ่มต้นเป็น 1
-                    total_shirt_price: itemsTotal,
-                    delivery_method: shippingLabel,
-                    address: "-",
-                    shipping_fee: shippingCost,
-                    total_transfer: grandTotal,
-                    slip_url: uploadResult.url
-                }]);
-
-                if (error) throw error;
-
-                alert('บันทึกข้อมูลเรียบร้อย! ขอบคุณที่ร่วมกิจกรรมครับ');
-                document.getElementById('orderForm').reset();
-
-            } catch (error) {
-                console.error(error);
-                alert('เกิดข้อผิดพลาด: ' + error.message);
-            } finally {
-                submitBtn.innerText = 'ยืนยันการสั่งจอง';
-                submitBtn.disabled = false;
+        if(step === 2) {
+            if(!isBachelor) {
+                document.getElementById('multiColorSection').classList.remove('d-none');
+                renderColorOptions(userType === 'บุคลากรคณะบริหารธุรกิจฯ');
+                if(document.getElementById('alumniItemList').innerHTML === '') addItem('alumni');
             }
+        }
+
+        if(step === 3) {
+             renderStep3();
+        }
+
+        if (currentStep === 2 && step === 4) { 
+           const hasItem = document.querySelectorAll('#alumniItemList select[name="size"]').length > 0;
+           if(!hasItem) { alert(currentLang==='th'?'กรุณาเพิ่มรายการเสื้อ':'Please add items'); return; }
+           
+           const inputs = document.querySelectorAll('#alumniItemList input, #alumniItemList select');
+           for(let inp of inputs) { if(!inp.checkValidity()) { inp.reportValidity(); return; } }
+           
+           let label = userType === 'นิสิตคณะบริหารธุรกิจฯ' ? "บัณฑิตศึกษา (คละสี)" : (userType === 'บุคลากรคณะบริหารธุรกิจฯ' ? "บุคลากร (คละสี)" : "ศิษย์เก่า (คละสี)");
+           document.getElementById('shirtColorInput').value = label;
+           renderStep4();
+        }
+
+        if (currentStep === 3 && step === 4) { 
+           const sizes = document.getElementsByName('size');
+           let hasItem = false;
+           for(let s of sizes) { if(s.value) hasItem = true; }
+           if(!hasItem) { alert(currentLang==='th'?'กรุณาเลือกเสื้อ':'Please select shirt'); return; }
+           
+           const inputs3 = document.querySelectorAll('#step3 input, #step3 select');
+           for(let inp of inputs3) { if(inp.offsetParent && !inp.checkValidity()) { inp.reportValidity(); return; } }
+           
+           renderStep4();
+        }
+
+        if (currentStep === 4 && step === 3) {
+            if(!isBachelor) { nextStep(2); return; }
+        }
+        
+        if (currentStep === 3 && step === 2) { 
+            if(isBachelor) { nextStep(1); return; }
+        }
+
+        document.getElementById('step' + currentStep).classList.add('d-none');
+        document.getElementById('step' + step).classList.remove('d-none');
+        document.querySelectorAll('.step-dot').forEach((d, i) => {
+           if(isBachelor) {
+               if(step === 3 && i === 1) d.classList.add('active'); 
+               else if(step === 4 && i === 3) d.classList.add('active');
+               else if(i + 1 === step) d.classList.add('active');
+               else d.classList.remove('active');
+           } else {
+               if(step === 2 && i === 1) d.classList.add('active');
+               else if(step === 4 && i === 3) d.classList.add('active');
+               else if(i + 1 === step) d.classList.add('active');
+               else d.classList.remove('active');
+           }
         });
+        currentStep = step;
+        
+        setTimeout(() => {
+            const header = document.querySelector(`#step${step} h5`);
+            if(header) {
+                header.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            } else {
+                const visibleHeader = document.querySelector(`#step${step} h5:not(.d-none)`);
+                if(visibleHeader) visibleHeader.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            }
+        }, 100);
+      }
+
+      function renderColorOptions(isStaff) {
+          const grid = document.getElementById('colorGrid');
+          const t = translations[currentLang];
+          let html = `
+            <div class="col-6"><img src="https://i.postimg.cc/90DZTnPN/S-4759572-0.jpg" class="shirt-grid-img"><div class="shirt-label">${t.color_pink}</div></div>
+            <div class="col-6"><img src="https://i.postimg.cc/Njqm9bKb/S-4759574-0.jpg" class="shirt-grid-img"><div class="shirt-label">${t.color_green}</div></div>
+            <div class="col-6"><img src="https://i.postimg.cc/yN0f3k6L/S-4759571-0.jpg" class="shirt-grid-img"><div class="shirt-label">${t.color_red}</div></div>
+            <div class="col-6"><img src="https://i.postimg.cc/Fs2gbNB0/S-4759575-0.jpg" class="shirt-grid-img"><div class="shirt-label">${t.color_blue}</div></div>
+          `;
+          
+          if(isStaff) {
+              html += `
+              <div class="col-6"><img src="https://i.postimg.cc/15f4mFMT/S-4759573-0.jpg" class="shirt-grid-img"><div class="shirt-label">${t.color_black}</div></div>
+              `;
+          }
+          grid.innerHTML = html;
+          
+          const selectors = document.querySelectorAll('select[name="itemColor"]');
+          selectors.forEach(sel => {
+              let hasBlack = false;
+              for(let i=0; i<sel.options.length; i++) { if(sel.options[i].value === 'black') hasBlack = true; }
+              
+              if(isStaff && !hasBlack) {
+                  let opt = document.createElement('option');
+                  opt.value = 'black'; opt.innerText = t.color_black;
+                  sel.appendChild(opt);
+              } else if(!isStaff && hasBlack) {
+                  for(let i=0; i<sel.options.length; i++) { if(sel.options[i].value === 'black') sel.remove(i); }
+              }
+          });
+      }
+
+      function renderStep3() {
+        const data = shirtData[selectedColorKey];
+        if(data) {
+          document.getElementById('shirtPreview').src = data.img;
+          document.getElementById('colorTitle').innerText = data.name;
+          document.getElementById('colorTitle').className = `badge bg-${data.theme}`;
+          document.getElementById('shirtColorInput').value = data.name;
+        }
+        
+        if(document.getElementById('studentItemList').innerHTML === "") addItem('student');
+      }
+
+      function addItem(type) {
+        var div = document.createElement('div');
+        div.className = 'row item-row g-2 align-items-center mb-2';
+        
+        let containerId = (type === 'alumni') ? 'alumniItemList' : 'studentItemList';
+        let priceDisplayId = (type === 'alumni') ? 'alumniItemsPriceDisplay' : 'studentItemsPriceDisplay';
+        
+        let colorSelectorHtml = '';
+        let colSize = 'col-5'; 
+        const t = translations[currentLang];
+
+        if(type === 'alumni') {
+            const userType = document.querySelector('input[name="userType"]:checked').value;
+            const isStaff = (userType === 'บุคลากรคณะบริหารธุรกิจฯ');
+            
+            let blackOption = isStaff ? `<option value="black">${t.color_black}</option>` : '';
+
+            colSize = 'col-3';
+            colorSelectorHtml = `
+            <div class="col-4">
+                <select class="form-select form-select-sm" name="itemColor">
+                    <option value="pink">${t.color_pink}</option>
+                    <option value="green">${t.color_green}</option>
+                    <option value="red">${t.color_red}</option>
+                    <option value="blue">${t.color_blue}</option>
+                    ${blackOption}
+                </select>
+            </div>`;
+        }
+
+        div.innerHTML = `
+          ${colorSelectorHtml}
+          <div class="${colSize}">
+            <select class="form-select form-select-sm" name="size" required onchange="calcItemsTotal('${containerId}', '${priceDisplayId}')">
+              <option value="" disabled selected>${t.shirt_size}</option>
+              <option value="XS">XS (34")</option>
+              <option value="S">S (36")</option>
+              <option value="M">M (38")</option>
+              <option value="L">L (40")</option>
+              <option value="XL">XL (42")</option>
+              <option value="2XL">2XL (44")</option>
+              <option value="3XL">3XL (46")</option>
+              <option value="4XL">4XL (48")</option>
+              <option value="5XL">5XL (50")</option>
+              <option value="6XL">6XL (52")</option>
+              <option value="7XL">7XL (54")</option>
+              <option value="8XL">8XL (56")</option>
+              <option value="9XL">9XL (58")</option>
+              <option value="10XL">10XL (60")</option>
+            </select>
+          </div>
+          <div class="${colSize}">
+            <input type="text" class="form-control form-control-sm" name="number" placeholder="${t.shirt_num}" maxlength="2" oninput="validateNum(this)">
+          </div>
+          <div class="col-2 text-end">
+            <button type="button" class="btn btn-sm text-danger" onclick="this.closest('.row').remove(); calcItemsTotal('${containerId}', '${priceDisplayId}')"><i class="bi bi-x-lg"></i></button>
+          </div>
+        `;
+        document.getElementById(containerId).appendChild(div);
+      }
+
+      function validateNum(inp) {
+        inp.value = inp.value.replace(/[^0-9]/g, '');
+        if (inp.value.length === 2 && inp.value.startsWith('0')) { alert('ห้ามใช้ 00-09'); inp.value = ''; }
+      }
+
+      function calcItemsTotal(containerId, displayId) {
+        let total = 0;
+        const container = document.getElementById(containerId);
+        if(container) {
+            container.querySelectorAll('select[name="size"]').forEach(s => { 
+                if(prices[s.value]) total += prices[s.value]; 
+            });
+        }
+        document.getElementById(displayId).innerText = total.toLocaleString() + " ฿";
+        return total;
+      }
+
+      function renderStep4() {
+         const userType = document.querySelector('input[name="userType"]:checked').value;
+         let isBachelor = false;
+         if(userType === 'นิสิตคณะบริหารธุรกิจฯ') {
+             const level = document.getElementById('inputEduLevel').value;
+             if(level === 'ปริญญาตรี') isBachelor = true;
+         }
+
+         const containerId = isBachelor ? 'studentItemList' : 'alumniItemList';
+         const table = document.getElementById('summaryTable');
+         table.innerHTML = '';
+         const container = document.getElementById(containerId);
+         
+         const sizes = container.querySelectorAll('select[name="size"]');
+         const numbers = container.querySelectorAll('input[name="number"]');
+         const itemColors = container.querySelectorAll('select[name="itemColor"]');
+         
+         let itemsTotal = 0;
+         const t = translations[currentLang];
+
+         for(let i=0; i<sizes.length; i++) {
+           if(sizes[i].value) {
+             let size = sizes[i].value;
+             let num = numbers[i].value || "33";
+             let price = prices[size];
+             itemsTotal += price;
+             
+             let detailText = `${t.shirt_size} ${size} (${t.shirt_num} ${num})`;
+             
+             if(!isBachelor && itemColors[i]) {
+                 let colorKey = itemColors[i].value;
+                 let colorLabel = t[`color_${colorKey}`] || colorKey;
+                 detailText = `<span class="badge bg-light text-dark border me-1">${colorLabel}</span> ` + detailText;
+             }
+
+             let row = `<tr><td>${detailText}</td><td class="text-end">${price.toLocaleString()} ${t.thb}</td></tr>`;
+             table.innerHTML += row;
+           }
+         }
+
+         let shipping = 0;
+         const addressBox = document.getElementById('addressBox');
+         const addressInput = document.querySelector('textarea[name="shippingAddress"]');
+
+         if(document.getElementById('shipPost').checked) {
+            shipping = 50;
+            addressBox.classList.remove('d-none');
+            addressInput.required = true;
+            table.innerHTML += `<tr class="border-top"><td class="text-secondary">${t.ship_post}</td><td class="text-end text-secondary">+50 ${t.thb}</td></tr>`;
+         } else {
+            addressBox.classList.add('d-none');
+            addressInput.required = false;
+         }
+
+         let grandTotal = itemsTotal + shipping;
+         document.getElementById('grandTotalDisplay').innerText = grandTotal.toLocaleString() + " ฿";
+      }
+
+      // ==========================================
+      // ฟังก์ชันส่งข้อมูลเข้า Supabase 
+      // ==========================================
+      function submitFinalOrder(event) {
+        if(document.getElementById('shipPost').checked && !document.querySelector('textarea[name="shippingAddress"]').value.trim()) {
+           alert('กรุณาระบุที่อยู่จัดส่งด้วยครับ');
+           document.querySelector('textarea[name="shippingAddress"]').focus();
+           return;
+        }
+
+        const fileInput = document.getElementById('slipFile');
+        if(fileInput.files.length === 0) {
+           alert('กรุณาอัปโหลดสลิปการโอนเงินก่อนครับ');
+           return;
+        }
+
+        const confirmCheck = document.getElementById('confirmCheck');
+        if(!confirmCheck.checked) {
+            alert('กรุณากดยืนยันว่า "ตรวจสอบข้อมูลการสั่งเสื้อเรียบร้อยแล้ว" ก่อนกดส่งข้อมูลครับ');
+            confirmCheck.focus();
+            return;
+        }
+
+        const btn = event.target;
+        const originalText = btn.innerHTML;
+        btn.disabled = true;
+        btn.innerHTML = '<span class="spinner-border spinner-border-sm"></span> กำลังบันทึก...';
+
+        const file = fileInput.files[0];
+        const reader = new FileReader();
+        
+        reader.onload = async function(e) {
+           try {
+             // 1. อัปโหลดรูปลง Google Drive ผ่าน Apps Script
+             const fileData = {
+               fileName: file.name,
+               mimeType: file.type,
+               base64: e.target.result.split(',')[1]
+             };
+             
+             const uploadRes = await fetch(GOOGLE_SCRIPT_URL, {
+                 method: 'POST',
+                 body: JSON.stringify(fileData)
+             });
+             const uploadResult = await uploadRes.json();
+             
+             if(uploadResult.status !== 'success') {
+                 throw new Error("อัปโหลดสลิปไม่สำเร็จ กรุณาลองอีกครั้ง");
+             }
+
+             // 2. เตรียมข้อมูล (รวมรวบจากฟอร์มแบบเดิม)
+             const form = document.getElementById('orderForm');
+             const formData = {};
+             
+             const generalInputs = form.querySelectorAll('input:not([name="size"]):not([name="number"]):not([name="itemColor"]), select:not([name="size"]):not([name="itemColor"]), textarea');
+             
+             generalInputs.forEach(input => {
+                  if (input.name) {
+                      if(input.type === 'radio') {
+                          if(input.checked) formData[input.name] = input.value;
+                      } else if(input.type === 'checkbox') {
+                          if(input.id !== 'confirmCheck') formData[input.name] = input.checked ? 'Yes' : 'No';
+                      } else {
+                          formData[input.name] = input.value;
+                      }
+                  }
+             });
+             
+             if(!formData['studentId']) formData['studentId'] = "-";
+             
+             if(formData['gradMajor']) {
+                 const gradMajors = [...majorsData.master, ...majorsData.doctor];
+                 const selected = gradMajors.find(m => m.val === formData['gradMajor']);
+                 formData['major'] = selected ? selected.val : formData['gradMajor'];
+             } else if(formData['bachelorMajor']) {
+                 const selected = majorsData.bachelor.find(m => m.val === formData['bachelorMajor']);
+                 formData['major'] = selected ? selected.val : formData['bachelorMajor'];
+             }
+
+             const userType = document.querySelector('input[name="userType"]:checked').value;
+             let isBachelor = false;
+             if(userType === 'นิสิตคณะบริหารธุรกิจฯ') {
+                  const level = document.getElementById('inputEduLevel').value;
+                  if(level === 'ปริญญาตรี') isBachelor = true;
+             }
+             
+             const containerId = isBachelor ? 'studentItemList' : 'alumniItemList';
+             const container = document.getElementById(containerId);
+             
+             formData['size'] = [];
+             formData['number'] = [];
+
+             const sizes = container.querySelectorAll('select[name="size"]');
+             const numbers = container.querySelectorAll('input[name="number"]');
+             const itemColors = container.querySelectorAll('select[name="itemColor"]');
+
+             for(let i=0; i<sizes.length; i++) {
+                  if(sizes[i].value) {
+                      let finalSizeValue = sizes[i].value;
+                      if(!isBachelor && itemColors[i]) {
+                          let cName = {'pink':'สีชมพู', 'green':'สีเขียว', 'red':'สีแดง', 'blue':'สีน้ำเงิน', 'black':'สีดำ'};
+                          let colorKey = itemColors[i].value;
+                          finalSizeValue = `[${cName[colorKey] || colorKey}] ` + sizes[i].value;
+                      }
+                      formData['size'].push(finalSizeValue);
+                      formData['number'].push(numbers[i].value);
+                  }
+             }
+
+             // 3. จัดการโครงสร้างข้อมูลเพื่อบันทึกลง Supabase
+             let yearInfo = formData['yearLevel'] || "";
+             if (formData['userType'] === "นิสิตคณะบริหารธุรกิจฯ" && formData['eduLevel'] !== "ปริญญาตรี") {
+                 yearInfo = formData['eduLevel'];
+             } else if (formData['userType'] === "บุคลากรคณะบริหารธุรกิจฯ") {
+                 yearInfo = formData['staffType'] || "บุคลากร";
+             } else if (formData['userType'] === "ศิษย์เก่าคณะบริหารธุรกิจฯ") {
+                 yearInfo = "เข้าปี " + (formData['alumniYear'] || "-");
+             }
+
+             let majorInfo = formData['major'] || "-"; 
+             if (formData['staffType'] === "สายสนับสนุน") {
+                 majorInfo = "-";
+             }
+
+             let orderDetails = [];
+             let totalQty = 0;
+             let itemsTotal = 0;
+
+             for (let i = 0; i < formData['size'].length; i++) {
+                 let rawSize = formData['size'][i];
+                 let num = formData['number'][i] || "33";
+                 orderDetails.push(rawSize + " (#" + num + ")");
+                 totalQty++;
+                 
+                 let pureSize = rawSize;
+                 if(rawSize.indexOf("] ") > -1) pureSize = rawSize.split("] ")[1]; 
+                 if(pureSize.indexOf(" (") > -1) pureSize = pureSize.split(" (")[0];
+
+                 itemsTotal += (prices[pureSize] || 250); 
+             }
+
+             let shippingCost = (formData['shippingMethod'] === "post") ? 50 : 0;
+             let grandTotal = itemsTotal + shippingCost;
+             let shippingLabel = (formData['shippingMethod'] === "post") ? "จัดส่งไปรษณีย์" : "รับที่คณะ";
+             let address = (formData['shippingMethod'] === "post") ? (formData['shippingAddress'] || "-") : "-";
+
+             // บันทึกลง Supabase
+             const { error } = await supabaseClient.from('shirt_orders').insert([{
+                 order_type: formData['userType'],
+                 student_id: formData['studentId'] || "-",
+                 title: formData['nameTitle'] || "-",
+                 full_name: formData['fullName'] || "-",
+                 phone_number: formData['phone'] || "-",
+                 education_level: yearInfo,
+                 major: majorInfo,
+                 shirt_color: document.getElementById('shirtColorInput').value || "-",
+                 shirt_size: orderDetails.join(", "),
+                 quantity: totalQty,
+                 total_shirt_price: itemsTotal,
+                 delivery_method: shippingLabel,
+                 address: address,
+                 shipping_fee: shippingCost,
+                 total_transfer: grandTotal,
+                 slip_url: uploadResult.url,
+                 remarks: formData['slipMemoNote'] || "-"
+             }]);
+
+             if (error) throw error;
+
+             // แสดงหน้าจอยืนยัน
+             document.querySelector('.app-header').classList.add('d-none');
+             document.getElementById('formCard').classList.add('d-none');
+             document.getElementById('successPage').classList.remove('d-none');
+             window.scrollTo(0,0);
+
+           } catch (err) {
+             alert("เกิดข้อผิดพลาด: " + err.message);
+             btn.disabled = false;
+             btn.innerHTML = originalText;
+           }
+        };
+        reader.readAsDataURL(file);
+      }
     </script>
-</body>
+  </body>
 </html>
