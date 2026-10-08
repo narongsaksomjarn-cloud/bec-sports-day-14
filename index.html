@@ -59,7 +59,7 @@
             }
         }
 
-        /* Step 3 Mobile Reordering Only (ต่ำกว่า lg: 1024px) */
+        /* Step 3 Mobile Reordering Only (< 1024px) */
         @media (max-width: 1023px) {
             .mobile-step3-container {
                 display: flex !important;
@@ -506,7 +506,7 @@
         </div>
     </div>
 
-    <!-- JAVASCRIPT LOGIC (แก้ปัญหา iOS/Safari Upload Error) -->
+    <!-- JAVASCRIPT LOGIC -->
     <script>
         const supabaseUrl = 'https://dbebgpeilylrnsidform.supabase.co';
         const supabaseKey = 'sb_publishable_Y_Vppj0gv0Rh-OzmmX0gaA_Zq9Ji2SM';
@@ -774,7 +774,7 @@
                         <input type="hidden" name="uiColor" value="${mappedColorId}">
                     </div>
                 `;
-                document.getElementById('shirtColorInput').value = "สีตามสาขา (ป.ตรี)";
+                document.getElementById('shirtColorInput').value = colorObj.name;
                 changeShirtPreview(mappedColorId);
             } else {
                 let html = `
@@ -1038,17 +1038,14 @@
 
             try {
                 const file = fileInput.files[0];
-                // 1. บีบอัดภาพให้อยู่ในขนาดที่ Google Apps Script รับได้สบายๆ
                 const fileData = await compressImage(file);
 
-                // 2. ส่งแบบ JSON ตามที่ Google Apps Script ต้องการ
                 const uploadRes = await fetch(GOOGLE_SCRIPT_URL, { 
                     method: 'POST', 
                     headers: { 'Content-Type': 'text/plain;charset=utf-8' },
                     body: JSON.stringify(fileData) 
                 });
 
-                // 3. ป้องกันปัญหา Safari JSON Parsing
                 const resText = await uploadRes.text();
                 let uploadResult = null;
                 try {
@@ -1078,34 +1075,37 @@
                 if(document.getElementById('inputEduLevel').value !== "ปริญญาตรี") majorInfo = document.getElementById('inputGradMajor').value;
                 if(document.getElementById('inputStaffType').value === "สายสนับสนุน") majorInfo = "-";
 
-                let orderDetails = cartItems.map(item => {
-                    let prefix = item.color.name !== 'ตามสาขา' ? `[${item.color.name}] ` : '';
-                    return `${prefix}${item.size} (#${item.num})`;
+                const isPost = document.getElementById('shipPost').checked;
+                const shippingCost = isPost ? 50 : 0;
+                const grandTotal = cartItems.reduce((sum, item) => sum + item.price, 0) + shippingCost;
+                const deliveryMethod = isPost ? "จัดส่งไปรษณีย์" : "รับที่คณะ";
+                const shippingAddress = isPost ? document.getElementById('inputAddress').value : "-";
+
+                // แตกรายการ: 1 ตัว = 1 แถว พร้อมแยกฟิลด์ shirt_number ชัดเจน
+                const rowsToInsert = cartItems.map((item, index) => {
+                    return {
+                        order_type: userType,
+                        student_id: document.getElementById('inputStudentId').value || "-",
+                        title: document.getElementById('inputNameTitle').value,
+                        full_name: document.getElementById('inputFullName').value,
+                        phone_number: document.getElementById('phoneInput').value,
+                        education_level: yearInfo || "-",
+                        major: majorInfo || "-",
+                        shirt_color: item.color.name,                // ใส่ชื่อสีจริง เช่น สีน้ำเงิน (Indigo dye)
+                        shirt_size: item.size,                        // ไซซ์ เช่น 8XL
+                        shirt_number: item.num || "33",               // คอลัมน์เฉพาะ: เก็บเฉพาะตัวเลขหลังเสื้อ
+                        quantity: 1,
+                        total_shirt_price: item.price,
+                        delivery_method: deliveryMethod,
+                        address: shippingAddress,
+                        shipping_fee: (index === 0) ? shippingCost : 0, // บันทึกค่าส่งเฉพาะแถวแรก
+                        total_transfer: (index === 0) ? grandTotal : item.price,
+                        slip_url: slipUrl,
+                        remarks: "-"                                  // คืนค่าเป็นหมายเหตุทั่วไป
+                    };
                 });
 
-                let itemsTotal = cartItems.reduce((sum, item) => sum + item.price, 0);
-                let shippingCost = document.getElementById('shipPost').checked ? 50 : 0;
-                let grandTotal = itemsTotal + shippingCost;
-                
-                const { error } = await supabaseClient.from('shirt_orders').insert([{
-                    order_type: userType,
-                    student_id: document.getElementById('inputStudentId').value || "-",
-                    title: document.getElementById('inputNameTitle').value,
-                    full_name: document.getElementById('inputFullName').value,
-                    phone_number: document.getElementById('phoneInput').value,
-                    education_level: yearInfo || "-",
-                    major: majorInfo || "-",
-                    shirt_color: document.getElementById('shirtColorInput').value || "-",
-                    shirt_size: orderDetails.join(", "),
-                    quantity: cartItems.length,
-                    total_shirt_price: itemsTotal,
-                    delivery_method: shippingCost > 0 ? "จัดส่งไปรษณีย์" : "รับที่คณะ",
-                    address: shippingCost > 0 ? document.getElementById('inputAddress').value : "-",
-                    shipping_fee: shippingCost,
-                    total_transfer: grandTotal,
-                    slip_url: slipUrl,
-                    remarks: "-"
-                }]);
+                const { error } = await supabaseClient.from('shirt_orders').insert(rowsToInsert);
 
                 if (error) throw error;
 
