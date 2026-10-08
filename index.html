@@ -5,18 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>BEC SPORTS DAY 14 - Official Pre-order</title>
     
-    <!-- Google Fonts: Noto Sans Thai (อ่านง่าย ดูทันสมัย) -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
-    
-    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
-    
-    <!-- Icons -->
     <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet">
-    
-    <!-- Supabase -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
     <script>
@@ -26,11 +19,6 @@
                     fontFamily: { sans: ['"Noto Sans Thai"', 'sans-serif'] },
                     colors: {
                         bec: { red: '#E53935', blue: '#2563EB', green: '#16A34A', purple: '#7C3AED' },
-                        neutral: { bg: '#F7F7F5', text: '#111111', sub: '#6B7280', border: '#E5E7EB' }
-                    },
-                    boxShadow: { 
-                        'card': '0 8px 30px rgba(0, 0, 0, 0.04)',
-                        'float': '0 20px 40px rgba(0, 0, 0, 0.08)'
                     }
                 }
             }
@@ -38,21 +26,6 @@
     </script>
     <style>
         body { background-color: #F7F7F5; color: #111111; -webkit-tap-highlight-color: transparent; }
-        
-        /* Form Elements Premium Styling */
-        .input-field { @apply w-full bg-white border-2 border-neutral-border focus:border-black focus:ring-4 focus:ring-black/5 rounded-2xl h-14 px-5 text-base font-medium transition-all outline-none; }
-        .label-text { @apply block text-sm font-bold text-neutral-text mb-2 uppercase tracking-wide; }
-        .btn-primary { @apply w-full bg-black text-white font-bold h-14 rounded-2xl hover:scale-[1.02] active:scale-95 transition-transform flex items-center justify-center text-lg tracking-wide shadow-lg shadow-black/20; }
-        
-        /* Custom Radio/Checkbox */
-        .radio-card-input:checked + .radio-card { @apply border-black bg-black text-white shadow-md; }
-        .size-radio:checked + .size-label { @apply border-black bg-black text-white font-bold shadow-md scale-105; }
-        .color-radio:checked + .color-card { @apply border-2 border-black ring-4 ring-black/10 scale-[1.02] bg-white; }
-        
-        /* Stepper UI */
-        .step-active { @apply text-black font-black border-b-2 border-black pb-1; }
-        .step-inactive { @apply text-neutral-sub font-semibold pb-1; }
-
         ::-webkit-scrollbar { width: 0px; background: transparent; }
         .fade-in { animation: fadeIn 0.4s ease-out forwards; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
@@ -62,17 +35,13 @@
 
     <!-- HERO SCREEN -->
     <div id="heroScreen" class="min-h-[100dvh] flex flex-col justify-between relative overflow-hidden z-50 bg-zinc-950 text-white">
-        <!-- Abstract Background 14 -->
         <div class="absolute top-10 -right-20 text-[350px] font-black text-white opacity-[0.03] leading-none pointer-events-none italic">14</div>
-        
         <div class="p-8 pt-16 relative z-10">
             <h1 class="text-5xl md:text-7xl font-black italic tracking-tighter leading-none mb-4">BEC<span class="text-bec-blue">14</span><br>SPORTS DAY</h1>
             <p class="text-xl md:text-2xl font-bold text-zinc-400 uppercase tracking-widest">Play Loud. Play Together.</p>
         </div>
-        
         <div class="flex-1 relative flex items-center justify-center p-8 z-10">
-            <!-- Hero Product Image -->
-            <div class="relative w-full max-w-md aspect-[4/5] bg-zinc-900 rounded-[2rem] shadow-2xl overflow-hidden transform -rotate-2 hover:rotate-0 transition-transform duration-500 border border-zinc-800">
+            <div class="relative w-full max-w-md aspect-[4/5] bg-zinc-900 rounded-[2rem] shadow-2xl overflow-hidden transform -rotate-2 border border-zinc-800">
                 <img src="https://i.postimg.cc/Fs2gbNB0/S-4759575-0.jpg" class="absolute inset-0 w-full h-full object-cover opacity-90" alt="Official Shirt">
                 <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent"></div>
                 <div class="absolute bottom-6 left-6 right-6">
@@ -81,334 +50,313 @@
                 </div>
             </div>
         </div>
-        
         <div class="p-6 md:p-8 relative z-10 bg-gradient-to-t from-black to-transparent">
             <button onclick="startOrder()" class="w-full bg-white text-black font-black h-16 rounded-[2rem] hover:scale-[1.02] active:scale-95 transition-transform flex items-center justify-center text-xl tracking-widest shadow-[0_0_40px_rgba(255,255,255,0.2)]">
                 ORDER NOW <i class="ri-arrow-right-line ml-2"></i>
             </button>
-            <p class="text-center text-xs font-semibold text-zinc-400 mt-4 uppercase tracking-widest">Pre-order ends 14 Dec 2025</p>
         </div>
     </div>
 
     <!-- MAIN APP WRAPPER -->
-    <div id="appScreen" class="hidden max-w-6xl mx-auto md:flex md:gap-10 md:p-8 min-h-screen">
+    <div id="appScreen" class="hidden max-w-6xl mx-auto px-4 md:px-8 py-6 min-h-screen">
         
-        <!-- LEFT: FORM SECTION -->
-        <div class="w-full md:w-3/5">
-            <!-- HEADER & STEPPER -->
-            <header class="px-6 py-5 md:px-0 flex items-center justify-between sticky top-0 bg-[#F7F7F5]/90 backdrop-blur-xl z-40 border-b border-neutral-border md:border-none mb-6">
-                <div class="font-black text-2xl italic tracking-tighter">BEC<span class="text-bec-blue">14</span></div>
-                <div class="flex items-center gap-3 text-xs uppercase tracking-widest">
-                    <span id="stepIndicator1" class="step-active">01 Info</span>
-                    <i class="ri-arrow-right-s-line text-neutral-border"></i>
-                    <span id="stepIndicator2" class="step-inactive">02 Items</span>
-                    <i class="ri-arrow-right-s-line text-neutral-border"></i>
-                    <span id="stepIndicator3" class="step-inactive">03 Pay</span>
-                </div>
-            </header>
+        <!-- HEADER & STEPPER -->
+        <header class="flex items-center justify-between sticky top-0 bg-[#F7F7F5]/90 backdrop-blur-xl z-40 pb-4 mb-4 md:mb-8 border-b border-gray-200">
+            <div class="font-black text-2xl italic tracking-tighter">BEC<span class="text-bec-blue">14</span></div>
+            <div class="flex items-center gap-2 md:gap-3 text-xs md:text-sm uppercase tracking-widest font-bold">
+                <span id="stepIndicator1" class="text-black border-b-2 border-black pb-1">01 Info</span>
+                <i class="ri-arrow-right-s-line text-gray-400"></i>
+                <span id="stepIndicator2" class="text-gray-400 pb-1">02 Items</span>
+                <i class="ri-arrow-right-s-line text-gray-400"></i>
+                <span id="stepIndicator3" class="text-gray-400 pb-1">03 Pay</span>
+            </div>
+        </header>
 
-            <form id="orderForm" class="px-6 pb-6 md:px-0 md:py-0">
-                
-                <!-- STEP 1: INFORMATION -->
-                <div id="step1" class="fade-in space-y-6">
-                    <div class="mb-8">
-                        <h2 class="text-3xl font-black tracking-tight mb-2 uppercase">Your Info</h2>
-                        <p class="text-neutral-sub font-medium">กรอกข้อมูลผู้สั่งซื้อเพื่อเริ่มทำรายการ</p>
-                    </div>
+        <div id="mainLayout" class="flex flex-col md:flex-row gap-8">
+            <!-- LEFT: FORM SECTION -->
+            <div id="formSection" class="w-full mx-auto max-w-3xl transition-all duration-300">
+                <form id="orderForm">
+                    
+                    <!-- STEP 1: INFORMATION -->
+                    <div id="step1" class="fade-in space-y-6">
+                        <div class="mb-6">
+                            <h2 class="text-3xl font-black tracking-tight mb-2 uppercase">Your Info</h2>
+                            <p class="text-gray-500 font-medium">กรอกข้อมูลผู้สั่งซื้อเพื่อเริ่มทำรายการ</p>
+                        </div>
 
-                    <div class="bg-white p-6 md:p-8 rounded-[2rem] shadow-card border border-neutral-border space-y-6">
-                        
-                        <!-- User Type -->
-                        <div>
-                            <label class="label-text">ประเภทผู้สั่ง <span class="text-bec-red">*</span></label>
-                            <div class="grid grid-cols-3 gap-3">
-                                <label class="cursor-pointer">
-                                    <input type="radio" name="userType" value="นิสิตคณะบริหารธุรกิจฯ" checked class="peer sr-only radio-card-input" onchange="toggleUserType()">
-                                    <div class="radio-card bg-neutral-bg border-2 border-neutral-border rounded-2xl py-3.5 text-center text-sm font-bold transition-all text-neutral-sub">นิสิต</div>
-                                </label>
-                                <label class="cursor-pointer">
-                                    <input type="radio" name="userType" value="ศิษย์เก่าคณะบริหารธุรกิจฯ" class="peer sr-only radio-card-input" onchange="toggleUserType()">
-                                    <div class="radio-card bg-neutral-bg border-2 border-neutral-border rounded-2xl py-3.5 text-center text-sm font-bold transition-all text-neutral-sub">ศิษย์เก่า</div>
-                                </label>
-                                <label class="cursor-pointer">
-                                    <input type="radio" name="userType" value="บุคลากรคณะบริหารธุรกิจฯ" class="peer sr-only radio-card-input" onchange="toggleUserType()">
-                                    <div class="radio-card bg-neutral-bg border-2 border-neutral-border rounded-2xl py-3.5 text-center text-sm font-bold transition-all text-neutral-sub">บุคลากร</div>
-                                </label>
+                        <div class="bg-white p-6 md:p-8 rounded-[2rem] shadow-[0_8px_30px_rgba(0,0,0,0.04)] border border-gray-100 space-y-6">
+                            
+                            <!-- User Type -->
+                            <div>
+                                <label class="block text-sm font-bold text-gray-800 mb-3 uppercase">ประเภทผู้สั่ง <span class="text-red-500">*</span></label>
+                                <div class="grid grid-cols-3 gap-3">
+                                    <label class="cursor-pointer relative">
+                                        <input type="radio" name="userType" value="นิสิตคณะบริหารธุรกิจฯ" checked class="peer sr-only" onchange="toggleUserType()">
+                                        <div class="border-2 border-gray-200 bg-gray-50 rounded-2xl py-3 text-center text-sm font-bold text-gray-500 peer-checked:border-black peer-checked:bg-black peer-checked:text-white transition-all">นิสิต</div>
+                                    </label>
+                                    <label class="cursor-pointer relative">
+                                        <input type="radio" name="userType" value="ศิษย์เก่าคณะบริหารธุรกิจฯ" class="peer sr-only" onchange="toggleUserType()">
+                                        <div class="border-2 border-gray-200 bg-gray-50 rounded-2xl py-3 text-center text-sm font-bold text-gray-500 peer-checked:border-black peer-checked:bg-black peer-checked:text-white transition-all">ศิษย์เก่า</div>
+                                    </label>
+                                    <label class="cursor-pointer relative">
+                                        <input type="radio" name="userType" value="บุคลากรคณะบริหารธุรกิจฯ" class="peer sr-only" onchange="toggleUserType()">
+                                        <div class="border-2 border-gray-200 bg-gray-50 rounded-2xl py-3 text-center text-sm font-bold text-gray-500 peer-checked:border-black peer-checked:bg-black peer-checked:text-white transition-all">บุคลากร</div>
+                                    </label>
+                                </div>
+                            </div>
+
+                            <!-- Dynamic Fields -->
+                            <div id="staffTypeDiv" class="hidden">
+                                <label class="block text-sm font-bold text-gray-800 mb-2 uppercase">ประเภทบุคลากร</label>
+                                <select name="staffType" id="inputStaffType" class="w-full bg-white border-2 border-gray-200 focus:border-black rounded-xl h-14 px-4 text-base font-medium outline-none transition-colors cursor-pointer" onchange="handleStaffTypeChange()">
+                                    <option value="" disabled selected>เลือกประเภท...</option>
+                                    <option value="สายวิชาการ">สายวิชาการ</option>
+                                    <option value="สายสนับสนุน">สายสนับสนุน</option>
+                                </select>
+                            </div>
+
+                            <div id="eduLevelDiv">
+                                <label class="block text-sm font-bold text-gray-800 mb-2 uppercase">ระดับการศึกษา</label>
+                                <select name="eduLevel" id="inputEduLevel" class="w-full bg-white border-2 border-gray-200 focus:border-black rounded-xl h-14 px-4 text-base font-medium outline-none transition-colors cursor-pointer" onchange="handleEduLevelChange()">
+                                    <option value="ปริญญาตรี" selected>ปริญญาตรี</option>
+                                    <option value="ปริญญาโท">ปริญญาโท</option>
+                                    <option value="ปริญญาเอก">ปริญญาเอก</option>
+                                </select>
+                            </div>
+
+                            <div id="bachelorMajorDiv">
+                                <label class="block text-sm font-bold text-gray-800 mb-2 uppercase">สาขาวิชา</label>
+                                <select name="bachelorMajor" id="inputBachelorMajor" class="w-full bg-white border-2 border-gray-200 focus:border-black rounded-xl h-14 px-4 text-base font-medium outline-none transition-colors cursor-pointer">
+                                    <option value="" disabled selected>เลือกสาขาวิชา...</option>
+                                </select>
+                            </div>
+
+                            <div id="gradMajorDiv" class="hidden">
+                                <label class="block text-sm font-bold text-gray-800 mb-2 uppercase">สาขาวิชา (ป.โท/เอก)</label>
+                                <select name="gradMajor" id="inputGradMajor" class="w-full bg-white border-2 border-gray-200 focus:border-black rounded-xl h-14 px-4 text-base font-medium outline-none transition-colors cursor-pointer"></select>
+                            </div>
+
+                            <div id="studentIdDiv">
+                                <label class="block text-sm font-bold text-gray-800 mb-2 uppercase">รหัสนิสิต <span class="text-red-500">*</span></label>
+                                <input type="text" id="inputStudentId" name="studentId" class="w-full bg-white border-2 border-gray-200 focus:border-black rounded-xl h-14 px-4 text-lg font-mono tracking-widest outline-none transition-colors" placeholder="6XXXXXXX" maxlength="8">
+                                <p id="studentIdError" class="hidden text-red-500 text-xs mt-2 font-bold"><i class="ri-error-warning-fill mr-1"></i> กรุณากรอกรหัสนิสิต 8 หลัก</p>
+                            </div>
+
+                            <div class="grid grid-cols-12 gap-4">
+                                <div class="col-span-4 md:col-span-3">
+                                    <label class="block text-sm font-bold text-gray-800 mb-2 uppercase">คำนำ</label>
+                                    <select name="nameTitle" id="inputNameTitle" class="w-full bg-white border-2 border-gray-200 focus:border-black rounded-xl h-14 px-3 text-base font-medium outline-none transition-colors cursor-pointer"></select>
+                                </div>
+                                <div class="col-span-8 md:col-span-9">
+                                    <label class="block text-sm font-bold text-gray-800 mb-2 uppercase">ชื่อ - นามสกุล <span class="text-red-500">*</span></label>
+                                    <input type="text" id="inputFullName" name="fullName" class="w-full bg-white border-2 border-gray-200 focus:border-black rounded-xl h-14 px-4 text-base font-medium outline-none transition-colors" placeholder="ไม่ต้องใส่คำนำหน้า" required>
+                                </div>
+                            </div>
+
+                            <div>
+                                <label class="block text-sm font-bold text-gray-800 mb-2 uppercase">เบอร์โทรศัพท์ <span class="text-red-500">*</span></label>
+                                <input type="tel" id="phoneInput" name="phone" class="w-full bg-white border-2 border-gray-200 focus:border-black rounded-xl h-14 px-4 text-lg font-mono tracking-widest outline-none transition-colors" placeholder="0XXXXXXXXX" maxlength="10" required>
+                                <p id="phoneError" class="hidden text-red-500 text-xs mt-2 font-bold"><i class="ri-error-warning-fill mr-1"></i> กรุณากรอกเบอร์โทร 10 หลัก</p>
+                            </div>
+
+                            <div id="studentYearDiv">
+                                <label class="block text-sm font-bold text-gray-800 mb-2 uppercase">ชั้นปี</label>
+                                <select name="yearLevel" id="inputStudentYear" class="w-full bg-white border-2 border-gray-200 focus:border-black rounded-xl h-14 px-4 text-base font-medium outline-none transition-colors cursor-pointer">
+                                    <option value="" disabled selected>เลือกชั้นปี...</option>
+                                    <option value="ปี 1 (รหัส 68)">ปี 1</option>
+                                    <option value="ปี 2 (รหัส 67)">ปี 2</option>
+                                    <option value="ปี 3 (รหัส 66)">ปี 3</option>
+                                    <option value="ปี 4 (รหัส 65)">ปี 4</option>
+                                    <option value="อื่นๆ">อื่นๆ</option>
+                                </select>
+                            </div>
+                            <div id="alumniYearDiv" class="hidden">
+                                <label class="block text-sm font-bold text-gray-800 mb-2 uppercase">ปีที่เข้าศึกษา (พ.ศ.)</label>
+                                <input type="text" id="inputAlumniYear" name="alumniYear" class="w-full bg-white border-2 border-gray-200 focus:border-black rounded-xl h-14 px-4 font-mono tracking-wider outline-none transition-colors" placeholder="เช่น 58">
                             </div>
                         </div>
 
-                        <!-- Dynamic Fields -->
-                        <div id="staffTypeDiv" class="hidden">
-                            <label class="label-text">ประเภทบุคลากร</label>
-                            <select name="staffType" id="inputStaffType" class="input-field cursor-pointer" onchange="handleStaffTypeChange()">
-                                <option value="" disabled selected>เลือกประเภท...</option>
-                                <option value="สายวิชาการ">สายวิชาการ</option>
-                                <option value="สายสนับสนุน">สายสนับสนุน</option>
-                            </select>
-                        </div>
-
-                        <div id="eduLevelDiv">
-                            <label class="label-text">ระดับการศึกษา</label>
-                            <select name="eduLevel" id="inputEduLevel" class="input-field cursor-pointer" onchange="handleEduLevelChange()">
-                                <option value="ปริญญาตรี" selected>ปริญญาตรี</option>
-                                <option value="ปริญญาโท">ปริญญาโท</option>
-                                <option value="ปริญญาเอก">ปริญญาเอก</option>
-                            </select>
-                        </div>
-
-                        <div id="bachelorMajorDiv">
-                            <label class="label-text">สาขาวิชา</label>
-                            <select name="bachelorMajor" id="inputBachelorMajor" class="input-field cursor-pointer">
-                                <option value="" disabled selected>เลือกสาขาวิชา...</option>
-                            </select>
-                        </div>
-
-                        <div id="gradMajorDiv" class="hidden">
-                            <label class="label-text">สาขาวิชา (ป.โท/เอก)</label>
-                            <select name="gradMajor" id="inputGradMajor" class="input-field cursor-pointer"></select>
-                        </div>
-
-                        <div id="studentIdDiv">
-                            <label class="label-text">รหัสนิสิต</label>
-                            <input type="text" id="inputStudentId" name="studentId" class="input-field font-mono text-lg tracking-wider" placeholder="6XXXXXXX" maxlength="8">
-                            <p id="studentIdError" class="hidden text-bec-red text-xs mt-2 font-bold flex items-center"><i class="ri-error-warning-fill mr-1"></i> กรุณากรอกรหัสนิสิต 8 หลัก</p>
-                        </div>
-
-                        <div class="grid grid-cols-12 gap-4">
-                            <div class="col-span-4 md:col-span-3">
-                                <label class="label-text">คำนำ</label>
-                                <select name="nameTitle" id="inputNameTitle" class="input-field px-3 cursor-pointer"></select>
-                            </div>
-                            <div class="col-span-8 md:col-span-9">
-                                <label class="label-text">ชื่อ - นามสกุล <span class="text-bec-red">*</span></label>
-                                <input type="text" id="inputFullName" name="fullName" class="input-field" placeholder="ไม่ต้องใส่คำนำหน้า" required>
-                            </div>
-                        </div>
-
-                        <div>
-                            <label class="label-text">เบอร์โทรศัพท์ <span class="text-bec-red">*</span></label>
-                            <input type="tel" id="phoneInput" name="phone" class="input-field font-mono text-lg tracking-wider" placeholder="0XXXXXXXXX" maxlength="10" required>
-                            <p id="phoneError" class="hidden text-bec-red text-xs mt-2 font-bold flex items-center"><i class="ri-error-warning-fill mr-1"></i> กรุณากรอกเบอร์โทร 10 หลัก</p>
-                        </div>
-
-                        <div id="studentYearDiv">
-                            <label class="label-text">ชั้นปี</label>
-                            <select name="yearLevel" id="inputStudentYear" class="input-field cursor-pointer">
-                                <option value="" disabled selected>เลือกชั้นปี...</option>
-                                <option value="ปี 1 (รหัส 68)">ปี 1</option>
-                                <option value="ปี 2 (รหัส 67)">ปี 2</option>
-                                <option value="ปี 3 (รหัส 66)">ปี 3</option>
-                                <option value="ปี 4 (รหัส 65)">ปี 4</option>
-                                <option value="อื่นๆ">อื่นๆ</option>
-                            </select>
-                        </div>
-                        <div id="alumniYearDiv" class="hidden">
-                            <label class="label-text">ปีที่เข้าศึกษา (พ.ศ.)</label>
-                            <input type="text" id="inputAlumniYear" name="alumniYear" class="input-field font-mono tracking-wider" placeholder="เช่น 58">
-                        </div>
-                    </div>
-                </div>
-
-                <!-- STEP 2: SHIRTS -->
-                <div id="step2" class="hidden fade-in space-y-6">
-                    <div class="flex items-center gap-4 mb-8">
-                        <button type="button" onclick="goToStep(1)" class="w-12 h-12 rounded-full bg-white border-2 border-neutral-border flex items-center justify-center hover:bg-neutral-bg hover:border-black transition-colors"><i class="ri-arrow-left-line text-xl"></i></button>
-                        <div>
-                            <h2 class="text-3xl font-black tracking-tight uppercase">Select Item</h2>
-                            <p class="text-neutral-sub font-medium">เลือกแบบและจำนวนที่ต้องการ</p>
-                        </div>
-                    </div>
-
-                    <div class="bg-white p-6 md:p-8 rounded-[2rem] shadow-card border border-neutral-border">
-                        
-                        <!-- Visual Color Selection -->
-                        <div id="colorSelectionDiv" class="mb-8">
-                            <label class="label-text flex justify-between items-center">
-                                สีเสื้อ
-                            </label>
-                            <div class="grid grid-cols-2 gap-3 mt-3" id="colorGridUI">
-                                <!-- Generated by JS -->
-                            </div>
-                        </div>
-
-                        <!-- Clean Size Selection -->
-                        <div class="mb-8">
-                            <label class="label-text flex justify-between items-center">
-                                ไซซ์ <button type="button" class="text-bec-blue text-xs font-bold underline" onclick="alert('แสดงตารางไซส์')">SIZE CHART</button>
-                            </label>
-                            <div class="grid grid-cols-4 gap-3 mt-3">
-                                <label class="cursor-pointer">
-                                    <input type="radio" name="uiSize" value="S" class="peer sr-only size-radio" checked>
-                                    <div class="size-label border-2 border-neutral-border rounded-xl py-3 text-center font-mono font-bold text-sm bg-neutral-bg text-neutral-sub transition-all cursor-pointer">S</div>
-                                </label>
-                                <label class="cursor-pointer">
-                                    <input type="radio" name="uiSize" value="M" class="peer sr-only size-radio">
-                                    <div class="size-label border-2 border-neutral-border rounded-xl py-3 text-center font-mono font-bold text-sm bg-neutral-bg text-neutral-sub transition-all cursor-pointer">M</div>
-                                </label>
-                                <label class="cursor-pointer">
-                                    <input type="radio" name="uiSize" value="L" class="peer sr-only size-radio">
-                                    <div class="size-label border-2 border-neutral-border rounded-xl py-3 text-center font-mono font-bold text-sm bg-neutral-bg text-neutral-sub transition-all cursor-pointer">L</div>
-                                </label>
-                                <label class="cursor-pointer">
-                                    <input type="radio" name="uiSize" value="XL" class="peer sr-only size-radio">
-                                    <div class="size-label border-2 border-neutral-border rounded-xl py-3 text-center font-mono font-bold text-sm bg-neutral-bg text-neutral-sub transition-all cursor-pointer">XL</div>
-                                </label>
-                            </div>
-                            <select id="uiSizeMore" class="input-field mt-3 h-12 text-sm font-bold bg-neutral-bg cursor-pointer" onchange="const checkedSize = document.querySelector('input[name=\'uiSize\']:checked'); if(checkedSize) checkedSize.checked = false;">
-                                <option value="" selected>ไซซ์พิเศษ (2XL - 10XL)...</option>
-                                <option value="2XL">2XL</option><option value="3XL">3XL</option>
-                                <option value="4XL">4XL</option><option value="5XL">5XL</option>
-                                <option value="6XL">6XL</option><option value="7XL">7XL</option>
-                                <option value="8XL">8XL</option><option value="9XL">9XL</option>
-                                <option value="10XL">10XL</option>
-                            </select>
-                        </div>
-
-                        <!-- Number -->
-                        <div class="mb-8 bg-[#F7F7F5] rounded-2xl p-5 border border-neutral-border">
-                            <label class="label-text">เบอร์หลังเสื้อ (01-99)</label>
-                            <div class="flex gap-4 items-center">
-                                <input type="text" id="uiNumber" class="input-field w-24 text-center font-mono text-2xl tracking-widest bg-white" placeholder="33" maxlength="2" oninput="this.value=this.value.replace(/[^0-9]/g,'')">
-                                <p class="text-xs text-neutral-sub leading-relaxed">* หากไม่ระบุเบอร์<br>จะได้รับหมายเลข <strong class="text-black">33</strong></p>
-                            </div>
-                        </div>
-
-                        <button type="button" onclick="addVisualItem()" class="w-full bg-white border-2 border-black text-black font-black h-14 rounded-2xl hover:bg-black hover:text-white transition-colors flex items-center justify-center text-lg tracking-wide">
-                            <i class="ri-add-line mr-2"></i> ADD TO CART
+                        <button type="button" onclick="validateStep1()" class="w-full bg-black text-white font-black h-14 rounded-2xl hover:bg-gray-800 active:scale-95 transition-all flex items-center justify-center text-lg tracking-wide shadow-lg shadow-black/20">
+                            NEXT STEP <i class="ri-arrow-right-line ml-2"></i>
                         </button>
                     </div>
 
-                    <!-- Hidden legacy containers -->
-                    <div id="studentItemList" class="hidden"></div>
-                    <div id="alumniItemList" class="hidden"></div>
-                    <input type="hidden" name="shirtColor" id="shirtColorInput">
-                </div>
-
-                <!-- STEP 3: PAYMENT -->
-                <div id="step3" class="hidden fade-in space-y-6">
-                    <div class="flex items-center gap-4 mb-8">
-                        <button type="button" onclick="goToStep(2)" class="w-12 h-12 rounded-full bg-white border-2 border-neutral-border flex items-center justify-center hover:bg-neutral-bg hover:border-black transition-colors"><i class="ri-arrow-left-line text-xl"></i></button>
-                        <div>
-                            <h2 class="text-3xl font-black tracking-tight uppercase">Checkout</h2>
-                            <p class="text-neutral-sub font-medium">การจัดส่งและชำระเงิน</p>
-                        </div>
-                    </div>
-
-                    <!-- Shipping -->
-                    <div class="bg-white p-6 rounded-[2rem] shadow-card border border-neutral-border space-y-4">
-                        <label class="label-text mb-4">วิธีการจัดส่ง</label>
-                        
-                        <label class="flex items-center p-4 border-2 border-neutral-border rounded-2xl cursor-pointer hover:bg-neutral-bg transition-colors has-[:checked]:border-black has-[:checked]:bg-black/5">
-                            <input type="radio" name="shippingMethod" id="shipPickup" value="pickup" checked class="w-5 h-5 accent-black mr-4" onchange="renderStep4()">
+                    <!-- STEP 2: SHIRTS -->
+                    <div id="step2" class="hidden fade-in space-y-6">
+                        <div class="flex items-center gap-4 mb-6">
+                            <button type="button" onclick="goToStep(1)" class="w-12 h-12 rounded-full bg-white border-2 border-gray-200 flex items-center justify-center hover:bg-gray-50 hover:border-black transition-colors"><i class="ri-arrow-left-line text-xl"></i></button>
                             <div>
-                                <div class="font-bold text-base">รับที่คณะ (ฟรี)</div>
-                                <div class="text-xs text-neutral-sub font-medium mt-1">รอประกาศวันรับเสื้ออีกครั้ง</div>
+                                <h2 class="text-3xl font-black tracking-tight uppercase">Select Item</h2>
+                                <p class="text-gray-500 font-medium">เลือกเสื้อและไซซ์ที่ต้องการ</p>
                             </div>
-                        </label>
-
-                        <label class="flex items-center p-4 border-2 border-neutral-border rounded-2xl cursor-pointer hover:bg-neutral-bg transition-colors has-[:checked]:border-black has-[:checked]:bg-black/5">
-                            <input type="radio" name="shippingMethod" id="shipPost" value="post" class="w-5 h-5 accent-black mr-4" onchange="renderStep4()">
-                            <div>
-                                <div class="font-bold text-base">จัดส่งไปรษณีย์ (+50 ฿)</div>
-                                <div class="text-xs text-neutral-sub font-medium mt-1">จัดส่งแบบลงทะเบียนทั่วประเทศ</div>
-                            </div>
-                        </label>
-
-                        <div id="addressBox" class="hidden mt-4 pt-4 border-t border-neutral-border">
-                            <label class="label-text text-bec-red">ที่อยู่จัดส่ง *</label>
-                            <textarea name="shippingAddress" id="inputAddress" rows="3" class="w-full border-2 border-neutral-border rounded-xl p-4 bg-neutral-bg focus:border-black outline-none transition-colors text-sm font-medium" placeholder="บ้านเลขที่ หมู่ ซอย ถนน ตำบล อำเภอ จังหวัด รหัสไปรษณีย์"></textarea>
                         </div>
-                    </div>
 
-                    <!-- Payment Card (Neo Brutalism Vibe) -->
-                    <div class="bg-zinc-950 text-white p-8 rounded-[2rem] shadow-float relative overflow-hidden">
-                        <div class="absolute -top-10 -right-10 w-40 h-40 bg-bec-blue/30 rounded-full blur-3xl"></div>
-                        <h3 class="font-bold text-zinc-400 mb-2 uppercase tracking-widest text-xs">ยอดที่ต้องชำระ</h3>
-                        <div class="text-6xl font-black italic tracking-tighter mb-8" id="grandTotalDisplayMain">0 <span class="text-2xl text-zinc-500">฿</span></div>
-                        
-                        <div class="bg-white/10 rounded-2xl p-5 backdrop-blur-md mb-6 border border-white/10">
-                            <div class="flex items-center gap-4 mb-4">
-                                <img src="https://upload.wikimedia.org/wikipedia/en/thumb/5/5a/Kasikornbank_Logo.svg/1200px-Kasikornbank_Logo.svg.png" class="w-10 h-10 rounded-full bg-white p-1">
-                                <div>
-                                    <div class="font-bold text-base">ธนาคารกสิกรไทย</div>
-                                    <div class="text-xs text-zinc-300">น.ส. นภัสวรรณ ตุ้มพงษ์ และคณะ</div>
+                        <div class="bg-white p-6 md:p-8 rounded-[2rem] shadow-[0_8px_30px_rgba(0,0,0,0.04)] border border-gray-100">
+                            
+                            <!-- Shirt Image Preview (Added back based on feedback) -->
+                            <div class="mb-8 text-center bg-gray-50 rounded-2xl p-4 border border-gray-200">
+                                <img id="shirtPreviewImg" src="https://i.postimg.cc/Fs2gbNB0/S-4759575-0.jpg" class="w-full max-w-[200px] mx-auto rounded-xl shadow-md border border-gray-200 mb-3 transition-all duration-300">
+                                <div id="shirtPreviewName" class="font-bold text-lg">สีน้ำเงิน</div>
+                            </div>
+
+                            <!-- Color Selection -->
+                            <div id="colorSelectionDiv" class="mb-8">
+                                <label class="block text-sm font-bold text-gray-800 mb-3 uppercase">สีเสื้อ</label>
+                                <div class="grid grid-cols-2 gap-3" id="colorGridUI">
+                                    <!-- Generated by JS -->
                                 </div>
                             </div>
-                            <div class="flex justify-between items-center bg-black/30 p-3 rounded-xl border border-white/5">
-                                <div class="font-mono text-xl font-bold tracking-widest text-bec-green">208-8-91057-8</div>
-                                <button type="button" class="text-xs bg-white text-black px-4 py-2 rounded-lg font-bold hover:bg-gray-200 uppercase" onclick="alert('คัดลอกเลขบัญชีแล้ว')">Copy</button>
+
+                            <!-- All Sizes as Buttons (Fixed based on feedback) -->
+                            <div class="mb-8">
+                                <div class="flex justify-between items-end mb-3">
+                                    <label class="block text-sm font-bold text-gray-800 uppercase">ไซซ์เสื้อ</label>
+                                    <button type="button" onclick="document.getElementById('sizeChartModal').classList.remove('hidden')" class="text-blue-600 text-xs font-bold underline"><i class="ri-ruler-line"></i> SIZE CHART</button>
+                                </div>
+                                <div class="grid grid-cols-4 sm:grid-cols-5 gap-2" id="sizeGridUI">
+                                    <!-- Populated by JS -->
+                                </div>
+                            </div>
+
+                            <!-- Number -->
+                            <div class="mb-8 bg-gray-50 rounded-2xl p-5 border border-gray-200 flex flex-col sm:flex-row gap-4 items-center justify-between">
+                                <div>
+                                    <label class="block text-sm font-bold text-gray-800 mb-1 uppercase">เบอร์หลังเสื้อ (01-99)</label>
+                                    <p class="text-xs text-gray-500">* หากไม่ระบุ จะได้รับหมายเลข 33</p>
+                                </div>
+                                <input type="text" id="uiNumber" class="w-24 bg-white border-2 border-gray-200 focus:border-black rounded-xl h-14 text-center font-mono text-2xl tracking-widest outline-none transition-colors" placeholder="33" maxlength="2" oninput="this.value=this.value.replace(/[^0-9]/g,'')">
+                            </div>
+
+                            <button type="button" onclick="addVisualItem()" class="w-full bg-white border-2 border-black text-black font-black h-14 rounded-2xl hover:bg-black hover:text-white transition-all flex items-center justify-center text-lg tracking-wide">
+                                <i class="ri-add-line mr-2 text-xl"></i> เพิ่มลงตะกร้า
+                            </button>
+                        </div>
+
+                        <!-- Hidden legacy containers -->
+                        <div id="studentItemList" class="hidden"></div>
+                        <div id="alumniItemList" class="hidden"></div>
+                        <input type="hidden" name="shirtColor" id="shirtColorInput">
+                    </div>
+
+                    <!-- STEP 3: PAYMENT -->
+                    <div id="step3" class="hidden fade-in space-y-6">
+                        <div class="flex items-center gap-4 mb-6">
+                            <button type="button" onclick="goToStep(2)" class="w-12 h-12 rounded-full bg-white border-2 border-gray-200 flex items-center justify-center hover:bg-gray-50 hover:border-black transition-colors"><i class="ri-arrow-left-line text-xl"></i></button>
+                            <div>
+                                <h2 class="text-3xl font-black tracking-tight uppercase">Checkout</h2>
+                                <p class="text-gray-500 font-medium">การจัดส่งและชำระเงิน</p>
                             </div>
                         </div>
 
-                        <div>
-                            <label class="block text-sm font-bold mb-3 uppercase tracking-wide">แนบสลิปโอนเงิน <span class="text-bec-red">*</span></label>
-                            <input type="file" id="slipFile" accept="image/*" class="w-full text-sm file:mr-4 file:py-3 file:px-6 file:rounded-xl file:border-0 file:text-sm file:font-black file:bg-white file:text-black hover:file:bg-gray-200 cursor-pointer bg-white/5 rounded-2xl border border-white/10">
+                        <!-- Shipping -->
+                        <div class="bg-white p-6 rounded-[2rem] shadow-[0_8px_30px_rgba(0,0,0,0.04)] border border-gray-100 space-y-4">
+                            <label class="block text-sm font-bold text-gray-800 mb-2 uppercase">วิธีการจัดส่ง</label>
+                            
+                            <label class="flex items-center p-4 border-2 border-gray-200 rounded-2xl cursor-pointer hover:bg-gray-50 transition-colors has-[:checked]:border-black has-[:checked]:bg-gray-50">
+                                <input type="radio" name="shippingMethod" id="shipPickup" value="pickup" checked class="w-5 h-5 accent-black mr-4 cursor-pointer" onchange="renderStep4()">
+                                <div>
+                                    <div class="font-bold text-base">รับที่คณะ (ฟรี)</div>
+                                    <div class="text-xs text-gray-500 font-medium mt-1">รอประกาศวันรับเสื้ออีกครั้ง</div>
+                                </div>
+                            </label>
+
+                            <label class="flex items-center p-4 border-2 border-gray-200 rounded-2xl cursor-pointer hover:bg-gray-50 transition-colors has-[:checked]:border-black has-[:checked]:bg-gray-50">
+                                <input type="radio" name="shippingMethod" id="shipPost" value="post" class="w-5 h-5 accent-black mr-4 cursor-pointer" onchange="renderStep4()">
+                                <div>
+                                    <div class="font-bold text-base">จัดส่งไปรษณีย์ (+50 ฿)</div>
+                                    <div class="text-xs text-gray-500 font-medium mt-1">จัดส่งแบบลงทะเบียนทั่วประเทศ</div>
+                                </div>
+                            </label>
+
+                            <div id="addressBox" class="hidden mt-4 pt-4 border-t border-gray-200">
+                                <label class="block text-sm font-bold text-red-500 mb-2 uppercase">ที่อยู่จัดส่ง *</label>
+                                <textarea name="shippingAddress" id="inputAddress" rows="3" class="w-full bg-gray-50 border-2 border-gray-200 focus:border-black rounded-xl p-4 outline-none transition-colors text-sm font-medium" placeholder="บ้านเลขที่ หมู่ ซอย ถนน ตำบล อำเภอ จังหวัด รหัสไปรษณีย์"></textarea>
+                            </div>
                         </div>
-                    </div>
-                    
-                    <div class="bg-white p-6 rounded-[2rem] shadow-card border border-neutral-border">
-                        <label class="flex items-start gap-4 cursor-pointer">
-                            <input type="checkbox" id="confirmCheck" class="mt-1 w-6 h-6 accent-black rounded border-2 border-neutral-border cursor-pointer">
-                            <span class="text-sm font-bold text-neutral-text leading-relaxed">ข้าพเจ้าได้ตรวจสอบข้อมูลและแนบสลิปโอนเงินถูกต้องเรียบร้อยแล้ว (ข้อมูลไม่สามารถแก้ไขได้ภายหลัง)</span>
-                        </label>
-                    </div>
 
-                </div>
-            </form>
-        </div>
+                        <!-- Payment Card -->
+                        <div class="bg-zinc-950 text-white p-8 rounded-[2rem] relative overflow-hidden">
+                            <h3 class="font-bold text-zinc-400 mb-2 uppercase tracking-widest text-xs">ยอดที่ต้องชำระ</h3>
+                            <div class="text-6xl font-black italic tracking-tighter mb-8" id="grandTotalDisplayMain">0 <span class="text-2xl text-zinc-500">฿</span></div>
+                            
+                            <div class="bg-white/10 rounded-2xl p-5 backdrop-blur-md mb-6 border border-white/10">
+                                <div class="flex items-center gap-4 mb-4">
+                                    <img src="https://upload.wikimedia.org/wikipedia/en/thumb/5/5a/Kasikornbank_Logo.svg/1200px-Kasikornbank_Logo.svg.png" class="w-10 h-10 rounded-full bg-white p-1">
+                                    <div>
+                                        <div class="font-bold text-base">ธนาคารกสิกรไทย</div>
+                                        <div class="text-xs text-zinc-300">น.ส. นภัสวรรณ ตุ้มพงษ์ และคณะ</div>
+                                    </div>
+                                </div>
+                                <div class="flex justify-between items-center bg-black/30 p-3 rounded-xl border border-white/5">
+                                    <div class="font-mono text-xl font-bold tracking-widest text-green-400">208-8-91057-8</div>
+                                </div>
+                            </div>
 
-        <!-- RIGHT: DESKTOP ORDER SUMMARY & MOBILE STICKY BOTTOM -->
-        <div class="w-full md:w-2/5 md:block relative">
-            <div id="orderSummarySticky" class="fixed bottom-0 left-0 w-full bg-white border-t border-neutral-border px-6 py-4 pb-safe shadow-[0_-20px_40px_rgba(0,0,0,0.08)] md:relative md:border-none md:bg-transparent md:shadow-none md:p-0 z-40 transform translate-y-full transition-transform duration-300 md:translate-y-0">
-                
-                <div class="md:bg-white md:p-8 md:rounded-[2rem] md:shadow-card md:border md:border-neutral-border sticky top-28">
-                    <div class="hidden md:flex items-center justify-between border-b-2 border-neutral-border pb-5 mb-5">
+                            <div>
+                                <label class="block text-sm font-bold mb-3 uppercase tracking-wide">แนบสลิปโอนเงิน <span class="text-red-500">*</span></label>
+                                <input type="file" id="slipFile" accept="image/*" class="w-full text-sm file:mr-4 file:py-3 file:px-6 file:rounded-xl file:border-0 file:text-sm file:font-black file:bg-white file:text-black hover:file:bg-gray-200 cursor-pointer bg-white/5 rounded-2xl border border-white/10">
+                            </div>
+                        </div>
+                        
+                        <div class="bg-white p-6 rounded-[2rem] shadow-[0_8px_30px_rgba(0,0,0,0.04)] border border-gray-100">
+                            <label class="flex items-start gap-4 cursor-pointer">
+                                <input type="checkbox" id="confirmCheck" class="mt-1 w-6 h-6 accent-black rounded border-2 border-gray-200 cursor-pointer">
+                                <span class="text-sm font-bold text-gray-800 leading-relaxed">ข้าพเจ้าได้ตรวจสอบข้อมูลและแนบสลิปโอนเงินถูกต้องเรียบร้อยแล้ว (ข้อมูลไม่สามารถแก้ไขได้ภายหลัง)</span>
+                            </label>
+                        </div>
+
+                    </div>
+                </form>
+            </div> <!-- End Form Section -->
+
+            <!-- RIGHT: SUMMARY SECTION (Hidden on Step 1) -->
+            <div id="summarySection" class="hidden w-full md:w-[40%] transition-all duration-300">
+                <div class="md:sticky md:top-24 bg-white p-6 md:p-8 rounded-[2rem] shadow-[0_8px_30px_rgba(0,0,0,0.04)] border border-gray-100 mb-28 md:mb-0">
+                    <div class="flex items-center justify-between border-b-2 border-gray-100 pb-4 mb-4">
                         <h3 class="font-black text-xl uppercase tracking-tight">Summary</h3>
                         <span class="bg-black text-white text-xs font-bold px-3 py-1.5 rounded-lg tracking-widest" id="itemCountBadge">0 ITEMS</span>
                     </div>
                     
-                    <!-- Item List Preview -->
-                    <div id="visualCart" class="hidden md:block max-h-64 overflow-y-auto space-y-3 mb-6 pr-2">
+                    <div id="visualCart" class="max-h-64 overflow-y-auto space-y-3 mb-6 pr-2">
                         <!-- Items injected here by JS -->
                     </div>
 
-                    <div class="flex justify-between items-center md:items-end mb-4 md:mb-8">
-                        <div class="md:hidden">
-                            <div class="text-xs font-bold text-neutral-sub mb-1 tracking-widest" id="mobileItemCount">0 ITEMS</div>
-                            <div class="text-3xl font-black italic tracking-tighter" id="grandTotalDisplayMobile">0 ฿</div>
+                    <div class="w-full">
+                        <div class="flex justify-between text-base font-medium text-gray-500 mb-3">
+                            <span>Subtotal</span>
+                            <span id="subTotalDesktop" class="font-bold text-black">0 ฿</span>
                         </div>
-                        <div class="hidden md:block w-full">
-                            <div class="flex justify-between text-base font-medium text-neutral-sub mb-3">
-                                <span>Subtotal</span>
-                                <span id="subTotalDesktop" class="font-bold text-black">0 ฿</span>
-                            </div>
-                            <div class="flex justify-between text-base font-medium text-neutral-sub mb-5 border-b-2 border-neutral-border pb-5">
-                                <span>Shipping</span>
-                                <span id="shippingDesktop" class="font-bold text-black">0 ฿</span>
-                            </div>
-                            <div class="flex justify-between items-end">
-                                <span class="font-black text-xl uppercase tracking-tight">Total</span>
-                                <span class="text-4xl font-black italic tracking-tighter text-bec-blue" id="grandTotalDisplayDesktop">0 ฿</span>
-                            </div>
+                        <div class="flex justify-between text-base font-medium text-gray-500 mb-5 border-b-2 border-gray-100 pb-5">
+                            <span>Shipping</span>
+                            <span id="shippingDesktop" class="font-bold text-black">0 ฿</span>
+                        </div>
+                        <div class="flex justify-between items-end mb-6">
+                            <span class="font-black text-xl uppercase tracking-tight">Total</span>
+                            <span class="text-4xl font-black italic tracking-tighter text-blue-600" id="grandTotalDisplayDesktop">0 ฿</span>
                         </div>
                         
-                        <!-- Dynamic Context Button (Mobile) -->
-                        <div class="md:hidden w-[55%]">
-                            <button type="button" id="stickyActionBtn" onclick="handleStickyAction()" class="btn-primary w-full">NEXT</button>
-                        </div>
-                    </div>
-                    
-                    <div class="hidden md:block">
-                        <button type="button" id="desktopActionBtn" onclick="handleStickyAction()" class="btn-primary w-full">CHECKOUT</button>
+                        <button type="button" id="actionBtn" onclick="handleStickyAction()" class="w-full bg-black text-white font-black h-16 rounded-2xl hover:bg-gray-800 active:scale-95 transition-all flex items-center justify-center text-xl tracking-wider shadow-lg shadow-black/20">
+                            CHECKOUT
+                        </button>
                     </div>
                 </div>
-            </div>
+            </div> <!-- End Summary Section -->
+
+        </div>
+    </div>
+
+    <!-- SIZE CHART MODAL -->
+    <div id="sizeChartModal" class="fixed inset-0 bg-black/60 hidden z-[100] flex items-center justify-center p-4 backdrop-blur-sm">
+        <div class="bg-white rounded-[2rem] max-w-lg w-full overflow-hidden relative shadow-2xl pop-in">
+            <button onclick="document.getElementById('sizeChartModal').classList.add('hidden')" class="absolute top-4 right-4 bg-gray-100 text-gray-800 rounded-full w-10 h-10 flex items-center justify-center hover:bg-gray-200 transition-colors z-10"><i class="ri-close-line text-xl font-bold"></i></button>
+            <div class="p-4 bg-gray-50 text-center font-bold border-b border-gray-200">ตารางไซซ์เสื้อ (Size Chart)</div>
+            <img src="https://i.postimg.cc/nLqKjm2t/unnamed.png" class="w-full object-contain">
         </div>
     </div>
 
     <!-- SUCCESS SCREEN -->
-    <div id="successScreen" class="hidden min-h-[100dvh] bg-bec-green flex flex-col items-center justify-center p-6 text-white text-center z-[100] relative">
-        <div class="w-28 h-28 bg-white rounded-[2rem] flex items-center justify-center text-bec-green text-6xl mb-8 shadow-2xl pop-in transform rotate-3">
+    <div id="successScreen" class="hidden min-h-[100dvh] bg-green-600 flex flex-col items-center justify-center p-6 text-white text-center z-[100] relative">
+        <div class="w-28 h-28 bg-white rounded-[2rem] flex items-center justify-center text-green-600 text-6xl mb-8 shadow-2xl transform rotate-3">
             <i class="ri-check-line font-black"></i>
         </div>
         <h1 class="text-5xl font-black italic tracking-tighter mb-4">ORDER<br>COMPLETE</h1>
@@ -455,16 +403,28 @@
 
         const prices = {'XS':250,'S':250,'M':250,'L':250,'XL':250,'2XL':250,'3XL':260,'4XL':260,'5XL':260,'6XL':270,'7XL':270,'8XL':270,'9XL':270,'10XL':270};
         const colorsData = [
-            { id: 'red', name: 'สีแดง', hex: '#E53935' },
-            { id: 'blue', name: 'สีน้ำเงิน', hex: '#2563EB' },
-            { id: 'green', name: 'สีเขียว', hex: '#16A34A' },
-            { id: 'pink', name: 'สีชมพู', hex: '#EC4899' },
-            { id: 'black', name: 'สีดำ', hex: '#111111', staffOnly: true }
+            { id: 'blue', name: 'สีน้ำเงิน', hex: '#2563EB', img: 'https://i.postimg.cc/Fs2gbNB0/S-4759575-0.jpg' },
+            { id: 'red', name: 'สีแดง', hex: '#E53935', img: 'https://i.postimg.cc/yN0f3k6L/S-4759571-0.jpg' },
+            { id: 'green', name: 'สีเขียว', hex: '#16A34A', img: 'https://i.postimg.cc/Njqm9bKb/S-4759574-0.jpg' },
+            { id: 'pink', name: 'สีชมพู', hex: '#EC4899', img: 'https://i.postimg.cc/90DZTnPN/S-4759572-0.jpg' },
+            { id: 'black', name: 'สีดำ', hex: '#111111', img: 'https://i.postimg.cc/15f4mFMT/S-4759573-0.jpg', staffOnly: true }
         ];
 
         let currentStep = 1;
         let cartItems = [];
         let isBachelorGlobal = true;
+
+        // Render Size Buttons
+        const sizesList = ['XS','S','M','L','XL','2XL','3XL','4XL','5XL','6XL','7XL','8XL','9XL','10XL'];
+        const sizeGrid = document.getElementById('sizeGridUI');
+        sizesList.forEach((s, idx) => {
+            sizeGrid.innerHTML += `
+                <label class="cursor-pointer relative">
+                    <input type="radio" name="uiSize" value="${s}" class="peer sr-only" ${idx===1?'checked':''}>
+                    <div class="border-2 border-gray-200 bg-gray-50 rounded-xl py-2.5 text-center font-mono font-bold text-sm text-gray-500 peer-checked:border-black peer-checked:bg-black peer-checked:text-white transition-all">${s}</div>
+                </label>
+            `;
+        });
 
         function startOrder() {
             document.getElementById('heroScreen').classList.add('hidden');
@@ -539,7 +499,7 @@
         function validateStep1() {
             const name = document.getElementById('inputFullName').value.trim();
             const phone = document.getElementById('phoneInput').value;
-            if(!name || phone.length !== 10) { alert('กรุณากรอกชื่อและเบอร์โทร 10 หลัก'); return; }
+            if(!name || phone.length !== 10) { alert('กรุณากรอกชื่อ-นามสกุล และเบอร์โทร 10 หลักให้ครบถ้วน'); return; }
             
             const userType = document.querySelector('input[name="userType"]:checked').value;
             if(userType === 'นิสิตคณะบริหารธุรกิจฯ' && document.getElementById('inputStudentId').value.length !== 8) {
@@ -555,20 +515,38 @@
             document.getElementById('step3').classList.add('hidden');
             document.getElementById(`step${step}`).classList.remove('hidden');
 
-            document.getElementById('stepIndicator1').className = step === 1 ? 'step-active' : 'step-inactive';
-            document.getElementById('stepIndicator2').className = step === 2 ? 'step-active' : 'step-inactive';
-            document.getElementById('stepIndicator3').className = step === 3 ? 'step-active' : 'step-inactive';
+            document.getElementById('stepIndicator1').className = step === 1 ? 'text-black font-black border-b-2 border-black pb-1' : 'text-gray-400 font-bold pb-1';
+            document.getElementById('stepIndicator2').className = step === 2 ? 'text-black font-black border-b-2 border-black pb-1' : 'text-gray-400 font-bold pb-1';
+            document.getElementById('stepIndicator3').className = step === 3 ? 'text-black font-black border-b-2 border-black pb-1' : 'text-gray-400 font-bold pb-1';
+
+            // Handle Layout (Hide summary on step 1)
+            const formSec = document.getElementById('formSection');
+            const sumSec = document.getElementById('summarySection');
+            if(step === 1) {
+                sumSec.classList.add('hidden');
+                formSec.classList.remove('md:w-[60%]');
+                formSec.classList.add('max-w-3xl');
+            } else {
+                sumSec.classList.remove('hidden');
+                formSec.classList.remove('max-w-3xl');
+                formSec.classList.add('md:w-[60%]');
+            }
 
             currentStep = step;
 
-            if(step === 2) {
-                renderColorGrid();
-                document.getElementById('orderSummarySticky').classList.remove('translate-y-full');
-            }
+            if(step === 2) renderColorGrid();
             if(step === 3) renderStep4();
             
             updateStickySummary();
             window.scrollTo({top: 0, behavior: 'smooth'});
+        }
+
+        function changeShirtPreview(colorId) {
+            const colorObj = colorsData.find(c => c.id === colorId);
+            if(colorObj) {
+                document.getElementById('shirtPreviewImg').src = colorObj.img;
+                document.getElementById('shirtPreviewName').innerText = colorObj.name;
+            }
         }
 
         function renderColorGrid() {
@@ -579,29 +557,34 @@
             if(isBachelorGlobal && userType === 'นิสิตคณะบริหารธุรกิจฯ') {
                 document.getElementById('colorSelectionDiv').classList.add('hidden');
                 document.getElementById('shirtColorInput').value = "สีตามสาขา (ป.ตรี)";
+                changeShirtPreview('blue'); // Default
             } else {
                 document.getElementById('colorSelectionDiv').classList.remove('hidden');
                 let html = '';
                 colorsData.forEach(c => {
                     if(c.staffOnly && userType !== 'บุคลากรคณะบริหารธุรกิจฯ') return;
                     html += `
-                    <label class="cursor-pointer">
-                        <input type="radio" name="uiColor" value="${c.id}" class="peer sr-only color-radio">
-                        <div class="color-card bg-neutral-bg border-2 border-transparent rounded-2xl p-4 flex items-center gap-3 transition-all">
+                    <label class="cursor-pointer relative" onclick="changeShirtPreview('${c.id}')">
+                        <input type="radio" name="uiColor" value="${c.id}" class="peer sr-only">
+                        <div class="bg-gray-50 border-2 border-gray-200 rounded-2xl p-4 flex items-center gap-3 transition-all peer-checked:border-black peer-checked:ring-4 peer-checked:ring-gray-200 peer-checked:bg-white">
                             <div class="w-6 h-6 rounded-full shadow-inner border border-black/10" style="background-color: ${c.hex}"></div>
-                            <span class="font-bold text-sm">${c.name}</span>
+                            <span class="font-bold text-sm text-gray-700">${c.name}</span>
                         </div>
                     </label>`;
                 });
                 grid.innerHTML = html;
-                if(grid.querySelector('input')) grid.querySelector('input').checked = true;
+                const firstInput = grid.querySelector('input');
+                if(firstInput) {
+                    firstInput.checked = true;
+                    changeShirtPreview(firstInput.value);
+                }
             }
         }
 
         function addVisualItem() {
-            let size = document.querySelector('input[name="uiSize"]:checked')?.value || document.getElementById('uiSizeMore').value;
+            let size = document.querySelector('input[name="uiSize"]:checked')?.value;
             let num = document.getElementById('uiNumber').value || "33";
-            let colorObj = {id: 'default', name: 'ตามสาขา'};
+            let colorObj = {id: 'default', name: 'ตามสาขา', hex: '#2563EB'};
             
             if(!document.getElementById('colorSelectionDiv').classList.contains('hidden')) {
                 let colorVal = document.querySelector('input[name="uiColor"]:checked')?.value;
@@ -625,9 +608,7 @@
             `);
 
             document.getElementById('uiNumber').value = '';
-            document.getElementById('uiSizeMore').value = '';
-            const defaultRadio = document.querySelector('input[name="uiSize"][value="S"]');
-            if(defaultRadio) defaultRadio.checked = true;
+            document.querySelector('input[name="uiSize"][value="S"]').checked = true;
 
             updateStickySummary();
         }
@@ -637,38 +618,35 @@
             let qty = cartItems.length;
 
             document.getElementById('itemCountBadge').innerText = `${qty} ITEMS`;
-            document.getElementById('mobileItemCount').innerText = `${qty} ITEMS`;
             document.getElementById('subTotalDesktop').innerText = `${total} ฿`;
             
             const vCart = document.getElementById('visualCart');
             vCart.innerHTML = '';
-            cartItems.forEach((item, index) => {
-                let cDot = item.color.hex ? `<div class="w-3 h-3 rounded-full mr-3 border border-black/10" style="background-color:${item.color.hex}"></div>` : '';
-                vCart.innerHTML += `
-                <div class="flex justify-between items-center bg-white p-4 rounded-2xl border border-neutral-border text-sm mb-2 shadow-sm">
-                    <div class="flex items-center font-bold">${cDot} ${item.color.name} <span class="text-neutral-sub ml-1 font-medium">(Size ${item.size})</span></div>
-                    <div class="font-mono text-neutral-sub font-bold px-2">#${item.num}</div>
-                    <div class="font-black text-lg">${item.price} ฿</div>
-                </div>`;
-            });
-
-            const btnM = document.getElementById('stickyActionBtn');
-            const btnD = document.getElementById('desktopActionBtn');
-            
-            if(currentStep === 1) {
-                btnM.innerText = 'NEXT'; btnD.innerText = 'NEXT';
-            } else if(currentStep === 2) {
-                btnM.innerHTML = `PAY <i class="ri-arrow-right-line ml-1"></i>`;
-                btnD.innerHTML = `CHECKOUT <i class="ri-arrow-right-line ml-2"></i>`;
+            if(qty === 0) {
+                vCart.innerHTML = '<div class="text-center text-gray-400 py-6 font-medium border-2 border-dashed border-gray-200 rounded-2xl">ยังไม่มีสินค้าในตะกร้า</div>';
             } else {
-                btnM.innerHTML = `CONFIRM`; btnD.innerHTML = `CONFIRM ORDER`;
+                cartItems.forEach((item, index) => {
+                    let cDot = item.color.id !== 'default' ? `<div class="w-3 h-3 rounded-full mr-3 border border-black/10" style="background-color:${item.color.hex}"></div>` : '';
+                    vCart.innerHTML += `
+                    <div class="flex justify-between items-center bg-gray-50 p-4 rounded-2xl border border-gray-200 text-sm mb-2 shadow-sm">
+                        <div class="flex items-center font-bold text-gray-800">${cDot} ${item.color.name} <span class="text-gray-500 ml-1 font-medium">(Size ${item.size})</span></div>
+                        <div class="font-mono text-gray-500 font-bold px-2">#${item.num}</div>
+                        <div class="font-black text-lg">${item.price} ฿</div>
+                    </div>`;
+                });
+            }
+
+            const btn = document.getElementById('actionBtn');
+            if(currentStep === 2) {
+                btn.innerHTML = `CHECKOUT <i class="ri-arrow-right-line ml-2"></i>`;
+            } else if (currentStep === 3) {
+                btn.innerHTML = `CONFIRM ORDER`;
             }
             renderStep4(); 
         }
 
         function handleStickyAction() {
-            if(currentStep === 1) validateStep1();
-            else if(currentStep === 2) {
+            if(currentStep === 2) {
                 if(cartItems.length === 0) { alert('กรุณาเพิ่มรายการเสื้ออย่างน้อย 1 ตัว'); return; }
                 goToStep(3);
             }
@@ -677,14 +655,13 @@
 
         function renderStep4() {
             let itemsTotal = cartItems.reduce((sum, item) => sum + item.price, 0);
-            let shipping = document.getElementById('shipPost').checked ? 50 : 0;
+            let shipping = document.getElementById('shipPost')?.checked ? 50 : 0;
             
-            document.getElementById('addressBox').classList.toggle('hidden', shipping === 0);
+            document.getElementById('addressBox')?.classList.toggle('hidden', shipping === 0);
             
             let grand = itemsTotal + shipping;
             document.getElementById('shippingDesktop').innerText = `${shipping} ฿`;
             document.getElementById('grandTotalDisplayDesktop').innerText = `${grand} ฿`;
-            document.getElementById('grandTotalDisplayMobile').innerText = `${grand} ฿`;
             if(document.getElementById('grandTotalDisplayMain')) document.getElementById('grandTotalDisplayMain').innerHTML = `${grand} <span class="text-2xl text-zinc-500 font-medium">฿</span>`;
         }
 
@@ -696,10 +673,9 @@
             if(fileInput.files.length === 0) { alert('กรุณาอัปโหลดสลิป'); return; }
             if(!document.getElementById('confirmCheck').checked) { alert('กรุณายืนยันความถูกต้อง'); return; }
 
-            const btnM = document.getElementById('stickyActionBtn');
-            const btnD = document.getElementById('desktopActionBtn');
-            btnM.disabled = btnD.disabled = true;
-            btnM.innerHTML = btnD.innerHTML = '<i class="ri-loader-4-line animate-spin"></i> Processing...';
+            const btn = document.getElementById('actionBtn');
+            btn.disabled = true;
+            btn.innerHTML = '<i class="ri-loader-4-line animate-spin text-2xl"></i>';
 
             const file = fileInput.files[0];
             const reader = new FileReader();
@@ -759,8 +735,8 @@
 
                 } catch (err) {
                     alert("Error: " + err.message);
-                    btnM.disabled = btnD.disabled = false;
-                    btnM.innerText = 'CONFIRM'; btnD.innerText = 'CONFIRM ORDER';
+                    btn.disabled = false;
+                    btn.innerText = 'CONFIRM ORDER';
                 }
             };
             reader.readAsDataURL(file);
