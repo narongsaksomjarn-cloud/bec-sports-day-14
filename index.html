@@ -1099,7 +1099,7 @@
                         delivery_method: deliveryMethod,
                         address: shippingAddress,
                         shipping_fee: (index === 0) ? shippingCost : 0, // บันทึกค่าส่งเฉพาะแถวแรก
-                        total_transfer: (index === 0) ? grandTotal : item.price,
+                        total_transfer: (index === 0) ? grandTotal : 0,
                         slip_url: slipUrl,
                         remarks: "-"                                  // คืนค่าเป็นหมายเหตุทั่วไป
                     };
