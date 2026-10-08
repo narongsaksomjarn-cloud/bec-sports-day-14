@@ -1029,40 +1029,47 @@
             const btnMobile = document.getElementById('actionBtnMobile');
             
             const setButtonsState = (loading) => {
-                if (btnDesktop) {
-                    btnDesktop.disabled = loading;
-                    btnDesktop.innerHTML = loading ? '<i class="ri-loader-4-line animate-spin text-xl mr-2"></i> กำลังดำเนินการ...' : 'ยืนยันคำสั่งซื้อ';
-                }
-                if (btnMobile) {
-                    btnMobile.disabled = loading;
-                    btnMobile.innerHTML = loading ? '<i class="ri-loader-4-line animate-spin text-xl mr-2"></i> กำลังดำเนินการ...' : 'ยืนยันคำสั่งซื้อ';
-                }
+                const text = loading ? '<i class="ri-loader-4-line animate-spin text-xl mr-2"></i> กำลังดำเนินการ...' : 'ยืนยันคำสั่งซื้อ';
+                if (btnDesktop) { btnDesktop.disabled = loading; btnDesktop.innerHTML = text; }
+                if (btnMobile) { btnMobile.disabled = loading; btnMobile.innerHTML = text; }
             };
 
             setButtonsState(true);
 
             try {
                 const file = fileInput.files[0];
-                // ย่อขนาดไฟล์ป้องกัน Safari / Google Script Timeout
                 const fileData = await compressImage(file);
+
+                // ส่งแบบ form-urlencoded เพื่อเลี่ยง CORS และลดเวลารอของ Google Apps Script
+                const formData = new URLSearchParams();
+                formData.append('fileName', fileData.fileName);
+                formData.append('mimeType', fileData.mimeType);
+                formData.append('base64', fileData.base64);
 
                 const uploadRes = await fetch(GOOGLE_SCRIPT_URL, { 
                     method: 'POST', 
-                    body: JSON.stringify(fileData) 
+                    body: formData
                 });
 
-                // แก้ไขการ Parse JSON ให้ปลอดภัยบน Safari iOS
                 const resText = await uploadRes.text();
                 let uploadResult = {};
                 try {
                     uploadResult = JSON.parse(resText);
                 } catch(e) {
-                    throw new Error("ระบบอัปโหลดสลิปตอบกลับไม่ถูกต้อง กรุณาลองใหม่อีกครั้ง");
+                    // หาก Script ตอบกลับมาเป็น HTML แต่มี URL สลิปแนบมาด้วย
+                    const match = resText.match(/https:\/\/drive\.google\.com\/[^\s"']+/);
+                    if (match) {
+                        uploadResult = { status: 'success', url: match[0] };
+                    } else {
+                        throw new Error("อัปโหลดสลิปไม่สำเร็จ กรุณาลองใหม่อีกครั้ง");
+                    }
                 }
 
-                if(!uploadResult || uploadResult.status !== 'success') {
+                if(!uploadResult || (uploadResult.status !== 'success' && !uploadResult.url)) {
                     throw new Error(uploadResult.message || "อัปโหลดสลิปไม่สำเร็จ");
                 }
+
+                const slipUrl = uploadResult.url || uploadResult.fileUrl;
 
                 const userType = document.querySelector('input[name="userType"]:checked').value;
                 let yearInfo = document.getElementById('inputStudentYear').value;
@@ -1099,7 +1106,7 @@
                     address: shippingCost > 0 ? document.getElementById('inputAddress').value : "-",
                     shipping_fee: shippingCost,
                     total_transfer: grandTotal,
-                    slip_url: uploadResult.url,
+                    slip_url: slipUrl,
                     remarks: "-"
                 }]);
 
