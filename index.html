@@ -25,18 +25,24 @@
         }
     </script>
     <style>
-        body { background-color: #F7F7F5; color: #111111; -webkit-tap-highlight-color: transparent; }
+        body { background-color: #F4F4F5; color: #111111; -webkit-tap-highlight-color: transparent; }
         ::-webkit-scrollbar { width: 0px; background: transparent; }
+        
+        /* Premium Compact Form Elements */
+        .input-field { @apply w-full bg-gray-50 border border-gray-200 focus:border-black focus:ring-2 focus:ring-black/5 rounded-xl h-12 px-4 text-sm font-medium transition-all outline-none; }
+        .label-text { @apply block text-xs font-bold text-gray-700 mb-2 uppercase tracking-wide; }
+        .btn-primary { @apply w-full bg-black text-white font-bold h-12 rounded-xl hover:bg-gray-800 active:scale-95 transition-all flex items-center justify-center text-sm tracking-wide shadow-md; }
+        
         .fade-in { animation: fadeIn 0.3s ease-out forwards; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
     </style>
 </head>
-<body class="antialiased selection:bg-black selection:text-white pb-28 md:pb-0">
+<body class="antialiased selection:bg-black selection:text-white pb-28 md:pb-10">
 
     <!-- HERO SCREEN -->
     <div id="heroScreen" class="min-h-[100dvh] flex flex-col justify-between relative overflow-hidden z-50 bg-zinc-950 text-white">
         <div class="absolute top-10 -right-20 text-[350px] font-black text-white opacity-[0.03] leading-none pointer-events-none italic">14</div>
-        <div class="p-8 pt-12 md:pt-16 relative z-10 text-center md:text-left md:px-16">
+        <div class="p-8 pt-12 md:pt-16 relative z-10 text-center md:text-left md:px-16 max-w-5xl mx-auto w-full">
             <h1 class="text-5xl md:text-7xl font-black italic tracking-tighter leading-none mb-2">BEC<span class="text-bec-blue">14</span><br>SPORTS DAY</h1>
             <p class="text-lg md:text-xl font-bold text-zinc-400 uppercase tracking-widest">Play Loud. Play Together.</p>
         </div>
@@ -58,12 +64,12 @@
     </div>
 
     <!-- MAIN APP WRAPPER -->
-    <div id="appScreen" class="hidden max-w-6xl mx-auto px-4 md:px-8 py-4 md:py-6 min-h-screen flex flex-col">
+    <div id="appScreen" class="hidden max-w-[1024px] mx-auto px-4 md:px-6 py-4 md:py-8 min-h-screen flex flex-col">
         
         <!-- HEADER & STEPPER -->
-        <header class="flex items-center justify-between sticky top-0 bg-[#F7F7F5]/90 backdrop-blur-xl z-40 pb-3 mb-4 border-b border-gray-200">
-            <div class="font-black text-xl italic tracking-tighter">BEC<span class="text-bec-blue">14</span></div>
-            <div class="flex items-center gap-2 text-[10px] md:text-xs uppercase tracking-widest font-bold">
+        <header class="flex items-center justify-between sticky top-0 bg-[#F4F4F5]/90 backdrop-blur-xl z-40 pb-4 mb-4 md:mb-6 border-b border-gray-200">
+            <div class="font-black text-2xl italic tracking-tighter">BEC<span class="text-bec-blue">14</span></div>
+            <div class="flex items-center gap-2 md:gap-3 text-[10px] md:text-xs uppercase tracking-widest font-bold">
                 <span id="stepIndicator1" class="text-black border-b-2 border-black pb-1">01 Info</span>
                 <i class="ri-arrow-right-s-line text-gray-300"></i>
                 <span id="stepIndicator2" class="text-gray-400 pb-1">02 Items</span>
@@ -72,286 +78,300 @@
             </div>
         </header>
 
-        <div id="mainLayout" class="flex flex-col md:flex-row gap-6 flex-1">
+        <div id="mainLayout" class="flex flex-col md:flex-row gap-6 items-start justify-center flex-1 w-full">
             
             <!-- LEFT: FORM SECTION -->
-            <div id="formSection" class="w-full mx-auto max-w-2xl transition-all duration-300">
+            <div id="formSection" class="w-full transition-all duration-300 max-w-2xl mx-auto">
                 <form id="orderForm">
                     
                     <!-- STEP 1: INFORMATION -->
                     <div id="step1" class="fade-in">
-                        <div class="mb-4">
-                            <h2 class="text-2xl font-black tracking-tight mb-1 uppercase">Your Info</h2>
-                            <p class="text-gray-500 text-sm font-medium">กรอกข้อมูลผู้สั่งซื้อเพื่อเริ่มทำรายการ</p>
-                        </div>
-
-                        <div class="bg-white p-5 md:p-6 rounded-2xl shadow-sm border border-gray-200 space-y-4">
+                        <div class="bg-white rounded-3xl shadow-sm border border-gray-200 overflow-hidden">
+                            <!-- Card Header -->
+                            <div class="px-6 md:px-8 py-6 border-b border-gray-100 bg-white">
+                                <h2 class="text-2xl font-black tracking-tight uppercase">Your Info</h2>
+                                <p class="text-gray-500 text-xs font-bold mt-1">กรอกข้อมูลผู้สั่งซื้อเพื่อเริ่มทำรายการ</p>
+                            </div>
                             
-                            <!-- User Type -->
-                            <div>
-                                <label class="block text-xs font-bold text-gray-700 mb-1.5 uppercase tracking-wide">ประเภทผู้สั่ง <span class="text-red-500">*</span></label>
-                                <div class="grid grid-cols-3 gap-2">
-                                    <label class="cursor-pointer relative">
-                                        <input type="radio" name="userType" value="นิสิตคณะบริหารธุรกิจฯ" checked class="peer sr-only" onchange="toggleUserType()">
-                                        <div class="border-2 border-gray-200 bg-gray-50 rounded-xl py-2 text-center text-xs font-bold text-gray-500 peer-checked:border-black peer-checked:bg-black peer-checked:text-white transition-all">นิสิต</div>
-                                    </label>
-                                    <label class="cursor-pointer relative">
-                                        <input type="radio" name="userType" value="ศิษย์เก่าคณะบริหารธุรกิจฯ" class="peer sr-only" onchange="toggleUserType()">
-                                        <div class="border-2 border-gray-200 bg-gray-50 rounded-xl py-2 text-center text-xs font-bold text-gray-500 peer-checked:border-black peer-checked:bg-black peer-checked:text-white transition-all">ศิษย์เก่า</div>
-                                    </label>
-                                    <label class="cursor-pointer relative">
-                                        <input type="radio" name="userType" value="บุคลากรคณะบริหารธุรกิจฯ" class="peer sr-only" onchange="toggleUserType()">
-                                        <div class="border-2 border-gray-200 bg-gray-50 rounded-xl py-2 text-center text-xs font-bold text-gray-500 peer-checked:border-black peer-checked:bg-black peer-checked:text-white transition-all">บุคลากร</div>
-                                    </label>
-                                </div>
-                            </div>
-
-                            <!-- 2-Column Grid for Desktop -->
-                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                                <div id="staffTypeDiv" class="hidden">
-                                    <label class="block text-xs font-bold text-gray-700 mb-1.5 uppercase tracking-wide">ประเภทบุคลากร</label>
-                                    <select name="staffType" id="inputStaffType" class="w-full bg-white border-2 border-gray-200 focus:border-black focus:ring-2 focus:ring-black/5 rounded-xl h-12 px-4 text-sm font-medium transition-all outline-none cursor-pointer" onchange="handleStaffTypeChange()">
-                                        <option value="" disabled selected>เลือกประเภท...</option>
-                                        <option value="สายวิชาการ">สายวิชาการ</option>
-                                        <option value="สายสนับสนุน">สายสนับสนุน</option>
-                                    </select>
-                                </div>
-
-                                <div id="eduLevelDiv">
-                                    <label class="block text-xs font-bold text-gray-700 mb-1.5 uppercase tracking-wide">ระดับการศึกษา</label>
-                                    <select name="eduLevel" id="inputEduLevel" class="w-full bg-white border-2 border-gray-200 focus:border-black focus:ring-2 focus:ring-black/5 rounded-xl h-12 px-4 text-sm font-medium transition-all outline-none cursor-pointer" onchange="handleEduLevelChange()">
-                                        <option value="ปริญญาตรี" selected>ปริญญาตรี</option>
-                                        <option value="ปริญญาโท">ปริญญาโท</option>
-                                        <option value="ปริญญาเอก">ปริญญาเอก</option>
-                                    </select>
-                                </div>
-
-                                <div id="bachelorMajorDiv">
-                                    <label class="block text-xs font-bold text-gray-700 mb-1.5 uppercase tracking-wide">สาขาวิชา</label>
-                                    <select name="bachelorMajor" id="inputBachelorMajor" class="w-full bg-white border-2 border-gray-200 focus:border-black focus:ring-2 focus:ring-black/5 rounded-xl h-12 px-4 text-sm font-medium transition-all outline-none cursor-pointer">
-                                        <option value="" disabled selected>เลือกสาขาวิชา...</option>
-                                    </select>
-                                </div>
-
-                                <div id="gradMajorDiv" class="hidden">
-                                    <label class="block text-xs font-bold text-gray-700 mb-1.5 uppercase tracking-wide">สาขาวิชา (ป.โท/เอก)</label>
-                                    <select name="gradMajor" id="inputGradMajor" class="w-full bg-white border-2 border-gray-200 focus:border-black focus:ring-2 focus:ring-black/5 rounded-xl h-12 px-4 text-sm font-medium transition-all outline-none cursor-pointer"></select>
-                                </div>
-                            </div>
-
-                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                                <div id="studentIdDiv">
-                                    <label class="block text-xs font-bold text-gray-700 mb-1.5 uppercase tracking-wide">รหัสนิสิต <span class="text-red-500">*</span></label>
-                                    <input type="text" id="inputStudentId" name="studentId" class="w-full bg-white border-2 border-gray-200 focus:border-black focus:ring-2 focus:ring-black/5 rounded-xl h-12 px-4 text-sm font-mono tracking-widest transition-all outline-none" placeholder="6XXXXXXX" maxlength="8">
-                                    <p id="studentIdError" class="hidden text-red-500 text-[10px] mt-1 font-bold"><i class="ri-error-warning-fill mr-1"></i> กรุณากรอกรหัสนิสิต 8 หลัก</p>
-                                </div>
+                            <!-- Card Body -->
+                            <div class="p-6 md:p-8 space-y-6">
+                                
+                                <!-- User Type -->
                                 <div>
-                                    <label class="block text-xs font-bold text-gray-700 mb-1.5 uppercase tracking-wide">เบอร์โทรศัพท์ <span class="text-red-500">*</span></label>
-                                    <input type="tel" id="phoneInput" name="phone" class="w-full bg-white border-2 border-gray-200 focus:border-black focus:ring-2 focus:ring-black/5 rounded-xl h-12 px-4 text-sm font-mono tracking-widest transition-all outline-none" placeholder="0XXXXXXXXX" maxlength="10" required>
+                                    <label class="label-text">ประเภทผู้สั่ง <span class="text-red-500">*</span></label>
+                                    <div class="grid grid-cols-3 gap-2">
+                                        <label class="cursor-pointer relative">
+                                            <input type="radio" name="userType" value="นิสิตคณะบริหารธุรกิจฯ" checked class="peer sr-only" onchange="toggleUserType()">
+                                            <div class="border border-gray-200 bg-gray-50 rounded-xl py-2.5 text-center text-[13px] font-bold text-gray-500 peer-checked:border-black peer-checked:bg-black peer-checked:text-white transition-all">นิสิต</div>
+                                        </label>
+                                        <label class="cursor-pointer relative">
+                                            <input type="radio" name="userType" value="ศิษย์เก่าคณะบริหารธุรกิจฯ" class="peer sr-only" onchange="toggleUserType()">
+                                            <div class="border border-gray-200 bg-gray-50 rounded-xl py-2.5 text-center text-[13px] font-bold text-gray-500 peer-checked:border-black peer-checked:bg-black peer-checked:text-white transition-all">ศิษย์เก่า</div>
+                                        </label>
+                                        <label class="cursor-pointer relative">
+                                            <input type="radio" name="userType" value="บุคลากรคณะบริหารธุรกิจฯ" class="peer sr-only" onchange="toggleUserType()">
+                                            <div class="border border-gray-200 bg-gray-50 rounded-xl py-2.5 text-center text-[13px] font-bold text-gray-500 peer-checked:border-black peer-checked:bg-black peer-checked:text-white transition-all">บุคลากร</div>
+                                        </label>
+                                    </div>
+                                </div>
+
+                                <!-- 2-Column Grid -->
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+                                    <div id="staffTypeDiv" class="hidden">
+                                        <label class="label-text">ประเภทบุคลากร</label>
+                                        <select name="staffType" id="inputStaffType" class="input-field cursor-pointer" onchange="handleStaffTypeChange()">
+                                            <option value="" disabled selected>เลือกประเภท...</option>
+                                            <option value="สายวิชาการ">สายวิชาการ</option>
+                                            <option value="สายสนับสนุน">สายสนับสนุน</option>
+                                        </select>
+                                    </div>
+
+                                    <div id="eduLevelDiv">
+                                        <label class="label-text">ระดับการศึกษา</label>
+                                        <select name="eduLevel" id="inputEduLevel" class="input-field cursor-pointer" onchange="handleEduLevelChange()">
+                                            <option value="ปริญญาตรี" selected>ปริญญาตรี</option>
+                                            <option value="ปริญญาโท">ปริญญาโท</option>
+                                            <option value="ปริญญาเอก">ปริญญาเอก</option>
+                                        </select>
+                                    </div>
+
+                                    <div id="bachelorMajorDiv">
+                                        <label class="label-text">สาขาวิชา</label>
+                                        <select name="bachelorMajor" id="inputBachelorMajor" class="input-field cursor-pointer">
+                                            <option value="" disabled selected>เลือกสาขาวิชา...</option>
+                                        </select>
+                                    </div>
+
+                                    <div id="gradMajorDiv" class="hidden">
+                                        <label class="label-text">สาขาวิชา (ป.โท/เอก)</label>
+                                        <select name="gradMajor" id="inputGradMajor" class="input-field cursor-pointer"></select>
+                                    </div>
+                                </div>
+
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+                                    <div id="studentIdDiv">
+                                        <label class="label-text">รหัสนิสิต <span class="text-red-500">*</span></label>
+                                        <input type="text" id="inputStudentId" name="studentId" class="input-field font-mono tracking-widest text-base" placeholder="6XXXXXXX" maxlength="8">
+                                        <p id="studentIdError" class="hidden text-red-500 text-[10px] mt-1.5 font-bold"><i class="ri-error-warning-fill mr-1"></i> กรุณากรอก 8 หลัก</p>
+                                    </div>
+                                    <div>
+                                        <label class="label-text">เบอร์โทรศัพท์ <span class="text-red-500">*</span></label>
+                                        <input type="tel" id="phoneInput" name="phone" class="input-field font-mono tracking-widest text-base" placeholder="0XXXXXXXXX" maxlength="10" required>
+                                    </div>
+                                </div>
+
+                                <div class="grid grid-cols-12 gap-3">
+                                    <div class="col-span-4 md:col-span-3">
+                                        <label class="label-text">คำนำ</label>
+                                        <select name="nameTitle" id="inputNameTitle" class="input-field px-3 cursor-pointer"></select>
+                                    </div>
+                                    <div class="col-span-8 md:col-span-9">
+                                        <label class="label-text">ชื่อ - นามสกุล <span class="text-red-500">*</span></label>
+                                        <input type="text" id="inputFullName" name="fullName" class="input-field" placeholder="ไม่ต้องใส่คำนำหน้า" required>
+                                    </div>
+                                </div>
+
+                                <div id="studentYearDiv" class="w-full md:w-1/2 md:pr-2.5">
+                                    <label class="label-text">ชั้นปี</label>
+                                    <select name="yearLevel" id="inputStudentYear" class="input-field cursor-pointer">
+                                        <option value="" disabled selected>เลือกชั้นปี...</option>
+                                        <option value="ปี 1 (รหัส 68)">ปี 1</option><option value="ปี 2 (รหัส 67)">ปี 2</option>
+                                        <option value="ปี 3 (รหัส 66)">ปี 3</option><option value="ปี 4 (รหัส 65)">ปี 4</option>
+                                        <option value="อื่นๆ">อื่นๆ</option>
+                                    </select>
+                                </div>
+                                <div id="alumniYearDiv" class="hidden w-full md:w-1/2 md:pr-2.5">
+                                    <label class="label-text">ปีที่เข้าศึกษา (พ.ศ.)</label>
+                                    <input type="text" id="inputAlumniYear" name="alumniYear" class="input-field font-mono tracking-wider" placeholder="เช่น 58">
                                 </div>
                             </div>
 
-                            <div class="grid grid-cols-12 gap-3">
-                                <div class="col-span-4 md:col-span-3">
-                                    <label class="block text-xs font-bold text-gray-700 mb-1.5 uppercase tracking-wide">คำนำ</label>
-                                    <select name="nameTitle" id="inputNameTitle" class="w-full bg-white border-2 border-gray-200 focus:border-black focus:ring-2 focus:ring-black/5 rounded-xl h-12 px-2 text-sm font-medium transition-all outline-none cursor-pointer"></select>
-                                </div>
-                                <div class="col-span-8 md:col-span-9">
-                                    <label class="block text-xs font-bold text-gray-700 mb-1.5 uppercase tracking-wide">ชื่อ - นามสกุล <span class="text-red-500">*</span></label>
-                                    <input type="text" id="inputFullName" name="fullName" class="w-full bg-white border-2 border-gray-200 focus:border-black focus:ring-2 focus:ring-black/5 rounded-xl h-12 px-4 text-sm font-medium transition-all outline-none" placeholder="ไม่ต้องใส่คำนำหน้า" required>
-                                </div>
+                            <!-- Card Footer -->
+                            <div class="p-6 md:p-8 pt-0">
+                                <button type="button" onclick="validateStep1()" class="btn-primary">
+                                    NEXT STEP <i class="ri-arrow-right-line ml-1"></i>
+                                </button>
                             </div>
-
-                            <div id="studentYearDiv" class="w-full md:w-1/2 md:pr-2">
-                                <label class="block text-xs font-bold text-gray-700 mb-1.5 uppercase tracking-wide">ชั้นปี</label>
-                                <select name="yearLevel" id="inputStudentYear" class="w-full bg-white border-2 border-gray-200 focus:border-black focus:ring-2 focus:ring-black/5 rounded-xl h-12 px-4 text-sm font-medium transition-all outline-none cursor-pointer">
-                                    <option value="" disabled selected>เลือกชั้นปี...</option>
-                                    <option value="ปี 1 (รหัส 68)">ปี 1</option><option value="ปี 2 (รหัส 67)">ปี 2</option>
-                                    <option value="ปี 3 (รหัส 66)">ปี 3</option><option value="ปี 4 (รหัส 65)">ปี 4</option>
-                                    <option value="อื่นๆ">อื่นๆ</option>
-                                </select>
-                            </div>
-                            <div id="alumniYearDiv" class="hidden w-full md:w-1/2 md:pr-2">
-                                <label class="block text-xs font-bold text-gray-700 mb-1.5 uppercase tracking-wide">ปีที่เข้าศึกษา (พ.ศ.)</label>
-                                <input type="text" id="inputAlumniYear" name="alumniYear" class="w-full bg-white border-2 border-gray-200 focus:border-black focus:ring-2 focus:ring-black/5 rounded-xl h-12 px-4 text-sm font-mono tracking-wider transition-all outline-none" placeholder="เช่น 58">
-                            </div>
-                        </div>
-
-                        <div class="mt-4">
-                            <button type="button" onclick="validateStep1()" class="w-full bg-black text-white font-bold h-12 rounded-xl hover:bg-gray-800 active:scale-95 transition-all flex items-center justify-center text-sm tracking-wide shadow-md">
-                                NEXT STEP <i class="ri-arrow-right-line ml-1"></i>
-                            </button>
                         </div>
                     </div>
 
                     <!-- STEP 2: SHIRTS -->
-                    <div id="step2" class="hidden fade-in space-y-4">
-                        <div class="flex items-center gap-3 mb-2">
-                            <button type="button" onclick="goToStep(1)" class="w-8 h-8 rounded-full bg-white border border-gray-300 flex items-center justify-center hover:bg-gray-50 transition-colors"><i class="ri-arrow-left-line text-sm"></i></button>
-                            <div>
-                                <h2 class="text-2xl font-black tracking-tight uppercase">Select Item</h2>
-                                <p class="text-gray-500 text-sm font-medium">เลือกเสื้อและไซซ์ที่ต้องการ</p>
-                            </div>
-                        </div>
-
-                        <div class="bg-white p-5 rounded-2xl shadow-sm border border-gray-200">
-                            
-                            <div class="flex flex-col md:flex-row gap-6">
-                                
-                                <!-- Left: Shirt Preview -->
-                                <div class="w-full md:w-1/3 flex flex-col items-center">
-                                    <div class="bg-gray-50 rounded-xl p-3 border border-gray-200 w-full text-center">
-                                        <img id="shirtPreviewImg" src="https://i.postimg.cc/Fs2gbNB0/S-4759575-0.jpg" class="w-full max-w-[140px] mx-auto rounded-lg shadow-sm border border-gray-200 mb-2 transition-all duration-300 object-cover">
-                                        <div id="shirtPreviewName" class="font-bold text-sm">สีน้ำเงิน</div>
-                                    </div>
+                    <div id="step2" class="hidden fade-in">
+                        <div class="bg-white rounded-3xl shadow-sm border border-gray-200 overflow-hidden">
+                            <!-- Card Header (Inline Back Button) -->
+                            <div class="px-6 md:px-8 py-5 border-b border-gray-100 bg-white flex items-center gap-4">
+                                <button type="button" onclick="goToStep(1)" class="w-10 h-10 rounded-full bg-gray-50 border border-gray-200 flex items-center justify-center hover:bg-gray-100 transition-colors"><i class="ri-arrow-left-line text-gray-700"></i></button>
+                                <div>
+                                    <h2 class="text-2xl font-black tracking-tight uppercase leading-none">Select Item</h2>
+                                    <p class="text-gray-500 text-xs font-bold mt-1.5">เลือกเสื้อและไซซ์ที่ต้องการ</p>
                                 </div>
+                            </div>
 
-                                <!-- Right: Options -->
-                                <div class="w-full md:w-2/3 space-y-4">
+                            <!-- Card Body: Split Layout on Desktop -->
+                            <div class="p-6 md:p-8">
+                                <div class="flex flex-col sm:flex-row gap-6 lg:gap-8">
                                     
-                                    <!-- Color Selection -->
-                                    <div id="colorSelectionDiv">
-                                        <label class="block text-xs font-bold text-gray-700 mb-1.5 uppercase tracking-wide">สีเสื้อ</label>
-                                        <div class="grid grid-cols-2 sm:grid-cols-4 gap-2" id="colorGridUI">
-                                            <!-- Generated by JS -->
+                                    <!-- Left: Shirt Preview -->
+                                    <div class="w-full sm:w-[40%] flex flex-col items-center justify-start">
+                                        <div class="bg-gray-50 rounded-2xl p-4 border border-gray-100 w-full text-center sticky top-24">
+                                            <img id="shirtPreviewImg" src="https://i.postimg.cc/Fs2gbNB0/S-4759575-0.jpg" class="w-full rounded-xl shadow-sm border border-gray-200 mb-3 transition-all duration-300 object-cover aspect-[4/5]">
+                                            <div id="shirtPreviewName" class="font-bold text-sm text-gray-800">สีน้ำเงิน</div>
                                         </div>
                                     </div>
 
-                                    <!-- Size Selection -->
-                                    <div>
-                                        <div class="flex justify-between items-end mb-1.5">
-                                            <label class="block text-xs font-bold text-gray-700 mb-0 uppercase tracking-wide">ไซซ์เสื้อ</label>
-                                            <button type="button" onclick="document.getElementById('sizeChartModal').classList.remove('hidden')" class="text-blue-600 text-[10px] font-bold underline"><i class="ri-ruler-line"></i> SIZE CHART</button>
+                                    <!-- Right: Options -->
+                                    <div class="w-full sm:w-[60%] space-y-5">
+                                        
+                                        <!-- Color Selection -->
+                                        <div id="colorSelectionDiv">
+                                            <label class="label-text">สีเสื้อ</label>
+                                            <div class="grid grid-cols-2 gap-2" id="colorGridUI">
+                                                <!-- Generated by JS -->
+                                            </div>
                                         </div>
-                                        <div class="grid grid-cols-5 md:grid-cols-7 gap-1.5" id="sizeGridUI">
-                                            <!-- Populated by JS -->
-                                        </div>
-                                    </div>
 
-                                    <!-- Number & Add to Cart -->
-                                    <div class="flex flex-col sm:flex-row gap-3 pt-2">
-                                        <div class="w-full sm:w-1/3">
-                                            <label class="block text-xs font-bold text-gray-700 mb-1.5 uppercase tracking-wide">เบอร์ (01-99)</label>
-                                            <input type="text" id="uiNumber" class="w-full bg-white border-2 border-gray-200 focus:border-black focus:ring-2 focus:ring-black/5 rounded-xl h-12 px-4 text-lg font-mono text-center tracking-widest transition-all outline-none" placeholder="33" maxlength="2" oninput="this.value=this.value.replace(/[^0-9]/g,'')">
+                                        <!-- Size Selection (Grid with 14 buttons) -->
+                                        <div>
+                                            <div class="flex justify-between items-end mb-2">
+                                                <label class="label-text mb-0">ไซซ์เสื้อ</label>
+                                                <button type="button" onclick="document.getElementById('sizeChartModal').classList.remove('hidden')" class="text-blue-600 text-[10px] font-bold underline"><i class="ri-ruler-line"></i> SIZE CHART</button>
+                                            </div>
+                                            <div class="grid grid-cols-4 md:grid-cols-5 gap-2" id="sizeGridUI">
+                                                <!-- Populated by JS -->
+                                            </div>
                                         </div>
-                                        <div class="w-full sm:w-2/3 flex items-end">
-                                            <button type="button" onclick="addVisualItem()" class="w-full bg-white border-2 border-black text-black font-bold h-12 rounded-xl hover:bg-black hover:text-white active:scale-95 transition-all flex items-center justify-center text-sm tracking-wide shadow-sm">
-                                                <i class="ri-add-line mr-1 text-lg"></i> เพิ่มลงตะกร้า
-                                            </button>
-                                        </div>
-                                    </div>
-                                    <p class="text-[10px] text-gray-400 mt-0">* หากไม่ระบุเบอร์หลังเสื้อ จะได้รับหมายเลข 33</p>
 
+                                        <!-- Number & Add to Cart -->
+                                        <div class="pt-2 border-t border-gray-100">
+                                            <div class="flex gap-3 mt-4">
+                                                <div class="w-1/3">
+                                                    <label class="label-text text-[10px]">เบอร์ (01-99)</label>
+                                                    <input type="text" id="uiNumber" class="input-field text-center font-mono text-xl tracking-widest px-0" placeholder="33" maxlength="2" oninput="this.value=this.value.replace(/[^0-9]/g,'')">
+                                                </div>
+                                                <div class="w-2/3 flex items-end">
+                                                    <button type="button" onclick="addVisualItem()" class="w-full bg-white border-2 border-black text-black font-bold h-12 rounded-xl hover:bg-black hover:text-white active:scale-95 transition-all flex items-center justify-center text-sm tracking-wide shadow-sm">
+                                                        <i class="ri-add-line mr-1 text-lg"></i> เพิ่มลงตะกร้า
+                                                    </button>
+                                                </div>
+                                            </div>
+                                            <p class="text-[10px] text-gray-400 mt-2">* หากไม่ระบุ จะได้รับหมายเลข 33</p>
+                                        </div>
+
+                                    </div>
                                 </div>
                             </div>
-                        </div>
 
-                        <!-- Hidden legacy containers -->
-                        <div id="studentItemList" class="hidden"></div>
-                        <div id="alumniItemList" class="hidden"></div>
-                        <input type="hidden" name="shirtColor" id="shirtColorInput">
+                            <!-- Hidden legacy containers -->
+                            <div id="studentItemList" class="hidden"></div>
+                            <div id="alumniItemList" class="hidden"></div>
+                            <input type="hidden" name="shirtColor" id="shirtColorInput">
+                        </div>
                     </div>
 
                     <!-- STEP 3: PAYMENT -->
-                    <div id="step3" class="hidden fade-in space-y-4">
-                        <div class="flex items-center gap-3 mb-2">
-                            <button type="button" onclick="goToStep(2)" class="w-8 h-8 rounded-full bg-white border border-gray-300 flex items-center justify-center hover:bg-gray-50 transition-colors"><i class="ri-arrow-left-line text-sm"></i></button>
-                            <div>
-                                <h2 class="text-2xl font-black tracking-tight uppercase">Checkout</h2>
-                                <p class="text-gray-500 text-sm font-medium">การจัดส่งและชำระเงิน</p>
-                            </div>
-                        </div>
-
-                        <!-- Shipping -->
-                        <div class="bg-white p-5 rounded-2xl shadow-sm border border-gray-200 space-y-3">
-                            <label class="block text-xs font-bold text-gray-700 mb-1.5 uppercase tracking-wide">วิธีการจัดส่ง</label>
-                            <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
-                                <label class="flex items-center p-3 border border-gray-200 rounded-xl cursor-pointer hover:bg-gray-50 transition-colors has-[:checked]:border-black has-[:checked]:bg-gray-50">
-                                    <input type="radio" name="shippingMethod" id="shipPickup" value="pickup" checked class="w-4 h-4 accent-black mr-3 cursor-pointer" onchange="renderStep4()">
-                                    <div>
-                                        <div class="font-bold text-sm">รับที่คณะ (ฟรี)</div>
-                                        <div class="text-[10px] text-gray-500 font-medium">รอประกาศวันรับเสื้อ</div>
-                                    </div>
-                                </label>
-                                <label class="flex items-center p-3 border border-gray-200 rounded-xl cursor-pointer hover:bg-gray-50 transition-colors has-[:checked]:border-black has-[:checked]:bg-gray-50">
-                                    <input type="radio" name="shippingMethod" id="shipPost" value="post" class="w-4 h-4 accent-black mr-3 cursor-pointer" onchange="renderStep4()">
-                                    <div>
-                                        <div class="font-bold text-sm">จัดส่งไปรษณีย์ (+50 ฿)</div>
-                                        <div class="text-[10px] text-gray-500 font-medium">จัดส่งลงทะเบียน</div>
-                                    </div>
-                                </label>
-                            </div>
-
-                            <div id="addressBox" class="hidden mt-3 pt-3 border-t border-gray-100">
-                                <label class="block text-xs font-bold text-red-500 mb-1.5 uppercase tracking-wide">ที่อยู่จัดส่ง *</label>
-                                <textarea name="shippingAddress" id="inputAddress" rows="2" class="w-full bg-gray-50 border border-gray-200 focus:border-black focus:ring-2 focus:ring-black/5 rounded-xl p-3 text-sm font-medium transition-all outline-none" placeholder="บ้านเลขที่ หมู่ ซอย ถนน ตำบล อำเภอ จังหวัด รหัสไปรษณีย์"></textarea>
-                            </div>
-                        </div>
-
-                        <!-- Payment Card -->
-                        <div class="bg-zinc-950 text-white p-6 rounded-2xl relative overflow-hidden">
-                            <h3 class="font-bold text-zinc-400 mb-1 uppercase tracking-widest text-[10px]">ยอดที่ต้องชำระ</h3>
-                            <div class="text-4xl font-black italic tracking-tighter mb-4" id="grandTotalDisplayMain">0 <span class="text-lg text-zinc-500">฿</span></div>
-                            
-                            <div class="bg-white/10 rounded-xl p-4 backdrop-blur-md mb-4 border border-white/10">
-                                <div class="flex items-center justify-between">
-                                    <div class="flex items-center gap-3">
-                                        <img src="https://upload.wikimedia.org/wikipedia/en/thumb/5/5a/Kasikornbank_Logo.svg/1200px-Kasikornbank_Logo.svg.png" class="w-8 h-8 rounded-full bg-white p-1">
-                                        <div>
-                                            <div class="font-bold text-sm">ธนาคารกสิกรไทย</div>
-                                            <div class="text-[10px] text-zinc-300">น.ส. นภัสวรรณ ตุ้มพงษ์ และคณะ</div>
-                                        </div>
-                                    </div>
-                                    <div class="font-mono text-sm font-bold tracking-widest text-green-400">208-8-91057-8</div>
+                    <div id="step3" class="hidden fade-in">
+                        <div class="bg-white rounded-3xl shadow-sm border border-gray-200 overflow-hidden">
+                            <!-- Card Header -->
+                            <div class="px-6 md:px-8 py-5 border-b border-gray-100 bg-white flex items-center gap-4">
+                                <button type="button" onclick="goToStep(2)" class="w-10 h-10 rounded-full bg-gray-50 border border-gray-200 flex items-center justify-center hover:bg-gray-100 transition-colors"><i class="ri-arrow-left-line text-gray-700"></i></button>
+                                <div>
+                                    <h2 class="text-2xl font-black tracking-tight uppercase leading-none">Checkout</h2>
+                                    <p class="text-gray-500 text-xs font-bold mt-1.5">การจัดส่งและชำระเงิน</p>
                                 </div>
                             </div>
 
-                            <div>
-                                <label class="block text-xs font-bold mb-2 uppercase tracking-wide">แนบสลิปโอนเงิน <span class="text-red-500">*</span></label>
-                                <input type="file" id="slipFile" accept="image/*" class="w-full text-xs file:mr-3 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-xs file:font-bold file:bg-white file:text-black hover:file:bg-gray-200 cursor-pointer bg-white/5 rounded-xl border border-white/10 p-1 outline-none">
+                            <div class="p-6 md:p-8 space-y-6">
+                                <!-- Shipping -->
+                                <div>
+                                    <label class="label-text">วิธีการจัดส่ง</label>
+                                    <div class="grid grid-cols-1 md:grid-cols-2 gap-3 mt-2">
+                                        <label class="flex items-center p-3.5 border border-gray-200 rounded-xl cursor-pointer hover:bg-gray-50 transition-colors has-[:checked]:border-black has-[:checked]:ring-1 has-[:checked]:ring-black has-[:checked]:bg-gray-50">
+                                            <input type="radio" name="shippingMethod" id="shipPickup" value="pickup" checked class="w-4 h-4 accent-black mr-3 cursor-pointer" onchange="renderStep4()">
+                                            <div>
+                                                <div class="font-bold text-sm text-gray-800">รับที่คณะ (ฟรี)</div>
+                                                <div class="text-[10px] text-gray-500 font-medium">รอประกาศวันรับเสื้อ</div>
+                                            </div>
+                                        </label>
+                                        <label class="flex items-center p-3.5 border border-gray-200 rounded-xl cursor-pointer hover:bg-gray-50 transition-colors has-[:checked]:border-black has-[:checked]:ring-1 has-[:checked]:ring-black has-[:checked]:bg-gray-50">
+                                            <input type="radio" name="shippingMethod" id="shipPost" value="post" class="w-4 h-4 accent-black mr-3 cursor-pointer" onchange="renderStep4()">
+                                            <div>
+                                                <div class="font-bold text-sm text-gray-800">จัดส่งไปรษณีย์ (+50 ฿)</div>
+                                                <div class="text-[10px] text-gray-500 font-medium">จัดส่งลงทะเบียน</div>
+                                            </div>
+                                        </label>
+                                    </div>
+
+                                    <div id="addressBox" class="hidden mt-3 pt-3 border-t border-gray-100">
+                                        <label class="label-text text-red-500">ที่อยู่จัดส่ง *</label>
+                                        <textarea name="shippingAddress" id="inputAddress" rows="2" class="w-full bg-gray-50 border border-gray-200 focus:border-black focus:ring-2 focus:ring-black/5 rounded-xl p-3 outline-none transition-colors text-sm font-medium" placeholder="บ้านเลขที่ หมู่ ซอย ถนน ตำบล อำเภอ จังหวัด รหัสไปรษณีย์"></textarea>
+                                    </div>
+                                </div>
+
+                                <!-- Payment Card -->
+                                <div class="bg-black text-white p-6 md:p-8 rounded-2xl relative overflow-hidden shadow-md">
+                                    <h3 class="font-bold text-gray-400 mb-1 uppercase tracking-widest text-[10px]">ยอดที่ต้องชำระ</h3>
+                                    <div class="text-5xl font-black italic tracking-tighter mb-6" id="grandTotalDisplayMain">0 <span class="text-xl text-gray-500">฿</span></div>
+                                    
+                                    <div class="bg-white/10 rounded-xl p-4 backdrop-blur-md mb-5 border border-white/10">
+                                        <div class="flex items-center justify-between">
+                                            <div class="flex items-center gap-3">
+                                                <img src="https://upload.wikimedia.org/wikipedia/en/thumb/5/5a/Kasikornbank_Logo.svg/1200px-Kasikornbank_Logo.svg.png" class="w-8 h-8 rounded-full bg-white p-1">
+                                                <div>
+                                                    <div class="font-bold text-sm">ธนาคารกสิกรไทย</div>
+                                                    <div class="text-[10px] text-gray-300">น.ส. นภัสวรรณ ตุ้มพงษ์ และคณะ</div>
+                                                </div>
+                                            </div>
+                                            <div class="font-mono text-sm font-bold tracking-widest text-green-400">208-8-91057-8</div>
+                                        </div>
+                                    </div>
+
+                                    <div>
+                                        <label class="block text-xs font-bold mb-2 uppercase tracking-wide text-gray-300">แนบสลิปโอนเงิน <span class="text-red-500">*</span></label>
+                                        <input type="file" id="slipFile" accept="image/*" class="w-full text-xs file:mr-3 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-xs file:font-bold file:bg-white file:text-black hover:file:bg-gray-200 cursor-pointer bg-white/5 rounded-xl border border-white/10 p-1 outline-none">
+                                    </div>
+                                </div>
+                                
+                                <label class="flex items-start gap-3 cursor-pointer bg-gray-50 p-4 rounded-xl border border-gray-200">
+                                    <input type="checkbox" id="confirmCheck" class="mt-0.5 w-4 h-4 accent-black rounded border border-gray-300 cursor-pointer">
+                                    <span class="text-xs font-bold text-gray-700 leading-relaxed">ยืนยันข้อมูลและสลิปโอนเงินถูกต้อง (ไม่สามารถแก้ไขได้ภายหลัง)</span>
+                                </label>
                             </div>
                         </div>
-                        
-                        <div class="bg-white p-4 rounded-2xl shadow-sm border border-gray-200">
-                            <label class="flex items-start gap-3 cursor-pointer">
-                                <input type="checkbox" id="confirmCheck" class="mt-0.5 w-4 h-4 accent-black rounded border border-gray-300 cursor-pointer">
-                                <span class="text-xs font-bold text-gray-800 leading-relaxed">ยืนยันข้อมูลและสลิปโอนเงินถูกต้อง (ไม่สามารถแก้ไขได้ภายหลัง)</span>
-                            </label>
-                        </div>
-
                     </div>
                 </form>
             </div> <!-- End Form Section -->
 
-            <!-- RIGHT: SUMMARY SECTION -->
-            <div id="summarySection" class="hidden w-full md:w-[40%] transition-all duration-300">
-                <div class="md:sticky md:top-20 bg-white p-5 md:p-6 rounded-2xl shadow-sm border border-gray-200 mb-24 md:mb-0">
-                    <div class="flex items-center justify-between border-b border-gray-100 pb-3 mb-3">
-                        <h3 class="font-black text-lg uppercase tracking-tight">Summary</h3>
+            <!-- RIGHT: SUMMARY SECTION (Hidden on Step 1) -->
+            <div id="summarySection" class="hidden w-full transition-all duration-300">
+                <div class="md:sticky md:top-24 bg-white rounded-3xl shadow-sm border border-gray-200 mb-24 md:mb-0 overflow-hidden">
+                    <div class="px-6 py-5 border-b border-gray-100 flex items-center justify-between bg-white">
+                        <h3 class="font-black text-xl uppercase tracking-tight leading-none">Summary</h3>
                         <span class="bg-black text-white text-[10px] font-bold px-2 py-1 rounded tracking-widest" id="itemCountBadge">0 ITEMS</span>
                     </div>
                     
-                    <div id="visualCart" class="max-h-56 overflow-y-auto space-y-2 mb-4 pr-1">
-                        <!-- Items injected here by JS -->
-                    </div>
+                    <div class="p-6">
+                        <div id="visualCart" class="max-h-[30vh] overflow-y-auto space-y-2 mb-6 pr-1">
+                            <!-- Items injected here by JS -->
+                        </div>
 
-                    <div class="w-full">
-                        <div class="flex justify-between text-sm font-medium text-gray-500 mb-2">
-                            <span>Subtotal</span>
-                            <span id="subTotalDesktop" class="font-bold text-black">0 ฿</span>
+                        <div class="w-full">
+                            <div class="flex justify-between text-sm font-medium text-gray-500 mb-2">
+                                <span>Subtotal</span>
+                                <span id="subTotalDesktop" class="font-bold text-black">0 ฿</span>
+                            </div>
+                            <div class="flex justify-between text-sm font-medium text-gray-500 mb-4 border-b border-gray-100 pb-4">
+                                <span>Shipping</span>
+                                <span id="shippingDesktop" class="font-bold text-black">0 ฿</span>
+                            </div>
+                            <div class="flex justify-between items-end mb-6">
+                                <span class="font-black text-xl uppercase tracking-tight">Total</span>
+                                <span class="text-3xl font-black italic tracking-tighter text-blue-600 leading-none" id="grandTotalDisplayDesktop">0 ฿</span>
+                            </div>
+                            
+                            <button type="button" id="actionBtn" onclick="handleStickyAction()" class="w-full bg-black text-white font-bold h-14 rounded-xl hover:bg-gray-800 active:scale-95 transition-all flex items-center justify-center text-sm tracking-wider shadow-md">
+                                CHECKOUT
+                            </button>
                         </div>
-                        <div class="flex justify-between text-sm font-medium text-gray-500 mb-4 border-b border-gray-100 pb-4">
-                            <span>Shipping</span>
-                            <span id="shippingDesktop" class="font-bold text-black">0 ฿</span>
-                        </div>
-                        <div class="flex justify-between items-end mb-4">
-                            <span class="font-black text-lg uppercase tracking-tight">Total</span>
-                            <span class="text-3xl font-black italic tracking-tighter text-blue-600" id="grandTotalDisplayDesktop">0 ฿</span>
-                        </div>
-                        
-                        <button type="button" id="actionBtn" onclick="handleStickyAction()" class="w-full bg-black text-white font-bold h-12 rounded-xl hover:bg-gray-800 active:scale-95 transition-all flex items-center justify-center text-sm tracking-wider shadow-md">
-                            CHECKOUT
-                        </button>
                     </div>
                 </div>
             </div> <!-- End Summary Section -->
@@ -361,16 +381,16 @@
 
     <!-- SIZE CHART MODAL -->
     <div id="sizeChartModal" class="fixed inset-0 bg-black/60 hidden z-[100] flex items-center justify-center p-4 backdrop-blur-sm">
-        <div class="bg-white rounded-2xl max-w-sm w-full overflow-hidden relative shadow-2xl fade-in">
-            <button onclick="document.getElementById('sizeChartModal').classList.add('hidden')" class="absolute top-2 right-2 bg-gray-100 text-gray-800 rounded-full w-8 h-8 flex items-center justify-center hover:bg-gray-200 transition-colors z-10"><i class="ri-close-line text-lg font-bold"></i></button>
-            <div class="p-3 bg-gray-50 text-center text-sm font-bold border-b border-gray-200">ตารางไซซ์เสื้อ (Size Chart)</div>
+        <div class="bg-white rounded-3xl max-w-sm w-full overflow-hidden relative shadow-2xl fade-in border border-gray-100">
+            <button onclick="document.getElementById('sizeChartModal').classList.add('hidden')" class="absolute top-3 right-3 bg-gray-100 text-gray-800 rounded-full w-8 h-8 flex items-center justify-center hover:bg-gray-200 transition-colors z-10"><i class="ri-close-line text-lg font-bold"></i></button>
+            <div class="p-4 bg-white text-center text-sm font-black uppercase tracking-wide border-b border-gray-100">Size Chart</div>
             <img src="https://i.postimg.cc/nLqKjm2t/unnamed.png" class="w-full object-contain">
         </div>
     </div>
 
     <!-- SUCCESS SCREEN -->
     <div id="successScreen" class="hidden min-h-[100dvh] bg-green-600 flex flex-col items-center justify-center p-6 text-white text-center z-[100] relative">
-        <div class="w-20 h-20 bg-white rounded-2xl flex items-center justify-center text-green-600 text-5xl mb-6 shadow-xl transform rotate-3">
+        <div class="w-20 h-20 bg-white rounded-2xl flex items-center justify-center text-green-600 text-5xl mb-6 shadow-xl transform rotate-3 border border-white/20">
             <i class="ri-check-line font-black"></i>
         </div>
         <h1 class="text-4xl font-black italic tracking-tighter mb-3">ORDER<br>COMPLETE</h1>
@@ -379,13 +399,13 @@
             <div class="text-[10px] text-white/70 mb-1 uppercase tracking-widest font-bold">Status</div>
             <div class="font-black text-xl tracking-tight">รอตรวจสอบสลิป</div>
         </div>
-        <button onclick="location.reload()" class="bg-white text-black font-black px-8 py-3 rounded-xl hover:scale-105 transition-transform shadow-md uppercase tracking-widest text-sm">
+        <button onclick="location.reload()" class="bg-white text-black font-black px-8 py-3.5 rounded-xl hover:scale-105 transition-transform shadow-md uppercase tracking-widest text-sm">
             กลับหน้าหลัก
         </button>
     </div>
 
     <!-- ========================================== -->
-    <!-- ⚙️ BACKEND & LOGIC (UNCHANGED 100%)       -->
+    <!-- ⚙️ BACKEND & LOGIC                        -->
     <!-- ========================================== -->
     <script>
         const supabaseUrl = 'https://dbebgpeilylrnsidform.supabase.co';
@@ -426,14 +446,14 @@
         let cartItems = [];
         let isBachelorGlobal = true;
 
-        // Render Size Buttons (Compact Grid)
+        // Render Size Buttons directly to HTML
         const sizesList = ['XS','S','M','L','XL','2XL','3XL','4XL','5XL','6XL','7XL','8XL','9XL','10XL'];
         const sizeGrid = document.getElementById('sizeGridUI');
         sizesList.forEach((s, idx) => {
             sizeGrid.innerHTML += `
                 <label class="cursor-pointer relative">
                     <input type="radio" name="uiSize" value="${s}" class="peer sr-only" ${idx===1?'checked':''}>
-                    <div class="border border-gray-200 bg-gray-50 rounded-lg py-1.5 text-center font-mono font-bold text-[11px] text-gray-500 peer-checked:border-black peer-checked:bg-black peer-checked:text-white transition-all shadow-sm">${s}</div>
+                    <div class="border border-gray-200 bg-gray-50 rounded-lg py-2 text-center font-mono font-bold text-[11px] text-gray-500 peer-checked:border-black peer-checked:bg-black peer-checked:text-white transition-all shadow-sm">${s}</div>
                 </label>
             `;
         });
@@ -535,10 +555,13 @@
             const sumSec = document.getElementById('summarySection');
             if(step === 1) {
                 sumSec.classList.add('hidden');
-                formSec.classList.remove('md:w-3/5');
+                formSec.classList.remove('md:w-[58%]');
+                formSec.classList.add('max-w-2xl', 'mx-auto');
             } else {
                 sumSec.classList.remove('hidden');
-                formSec.classList.add('md:w-3/5');
+                formSec.classList.remove('max-w-2xl', 'mx-auto');
+                formSec.classList.add('md:w-[58%]');
+                sumSec.classList.add('md:w-[42%]');
             }
 
             currentStep = step;
@@ -575,7 +598,7 @@
                     html += `
                     <label class="cursor-pointer relative" onclick="changeShirtPreview('${c.id}')">
                         <input type="radio" name="uiColor" value="${c.id}" class="peer sr-only">
-                        <div class="bg-gray-50 border border-gray-200 rounded-xl p-2.5 flex items-center gap-2 transition-all peer-checked:border-black peer-checked:ring-2 peer-checked:ring-gray-200 peer-checked:bg-white shadow-sm">
+                        <div class="bg-gray-50 border border-gray-200 rounded-xl p-2.5 flex items-center gap-2 transition-all peer-checked:border-black peer-checked:ring-1 peer-checked:ring-black peer-checked:bg-white shadow-sm">
                             <div class="w-4 h-4 rounded-full shadow-inner border border-black/10" style="background-color: ${c.hex}"></div>
                             <span class="font-bold text-[11px] text-gray-700">${c.name}</span>
                         </div>
@@ -632,7 +655,7 @@
             const vCart = document.getElementById('visualCart');
             vCart.innerHTML = '';
             if(qty === 0) {
-                vCart.innerHTML = '<div class="text-center text-gray-400 py-4 text-xs font-medium border border-dashed border-gray-200 rounded-xl">ยังไม่มีสินค้าในตะกร้า</div>';
+                vCart.innerHTML = '<div class="text-center text-gray-400 py-6 text-xs font-bold border border-dashed border-gray-200 rounded-xl">ยังไม่มีสินค้าในตะกร้า</div>';
             } else {
                 cartItems.forEach((item, index) => {
                     let cDot = item.color.id !== 'default' ? `<div class="w-2.5 h-2.5 rounded-full mr-2 border border-black/10" style="background-color:${item.color.hex}"></div>` : '';
