@@ -574,17 +574,24 @@
       }
       
       function refreshOptions() {
-          const t = translations[currentLang];
-          updateSelectText('inputStaffType', { 'สายวิชาการ': t.opt_academic, 'สายสนับสนุน': t.opt_support });
-          updateSelectText('inputEduLevel', { 'ปริญญาตรี': t.opt_bachelor, 'ปริญญาโท': t.opt_master, 'ปริญญาเอก': t.opt_doctor });
-          updateSelectText('inputStudentYear', { 'อื่นๆ': t.opt_other }); 
-          
-          // Refresh Majors Dropdown text
-          updateMajorDropdown('inputBachelorMajor', majorsData.bachelor);
-          updateMajorDropdown('inputGradMajor', [...majorsData.master, ...majorsData.doctor]); 
+    const t = translations[currentLang];
+    updateSelectText('inputStaffType', { 'สายวิชาการ': t.opt_academic, 'สายสนับสนุน': t.opt_support });
+    updateSelectText('inputEduLevel', { 'ปริญญาตรี': t.opt_bachelor, 'ปริญญาโท': t.opt_master, 'ปริญญาเอก': t.opt_doctor });
+    updateSelectText('inputStudentYear', { 'อื่นๆ': t.opt_other }); 
+    
+    // Refresh Majors Dropdown text
+    updateMajorDropdown('inputBachelorMajor', majorsData.bachelor);
+    
+    // แยกรักษาสถานะสาขาวิชาตอนเปลี่ยนภาษา
+    const level = document.getElementById('inputEduLevel').value;
+    if(level === 'ปริญญาโท') {
+        updateMajorDropdown('inputGradMajor', majorsData.master);
+    } else if(level === 'ปริญญาเอก') {
+        updateMajorDropdown('inputGradMajor', majorsData.doctor);
+    }
 
-          renderTitleOptions();
-      }
+    renderTitleOptions();
+    }
 
       function renderTitleOptions() {
           const titleSel = document.getElementById('inputNameTitle');
@@ -741,29 +748,35 @@
       }
       
       function handleEduLevelChange() {
-          const level = document.getElementById('inputEduLevel').value;
-          const isGrad = (level === 'ปริญญาโท' || level === 'ปริญญาเอก');
-          
-          const gradMajorDiv = document.getElementById('gradMajorDiv');
-          const bachelorMajorDiv = document.getElementById('bachelorMajorDiv');
-          const yearDiv = document.getElementById('studentYearDiv');
+    const level = document.getElementById('inputEduLevel').value;
+    const isGrad = (level === 'ปริญญาโท' || level === 'ปริญญาเอก');
+    
+    const gradMajorDiv = document.getElementById('gradMajorDiv');
+    const bachelorMajorDiv = document.getElementById('bachelorMajorDiv');
+    const yearDiv = document.getElementById('studentYearDiv');
 
-          if(isGrad) {
-              gradMajorDiv.classList.remove('d-none');
-              updateMajorDropdown('inputGradMajor', [...majorsData.master, ...majorsData.doctor]);
-              
-              bachelorMajorDiv.classList.add('d-none');
-              yearDiv.classList.add('d-none');
-              renderTitleOptions(); 
-          } else {
-              gradMajorDiv.classList.add('d-none');
-              bachelorMajorDiv.classList.remove('d-none');
-              updateMajorDropdown('inputBachelorMajor', majorsData.bachelor);
-              
-              yearDiv.classList.remove('d-none');
-              renderTitleOptions(); 
-          }
-      }
+    if(isGrad) {
+        gradMajorDiv.classList.remove('d-none');
+        
+        // แยกชุดข้อมูลสาขาวิชาตามระดับการศึกษาให้ถูกต้อง
+        if(level === 'ปริญญาโท') {
+            updateMajorDropdown('inputGradMajor', majorsData.master);
+        } else {
+            updateMajorDropdown('inputGradMajor', majorsData.doctor);
+        }
+        
+        bachelorMajorDiv.classList.add('d-none');
+        yearDiv.classList.add('d-none');
+        renderTitleOptions(); 
+    } else {
+        gradMajorDiv.classList.add('d-none');
+        bachelorMajorDiv.classList.remove('d-none');
+        updateMajorDropdown('inputBachelorMajor', majorsData.bachelor);
+        
+        yearDiv.classList.remove('d-none');
+        renderTitleOptions(); 
+    }
+}
 
       function handleStaffTypeChange() {
           const type = document.getElementById('inputStaffType').value;
