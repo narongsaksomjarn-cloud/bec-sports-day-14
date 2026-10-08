@@ -1035,95 +1035,95 @@
             };
 
             setButtonsState(true);
+            const t0 = performance.now();
 
             try {
                 const file = fileInput.files[0];
                 const fileData = await compressImage(file);
 
-                const uploadRes = await fetch(GOOGLE_SCRIPT_URL, { 
-                    method: 'POST', 
-                    headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-                    body: JSON.stringify(fileData) 
-                });
-
-                const resText = await uploadRes.text();
-                let uploadResult = null;
-                try {
-                    uploadResult = JSON.parse(resText);
-                } catch(e) {
-                    const match = resText.match(/https:\/\/drive\.google\.com\/[^\s"']+/);
-                    if (match) {
-                        uploadResult = { status: 'success', url: match[0] };
-                    } else {
-                        throw new Error("ระบบสคริปต์ตอบกลับไม่ถูกต้อง: " + resText.slice(0, 100));
-                    }
-                }
-
-                if(!uploadResult || (uploadResult.status !== 'success' && !uploadResult.url)) {
-                    throw new Error(uploadResult.message || "อัปโหลดสลิปไม่สำเร็จ");
-                }
-
-                const slipUrl = uploadResult.url || uploadResult.fileUrl;
-
+                // ข้อมูลผู้สั่งซื้อ
                 const userType = document.querySelector('input[name="userType"]:checked').value;
                 let yearInfo = document.getElementById('inputStudentYear').value;
-                if (userType === "นิสิตคณะบริหารธุรกิจฯ" && document.getElementById('inputEduLevel').value !== "ปริญญาตรี") yearInfo = document.getElementById('inputEduLevel').value;
-                else if (userType === "บุคลากรคณะบริหารธุรกิจฯ") yearInfo = document.getElementById('inputStaffType').value;
-                else if (userType === "ศิษย์เก่าคณะบริหารธุรกิจฯ") yearInfo = "เข้าปี " + (document.getElementById('inputAlumniYear').value || "-");
+                if (userType === "นิสิตคณะบริหารธุรกิจฯ" && document.getElementById('inputEduLevel').value !== "ปริญญาตรี") {
+                    yearInfo = document.getElementById('inputEduLevel').value;
+                } else if (userType === "บุคลากรคณะบริหารธุรกิจฯ") {
+                    yearInfo = document.getElementById('inputStaffType').value;
+                } else if (userType === "ศิษย์เก่าคณะบริหารธุรกิจฯ") {
+                    yearInfo = "เข้าปี " + (document.getElementById('inputAlumniYear').value || "-");
+                }
 
+                // ดึงค่าสาขาวิชาอย่างถูกต้องครบทุกเงื่อนไข (รวมถึงบุคลากรสายวิชาการ)
                 let majorInfo = "-";
-if (userType === "นิสิตคณะบริหารธุรกิจฯ") {
-    const eduLevel = document.getElementById('inputEduLevel').value;
-    majorInfo = (eduLevel === "ปริญญาตรี") 
-        ? document.getElementById('inputBachelorMajor').value 
-        : document.getElementById('inputGradMajor').value;
-} else if (userType === "บุคลากรคณะบริหารธุรกิจฯ") {
-    const staffType = document.getElementById('inputStaffType').value;
-    majorInfo = (staffType === "สายวิชาการ") 
-        ? document.getElementById('inputStaffMajor').value 
-        : "-";
-} else if (userType === "ศิษย์เก่าคณะบริหารธุรกิจฯ") {
-    majorInfo = "-";
-}
+                if (userType === "นิสิตคณะบริหารธุรกิจฯ") {
+                    const eduLevel = document.getElementById('inputEduLevel').value;
+                    majorInfo = (eduLevel === "ปริญญาตรี") 
+                        ? document.getElementById('inputBachelorMajor').value 
+                        : document.getElementById('inputGradMajor').value;
+                } else if (userType === "บุคลากรคณะบริหารธุรกิจฯ") {
+                    const staffType = document.getElementById('inputStaffType').value;
+                    majorInfo = (staffType === "สายวิชาการ") 
+                        ? document.getElementById('inputStaffMajor').value 
+                        : "-";
+                } else if (userType === "ศิษย์เก่าคณะบริหารธุรกิจฯ") {
+                    majorInfo = "-";
+                }
 
                 const isPost = document.getElementById('shipPost').checked;
+                const shippingMethod = isPost ? 'post' : 'pickup';
                 const shippingCost = isPost ? 50 : 0;
-                const grandTotal = cartItems.reduce((sum, item) => sum + item.price, 0) + shippingCost;
-                const deliveryMethod = isPost ? "จัดส่งไปรษณีย์" : "รับที่คณะ";
-                const shippingAddress = isPost ? document.getElementById('inputAddress').value : "-";
+                const itemsTotal = cartItems.reduce((sum, item) => sum + item.price, 0);
+                const grandTotal = itemsTotal + shippingCost;
 
-                // แตกรายการ: 1 ตัว = 1 แถว พร้อมแยกฟิลด์ shirt_number ชัดเจน
-                const rowsToInsert = cartItems.map((item, index) => {
-                    return {
+                const payload = {
+                    user_info: {
                         order_type: userType,
                         student_id: document.getElementById('inputStudentId').value || "-",
                         title: document.getElementById('inputNameTitle').value,
                         full_name: document.getElementById('inputFullName').value,
                         phone_number: document.getElementById('phoneInput').value,
                         education_level: yearInfo || "-",
-                        major: majorInfo || "-",
-                        shirt_color: item.color.name,                // ใส่ชื่อสีจริง เช่น สีน้ำเงิน (Indigo dye)
-                        shirt_size: item.size,                        // ไซซ์ เช่น 8XL
-                        shirt_number: item.num || "33",               // คอลัมน์เฉพาะ: เก็บเฉพาะตัวเลขหลังเสื้อ
-                        quantity: 1,
-                        total_shirt_price: item.price,
-                        delivery_method: deliveryMethod,
-                        address: shippingAddress,
-                        shipping_fee: (index === 0) ? shippingCost : 0, // บันทึกค่าส่งเฉพาะแถวแรก
-                        total_transfer: (index === 0) ? grandTotal : 0,
-                        slip_url: slipUrl,
-                        remarks: "-"                                  // คืนค่าเป็นหมายเหตุทั่วไป
-                    };
+                        major: majorInfo || "-"
+                    },
+                    items: cartItems.map(item => ({
+                        color_name: item.color.name,
+                        size: item.size,
+                        number: item.num || "33"
+                    })),
+                    shipping_method: shippingMethod,
+                    shipping_address: isPost ? document.getElementById('inputAddress').value : "-",
+                    slip_file: fileData,
+                    client_totals: {
+                        items_total: itemsTotal,
+                        shipping_fee: shippingCost,
+                        grand_total: grandTotal
+                    }
+                };
+
+                // ส่งตรงไปยัง Supabase Edge Function (ไม่มีการเรียก Google Apps Script จากหน้าบ้าน)
+                const response = await fetch(`${supabaseUrl}/functions/v1/submit-order`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'apikey': supabaseKey,
+                        'Authorization': `Bearer ${supabaseKey}`
+                    },
+                    body: JSON.stringify(payload)
                 });
 
-                const { error } = await supabaseClient.from('shirt_orders').insert(rowsToInsert);
+                const result = await response.json();
 
-                if (error) throw error;
+                if (!response.ok || !result.success) {
+                    throw new Error(result.error || "เกิดข้อผิดพลาดในการบันทึกคำสั่งซื้อ");
+                }
 
+                const elapsed = (performance.now() - t0).toFixed(2);
+                console.log(`⏱️ Submit to Success Screen: ${elapsed} ms`);
+
+                // เข้าสู่หน้าสั่งซื้อสำเร็จทันที
                 document.getElementById('appScreen').classList.add('hidden');
                 document.getElementById('heroScreen').classList.add('hidden');
                 document.getElementById('successScreen').classList.remove('hidden');
-                window.scrollTo(0,0);
+                window.scrollTo(0, 0);
 
             } catch (err) {
                 alert("Error: " + err.message);
