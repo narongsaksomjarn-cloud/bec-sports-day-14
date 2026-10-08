@@ -3,12 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>BEC SPORTS DAY 14 - Pre-order</title>
+    <title>BEC SPORTS DAY 14 - Official Pre-order</title>
     
-    <!-- Google Fonts: Noto Sans Thai -->
+    <!-- Google Fonts: Noto Sans Thai (อ่านง่าย ดูทันสมัย) -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
     
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -25,108 +25,122 @@
                 extend: {
                     fontFamily: { sans: ['"Noto Sans Thai"', 'sans-serif'] },
                     colors: {
-                        brand: { red: '#E53935', blue: '#2563EB', green: '#16A34A', purple: '#7C3AED' },
+                        bec: { red: '#E53935', blue: '#2563EB', green: '#16A34A', purple: '#7C3AED' },
                         neutral: { bg: '#F7F7F5', text: '#111111', sub: '#6B7280', border: '#E5E7EB' }
                     },
-                    boxShadow: { 'card': '0 4px 20px -2px rgba(0, 0, 0, 0.05)' }
+                    boxShadow: { 
+                        'card': '0 8px 30px rgba(0, 0, 0, 0.04)',
+                        'float': '0 20px 40px rgba(0, 0, 0, 0.08)'
+                    }
                 }
             }
         }
     </script>
     <style>
         body { background-color: #F7F7F5; color: #111111; -webkit-tap-highlight-color: transparent; }
-        .input-field { @apply w-full border-2 border-neutral-border rounded-2xl h-14 px-4 bg-white text-base focus:border-black focus:ring-0 outline-none transition-all; }
-        .label-text { @apply block text-sm font-semibold text-neutral-text mb-2; }
-        .btn-primary { @apply w-full bg-black text-white font-bold h-14 rounded-2xl hover:scale-[1.02] active:scale-95 transition-transform flex items-center justify-center; }
         
-        /* Custom Radio/Checkbox as Cards */
-        .radio-card-input:checked + .radio-card { @apply border-black bg-black text-white; }
-        .size-radio:checked + .size-label { @apply border-brand-blue bg-brand-blue text-white font-bold; }
-        .color-radio:checked + .color-card { @apply border-2 border-black ring-2 ring-black ring-offset-2 scale-[1.02]; }
+        /* Form Elements Premium Styling */
+        .input-field { @apply w-full bg-white border-2 border-neutral-border focus:border-black focus:ring-4 focus:ring-black/5 rounded-2xl h-14 px-5 text-base font-medium transition-all outline-none; }
+        .label-text { @apply block text-sm font-bold text-neutral-text mb-2 uppercase tracking-wide; }
+        .btn-primary { @apply w-full bg-black text-white font-bold h-14 rounded-2xl hover:scale-[1.02] active:scale-95 transition-transform flex items-center justify-center text-lg tracking-wide shadow-lg shadow-black/20; }
         
-        /* Hide scrollbar for smooth UI */
+        /* Custom Radio/Checkbox */
+        .radio-card-input:checked + .radio-card { @apply border-black bg-black text-white shadow-md; }
+        .size-radio:checked + .size-label { @apply border-black bg-black text-white font-bold shadow-md scale-105; }
+        .color-radio:checked + .color-card { @apply border-2 border-black ring-4 ring-black/10 scale-[1.02] bg-white; }
+        
+        /* Stepper UI */
+        .step-active { @apply text-black font-black border-b-2 border-black pb-1; }
+        .step-inactive { @apply text-neutral-sub font-semibold pb-1; }
+
         ::-webkit-scrollbar { width: 0px; background: transparent; }
-        
-        /* Animations */
-        .fade-in { animation: fadeIn 0.3s ease-out forwards; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        .fade-in { animation: fadeIn 0.4s ease-out forwards; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
     </style>
 </head>
-<body class="antialiased selection:bg-brand-blue selection:text-white pb-24 md:pb-0">
+<body class="antialiased selection:bg-black selection:text-white pb-28 md:pb-0">
 
     <!-- HERO SCREEN -->
-    <div id="heroScreen" class="min-h-[100dvh] flex flex-col justify-between bg-neutral-bg relative overflow-hidden z-50">
-        <div class="absolute -top-20 -right-10 text-[250px] font-black text-black opacity-5 leading-none pointer-events-none">14</div>
-        <div class="p-6 pt-12 relative z-10">
-            <h1 class="text-4xl font-black italic tracking-tight mb-2">BEC SPORTS DAY <span class="text-brand-blue">14</span></h1>
-            <p class="text-xl font-bold text-neutral-sub uppercase tracking-wider">Play Loud. Play Together.</p>
+    <div id="heroScreen" class="min-h-[100dvh] flex flex-col justify-between relative overflow-hidden z-50 bg-zinc-950 text-white">
+        <!-- Abstract Background 14 -->
+        <div class="absolute top-10 -right-20 text-[350px] font-black text-white opacity-[0.03] leading-none pointer-events-none italic">14</div>
+        
+        <div class="p-8 pt-16 relative z-10">
+            <h1 class="text-5xl md:text-7xl font-black italic tracking-tighter leading-none mb-4">BEC<span class="text-bec-blue">14</span><br>SPORTS DAY</h1>
+            <p class="text-xl md:text-2xl font-bold text-zinc-400 uppercase tracking-widest">Play Loud. Play Together.</p>
         </div>
-        <div class="flex-1 relative flex items-center justify-center p-6">
-            <!-- Collage Graphic -->
-            <div class="relative w-full max-w-sm aspect-square bg-white rounded-3xl shadow-xl border-4 border-white overflow-hidden transform -rotate-3 hover:rotate-0 transition-transform duration-500">
-                <img src="https://i.postimg.cc/Fs2gbNB0/S-4759575-0.jpg" class="absolute inset-0 w-full h-full object-cover" alt="Shirts">
-                <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
-                <div class="absolute bottom-4 left-4 text-white font-bold text-lg">OFFICIAL MERCHANDISE</div>
+        
+        <div class="flex-1 relative flex items-center justify-center p-8 z-10">
+            <!-- Hero Product Image -->
+            <div class="relative w-full max-w-md aspect-[4/5] bg-zinc-900 rounded-[2rem] shadow-2xl overflow-hidden transform -rotate-2 hover:rotate-0 transition-transform duration-500 border border-zinc-800">
+                <img src="https://i.postimg.cc/Fs2gbNB0/S-4759575-0.jpg" class="absolute inset-0 w-full h-full object-cover opacity-90" alt="Official Shirt">
+                <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent"></div>
+                <div class="absolute bottom-6 left-6 right-6">
+                    <span class="bg-white text-black text-xs font-black px-3 py-1 rounded-full uppercase tracking-widest mb-3 inline-block">Official Merch</span>
+                    <h3 class="text-white font-bold text-xl">เสื้อกีฬาสีคณะบริหารธุรกิจฯ</h3>
+                </div>
             </div>
         </div>
-        <div class="p-6 bg-white rounded-t-3xl shadow-[0_-10px_40px_rgba(0,0,0,0.05)] relative z-10">
-            <p class="text-center text-sm font-semibold text-brand-red mb-4">เปิด Pre-order วันนี้ - 14 ธ.ค. 68</p>
-            <button onclick="startOrder()" class="btn-primary text-lg">ORDER NOW <i class="ri-arrow-right-line ml-2"></i></button>
+        
+        <div class="p-6 md:p-8 relative z-10 bg-gradient-to-t from-black to-transparent">
+            <button onclick="startOrder()" class="w-full bg-white text-black font-black h-16 rounded-[2rem] hover:scale-[1.02] active:scale-95 transition-transform flex items-center justify-center text-xl tracking-widest shadow-[0_0_40px_rgba(255,255,255,0.2)]">
+                ORDER NOW <i class="ri-arrow-right-line ml-2"></i>
+            </button>
+            <p class="text-center text-xs font-semibold text-zinc-400 mt-4 uppercase tracking-widest">Pre-order ends 14 Dec 2025</p>
         </div>
     </div>
 
     <!-- MAIN APP WRAPPER -->
-    <div id="appScreen" class="hidden max-w-7xl mx-auto md:flex md:gap-8 md:p-8 min-h-screen">
+    <div id="appScreen" class="hidden max-w-6xl mx-auto md:flex md:gap-10 md:p-8 min-h-screen">
         
         <!-- LEFT: FORM SECTION -->
         <div class="w-full md:w-3/5">
-            <!-- HEADER -->
-            <header class="p-5 md:px-0 flex items-center justify-between sticky top-0 bg-neutral-bg/90 backdrop-blur-md z-40">
-                <div class="font-black text-xl italic tracking-tighter">BEC<span class="text-brand-blue">14</span></div>
-                <!-- STEPPER -->
-                <div class="flex items-center gap-2 text-xs font-bold text-neutral-sub">
-                    <span id="stepIndicator1" class="text-black">01 INFO</span>
-                    <i class="ri-arrow-right-s-line"></i>
-                    <span id="stepIndicator2">02 ITEMS</span>
-                    <i class="ri-arrow-right-s-line"></i>
-                    <span id="stepIndicator3">03 PAY</span>
+            <!-- HEADER & STEPPER -->
+            <header class="px-6 py-5 md:px-0 flex items-center justify-between sticky top-0 bg-[#F7F7F5]/90 backdrop-blur-xl z-40 border-b border-neutral-border md:border-none mb-6">
+                <div class="font-black text-2xl italic tracking-tighter">BEC<span class="text-bec-blue">14</span></div>
+                <div class="flex items-center gap-3 text-xs uppercase tracking-widest">
+                    <span id="stepIndicator1" class="step-active">01 Info</span>
+                    <i class="ri-arrow-right-s-line text-neutral-border"></i>
+                    <span id="stepIndicator2" class="step-inactive">02 Items</span>
+                    <i class="ri-arrow-right-s-line text-neutral-border"></i>
+                    <span id="stepIndicator3" class="step-inactive">03 Pay</span>
                 </div>
             </header>
 
-            <form id="orderForm" class="p-5 md:px-0 md:py-4">
+            <form id="orderForm" class="px-6 pb-6 md:px-0 md:py-0">
                 
                 <!-- STEP 1: INFORMATION -->
                 <div id="step1" class="fade-in space-y-6">
-                    <div>
-                        <h2 class="text-2xl font-bold mb-1">Your Information</h2>
-                        <p class="text-neutral-sub text-sm">บอกเราเกี่ยวกับผู้สั่งนิดหน่อย</p>
+                    <div class="mb-8">
+                        <h2 class="text-3xl font-black tracking-tight mb-2 uppercase">Your Info</h2>
+                        <p class="text-neutral-sub font-medium">กรอกข้อมูลผู้สั่งซื้อเพื่อเริ่มทำรายการ</p>
                     </div>
 
-                    <div class="bg-white p-6 rounded-3xl shadow-card border border-neutral-border space-y-5">
+                    <div class="bg-white p-6 md:p-8 rounded-[2rem] shadow-card border border-neutral-border space-y-6">
                         
                         <!-- User Type -->
                         <div>
-                            <label class="label-text">ประเภทผู้สั่ง <span class="text-brand-red">*</span></label>
-                            <div class="grid grid-cols-3 gap-2">
+                            <label class="label-text">ประเภทผู้สั่ง <span class="text-bec-red">*</span></label>
+                            <div class="grid grid-cols-3 gap-3">
                                 <label class="cursor-pointer">
                                     <input type="radio" name="userType" value="นิสิตคณะบริหารธุรกิจฯ" checked class="peer sr-only radio-card-input" onchange="toggleUserType()">
-                                    <div class="radio-card border-2 border-neutral-border rounded-xl py-3 text-center text-sm font-semibold transition-colors">นิสิต</div>
+                                    <div class="radio-card bg-neutral-bg border-2 border-neutral-border rounded-2xl py-3.5 text-center text-sm font-bold transition-all text-neutral-sub">นิสิต</div>
                                 </label>
                                 <label class="cursor-pointer">
                                     <input type="radio" name="userType" value="ศิษย์เก่าคณะบริหารธุรกิจฯ" class="peer sr-only radio-card-input" onchange="toggleUserType()">
-                                    <div class="radio-card border-2 border-neutral-border rounded-xl py-3 text-center text-sm font-semibold transition-colors">ศิษย์เก่า</div>
+                                    <div class="radio-card bg-neutral-bg border-2 border-neutral-border rounded-2xl py-3.5 text-center text-sm font-bold transition-all text-neutral-sub">ศิษย์เก่า</div>
                                 </label>
                                 <label class="cursor-pointer">
                                     <input type="radio" name="userType" value="บุคลากรคณะบริหารธุรกิจฯ" class="peer sr-only radio-card-input" onchange="toggleUserType()">
-                                    <div class="radio-card border-2 border-neutral-border rounded-xl py-3 text-center text-sm font-semibold transition-colors">บุคลากร</div>
+                                    <div class="radio-card bg-neutral-bg border-2 border-neutral-border rounded-2xl py-3.5 text-center text-sm font-bold transition-all text-neutral-sub">บุคลากร</div>
                                 </label>
                             </div>
                         </div>
 
-                        <!-- Dynamic Fields (Logic remains intact, classes updated) -->
+                        <!-- Dynamic Fields -->
                         <div id="staffTypeDiv" class="hidden">
                             <label class="label-text">ประเภทบุคลากร</label>
-                            <select name="staffType" id="inputStaffType" class="input-field" onchange="handleStaffTypeChange()">
+                            <select name="staffType" id="inputStaffType" class="input-field cursor-pointer" onchange="handleStaffTypeChange()">
                                 <option value="" disabled selected>เลือกประเภท...</option>
                                 <option value="สายวิชาการ">สายวิชาการ</option>
                                 <option value="สายสนับสนุน">สายสนับสนุน</option>
@@ -135,7 +149,7 @@
 
                         <div id="eduLevelDiv">
                             <label class="label-text">ระดับการศึกษา</label>
-                            <select name="eduLevel" id="inputEduLevel" class="input-field" onchange="handleEduLevelChange()">
+                            <select name="eduLevel" id="inputEduLevel" class="input-field cursor-pointer" onchange="handleEduLevelChange()">
                                 <option value="ปริญญาตรี" selected>ปริญญาตรี</option>
                                 <option value="ปริญญาโท">ปริญญาโท</option>
                                 <option value="ปริญญาเอก">ปริญญาเอก</option>
@@ -144,42 +158,42 @@
 
                         <div id="bachelorMajorDiv">
                             <label class="label-text">สาขาวิชา</label>
-                            <select name="bachelorMajor" id="inputBachelorMajor" class="input-field">
+                            <select name="bachelorMajor" id="inputBachelorMajor" class="input-field cursor-pointer">
                                 <option value="" disabled selected>เลือกสาขาวิชา...</option>
                             </select>
                         </div>
 
                         <div id="gradMajorDiv" class="hidden">
                             <label class="label-text">สาขาวิชา (ป.โท/เอก)</label>
-                            <select name="gradMajor" id="inputGradMajor" class="input-field"></select>
+                            <select name="gradMajor" id="inputGradMajor" class="input-field cursor-pointer"></select>
                         </div>
 
                         <div id="studentIdDiv">
                             <label class="label-text">รหัสนิสิต</label>
-                            <input type="text" id="inputStudentId" name="studentId" class="input-field font-mono" placeholder="6xxxxxxx" maxlength="8">
-                            <p id="studentIdError" class="hidden text-brand-red text-xs mt-1 font-semibold">กรุณากรอกรหัสนิสิต 8 หลัก</p>
+                            <input type="text" id="inputStudentId" name="studentId" class="input-field font-mono text-lg tracking-wider" placeholder="6XXXXXXX" maxlength="8">
+                            <p id="studentIdError" class="hidden text-bec-red text-xs mt-2 font-bold flex items-center"><i class="ri-error-warning-fill mr-1"></i> กรุณากรอกรหัสนิสิต 8 หลัก</p>
                         </div>
 
-                        <div class="grid grid-cols-3 gap-3">
-                            <div class="col-span-1">
-                                <label class="label-text">คำนำหน้า</label>
-                                <select name="nameTitle" id="inputNameTitle" class="input-field px-2"></select>
+                        <div class="grid grid-cols-12 gap-4">
+                            <div class="col-span-4 md:col-span-3">
+                                <label class="label-text">คำนำ</label>
+                                <select name="nameTitle" id="inputNameTitle" class="input-field px-3 cursor-pointer"></select>
                             </div>
-                            <div class="col-span-2">
-                                <label class="label-text">ชื่อ - นามสกุล <span class="text-brand-red">*</span></label>
+                            <div class="col-span-8 md:col-span-9">
+                                <label class="label-text">ชื่อ - นามสกุล <span class="text-bec-red">*</span></label>
                                 <input type="text" id="inputFullName" name="fullName" class="input-field" placeholder="ไม่ต้องใส่คำนำหน้า" required>
                             </div>
                         </div>
 
                         <div>
-                            <label class="label-text">เบอร์โทรศัพท์ <span class="text-brand-red">*</span></label>
-                            <input type="tel" id="phoneInput" name="phone" class="input-field font-mono" placeholder="0xxxxxxxxx" maxlength="10" required>
-                            <p id="phoneError" class="hidden text-brand-red text-xs mt-1 font-semibold">กรุณากรอกเบอร์โทร 10 หลัก</p>
+                            <label class="label-text">เบอร์โทรศัพท์ <span class="text-bec-red">*</span></label>
+                            <input type="tel" id="phoneInput" name="phone" class="input-field font-mono text-lg tracking-wider" placeholder="0XXXXXXXXX" maxlength="10" required>
+                            <p id="phoneError" class="hidden text-bec-red text-xs mt-2 font-bold flex items-center"><i class="ri-error-warning-fill mr-1"></i> กรุณากรอกเบอร์โทร 10 หลัก</p>
                         </div>
 
                         <div id="studentYearDiv">
                             <label class="label-text">ชั้นปี</label>
-                            <select name="yearLevel" id="inputStudentYear" class="input-field">
+                            <select name="yearLevel" id="inputStudentYear" class="input-field cursor-pointer">
                                 <option value="" disabled selected>เลือกชั้นปี...</option>
                                 <option value="ปี 1 (รหัส 68)">ปี 1</option>
                                 <option value="ปี 2 (รหัส 67)">ปี 2</option>
@@ -190,153 +204,152 @@
                         </div>
                         <div id="alumniYearDiv" class="hidden">
                             <label class="label-text">ปีที่เข้าศึกษา (พ.ศ.)</label>
-                            <input type="text" id="inputAlumniYear" name="alumniYear" class="input-field font-mono" placeholder="เช่น 58">
+                            <input type="text" id="inputAlumniYear" name="alumniYear" class="input-field font-mono tracking-wider" placeholder="เช่น 58">
                         </div>
                     </div>
-                    
-                    <button type="button" onclick="validateStep1()" class="btn-primary">CONTINUE <i class="ri-arrow-right-line ml-2"></i></button>
                 </div>
 
                 <!-- STEP 2: SHIRTS -->
                 <div id="step2" class="hidden fade-in space-y-6">
-                    <div class="flex items-center gap-3 mb-2">
-                        <button type="button" onclick="goToStep(1)" class="w-10 h-10 rounded-full bg-white border border-neutral-border flex items-center justify-center hover:bg-neutral-bg"><i class="ri-arrow-left-line"></i></button>
+                    <div class="flex items-center gap-4 mb-8">
+                        <button type="button" onclick="goToStep(1)" class="w-12 h-12 rounded-full bg-white border-2 border-neutral-border flex items-center justify-center hover:bg-neutral-bg hover:border-black transition-colors"><i class="ri-arrow-left-line text-xl"></i></button>
                         <div>
-                            <h2 class="text-2xl font-bold">Choose Your Jersey</h2>
-                            <p class="text-neutral-sub text-sm">เลือกสีและไซซ์ที่ต้องการ</p>
+                            <h2 class="text-3xl font-black tracking-tight uppercase">Select Item</h2>
+                            <p class="text-neutral-sub font-medium">เลือกแบบและจำนวนที่ต้องการ</p>
                         </div>
                     </div>
 
-                    <!-- Modern Item Selection (Replaces old dynamic rows) -->
-                    <div class="bg-white p-5 rounded-3xl shadow-card border border-neutral-border">
+                    <div class="bg-white p-6 md:p-8 rounded-[2rem] shadow-card border border-neutral-border">
                         
                         <!-- Visual Color Selection -->
-                        <div id="colorSelectionDiv" class="mb-6">
-                            <label class="label-text flex justify-between">
-                                สีเสื้อ <button type="button" class="text-brand-blue text-xs underline" onclick="alert('แสดงตารางไซส์')">Size Chart</button>
+                        <div id="colorSelectionDiv" class="mb-8">
+                            <label class="label-text flex justify-between items-center">
+                                สีเสื้อ
                             </label>
-                            <div class="grid grid-cols-2 gap-3" id="colorGridUI">
-                                <!-- Generated by JS based on user type -->
+                            <div class="grid grid-cols-2 gap-3 mt-3" id="colorGridUI">
+                                <!-- Generated by JS -->
                             </div>
                         </div>
 
-                        <!-- Size Selection Grid -->
-                        <div class="mb-6">
-                            <label class="label-text">ไซซ์</label>
-                            <div class="grid grid-cols-4 gap-2">
-                                ['XS','S','M','L','XL','2XL','3XL','4XL'].forEach
+                        <!-- Clean Size Selection -->
+                        <div class="mb-8">
+                            <label class="label-text flex justify-between items-center">
+                                ไซซ์ <button type="button" class="text-bec-blue text-xs font-bold underline" onclick="alert('แสดงตารางไซส์')">SIZE CHART</button>
+                            </label>
+                            <div class="grid grid-cols-4 gap-3 mt-3">
                                 <label class="cursor-pointer">
                                     <input type="radio" name="uiSize" value="S" class="peer sr-only size-radio" checked>
-                                    <div class="size-label border-2 border-neutral-border rounded-xl py-2 text-center font-mono text-sm transition-colors">S</div>
+                                    <div class="size-label border-2 border-neutral-border rounded-xl py-3 text-center font-mono font-bold text-sm bg-neutral-bg text-neutral-sub transition-all cursor-pointer">S</div>
                                 </label>
                                 <label class="cursor-pointer">
                                     <input type="radio" name="uiSize" value="M" class="peer sr-only size-radio">
-                                    <div class="size-label border-2 border-neutral-border rounded-xl py-2 text-center font-mono text-sm transition-colors">M</div>
+                                    <div class="size-label border-2 border-neutral-border rounded-xl py-3 text-center font-mono font-bold text-sm bg-neutral-bg text-neutral-sub transition-all cursor-pointer">M</div>
                                 </label>
                                 <label class="cursor-pointer">
                                     <input type="radio" name="uiSize" value="L" class="peer sr-only size-radio">
-                                    <div class="size-label border-2 border-neutral-border rounded-xl py-2 text-center font-mono text-sm transition-colors">L</div>
+                                    <div class="size-label border-2 border-neutral-border rounded-xl py-3 text-center font-mono font-bold text-sm bg-neutral-bg text-neutral-sub transition-all cursor-pointer">L</div>
                                 </label>
                                 <label class="cursor-pointer">
                                     <input type="radio" name="uiSize" value="XL" class="peer sr-only size-radio">
-                                    <div class="size-label border-2 border-neutral-border rounded-xl py-2 text-center font-mono text-sm transition-colors">XL</div>
+                                    <div class="size-label border-2 border-neutral-border rounded-xl py-3 text-center font-mono font-bold text-sm bg-neutral-bg text-neutral-sub transition-all cursor-pointer">XL</div>
                                 </label>
                             </div>
-                            <select id="uiSizeMore" class="input-field mt-2 h-12 text-sm" onchange="document.querySelector('input[name=\'uiSize\']:checked').checked = false">
+                            <select id="uiSizeMore" class="input-field mt-3 h-12 text-sm font-bold bg-neutral-bg cursor-pointer" onchange="const checkedSize = document.querySelector('input[name=\'uiSize\']:checked'); if(checkedSize) checkedSize.checked = false;">
                                 <option value="" selected>ไซซ์พิเศษ (2XL - 10XL)...</option>
-                                <option value="2XL">2XL</option>
-                                <option value="3XL">3XL</option>
-                                <option value="4XL">4XL</option>
-                                <option value="5XL">5XL</option>
-                                <option value="6XL">6XL</option>
+                                <option value="2XL">2XL</option><option value="3XL">3XL</option>
+                                <option value="4XL">4XL</option><option value="5XL">5XL</option>
+                                <option value="6XL">6XL</option><option value="7XL">7XL</option>
+                                <option value="8XL">8XL</option><option value="9XL">9XL</option>
+                                <option value="10XL">10XL</option>
                             </select>
                         </div>
 
                         <!-- Number -->
-                        <div class="mb-6">
-                            <label class="label-text flex justify-between">เบอร์หลังเสื้อ <span>(01-99)</span></label>
-                            <input type="text" id="uiNumber" class="input-field font-mono text-center text-xl tracking-widest" placeholder="33" maxlength="2" oninput="this.value=this.value.replace(/[^0-9]/g,'')">
-                            <p class="text-xs text-neutral-sub mt-2">* หากไม่ระบุ จะได้รับหมายเลข 33</p>
+                        <div class="mb-8 bg-[#F7F7F5] rounded-2xl p-5 border border-neutral-border">
+                            <label class="label-text">เบอร์หลังเสื้อ (01-99)</label>
+                            <div class="flex gap-4 items-center">
+                                <input type="text" id="uiNumber" class="input-field w-24 text-center font-mono text-2xl tracking-widest bg-white" placeholder="33" maxlength="2" oninput="this.value=this.value.replace(/[^0-9]/g,'')">
+                                <p class="text-xs text-neutral-sub leading-relaxed">* หากไม่ระบุเบอร์<br>จะได้รับหมายเลข <strong class="text-black">33</strong></p>
+                            </div>
                         </div>
 
-                        <button type="button" onclick="addVisualItem()" class="w-full bg-neutral-bg border-2 border-dashed border-neutral-sub text-neutral-text font-bold h-12 rounded-xl hover:bg-gray-200 transition-colors">
-                            <i class="ri-add-line mr-1"></i> เพิ่มลงตะกร้า
+                        <button type="button" onclick="addVisualItem()" class="w-full bg-white border-2 border-black text-black font-black h-14 rounded-2xl hover:bg-black hover:text-white transition-colors flex items-center justify-center text-lg tracking-wide">
+                            <i class="ri-add-line mr-2"></i> ADD TO CART
                         </button>
                     </div>
 
-                    <!-- Hidden legacy containers to keep old logic working -->
+                    <!-- Hidden legacy containers -->
                     <div id="studentItemList" class="hidden"></div>
                     <div id="alumniItemList" class="hidden"></div>
                     <input type="hidden" name="shirtColor" id="shirtColorInput">
-
                 </div>
 
                 <!-- STEP 3: PAYMENT -->
                 <div id="step3" class="hidden fade-in space-y-6">
-                    <div class="flex items-center gap-3 mb-2">
-                        <button type="button" onclick="goToStep(2)" class="w-10 h-10 rounded-full bg-white border border-neutral-border flex items-center justify-center hover:bg-neutral-bg"><i class="ri-arrow-left-line"></i></button>
+                    <div class="flex items-center gap-4 mb-8">
+                        <button type="button" onclick="goToStep(2)" class="w-12 h-12 rounded-full bg-white border-2 border-neutral-border flex items-center justify-center hover:bg-neutral-bg hover:border-black transition-colors"><i class="ri-arrow-left-line text-xl"></i></button>
                         <div>
-                            <h2 class="text-2xl font-bold">Payment</h2>
-                            <p class="text-neutral-sub text-sm">การจัดส่งและชำระเงิน</p>
+                            <h2 class="text-3xl font-black tracking-tight uppercase">Checkout</h2>
+                            <p class="text-neutral-sub font-medium">การจัดส่งและชำระเงิน</p>
                         </div>
                     </div>
 
                     <!-- Shipping -->
-                    <div class="bg-white p-5 rounded-3xl shadow-card border border-neutral-border space-y-4">
-                        <label class="label-text">วิธีการจัดส่ง</label>
+                    <div class="bg-white p-6 rounded-[2rem] shadow-card border border-neutral-border space-y-4">
+                        <label class="label-text mb-4">วิธีการจัดส่ง</label>
                         
                         <label class="flex items-center p-4 border-2 border-neutral-border rounded-2xl cursor-pointer hover:bg-neutral-bg transition-colors has-[:checked]:border-black has-[:checked]:bg-black/5">
                             <input type="radio" name="shippingMethod" id="shipPickup" value="pickup" checked class="w-5 h-5 accent-black mr-4" onchange="renderStep4()">
                             <div>
-                                <div class="font-bold">รับที่คณะ (ฟรี)</div>
-                                <div class="text-xs text-neutral-sub">รอประกาศวันรับเสื้ออีกครั้ง</div>
+                                <div class="font-bold text-base">รับที่คณะ (ฟรี)</div>
+                                <div class="text-xs text-neutral-sub font-medium mt-1">รอประกาศวันรับเสื้ออีกครั้ง</div>
                             </div>
                         </label>
 
                         <label class="flex items-center p-4 border-2 border-neutral-border rounded-2xl cursor-pointer hover:bg-neutral-bg transition-colors has-[:checked]:border-black has-[:checked]:bg-black/5">
                             <input type="radio" name="shippingMethod" id="shipPost" value="post" class="w-5 h-5 accent-black mr-4" onchange="renderStep4()">
                             <div>
-                                <div class="font-bold">จัดส่งไปรษณีย์ (+50 ฿)</div>
-                                <div class="text-xs text-neutral-sub">จัดส่งแบบลงทะเบียน</div>
+                                <div class="font-bold text-base">จัดส่งไปรษณีย์ (+50 ฿)</div>
+                                <div class="text-xs text-neutral-sub font-medium mt-1">จัดส่งแบบลงทะเบียนทั่วประเทศ</div>
                             </div>
                         </label>
 
-                        <div id="addressBox" class="hidden mt-2">
-                            <label class="label-text text-brand-red">ที่อยู่จัดส่ง *</label>
-                            <textarea name="shippingAddress" id="inputAddress" rows="3" class="w-full border-2 border-neutral-border rounded-xl p-3 bg-neutral-bg focus:border-black outline-none transition-colors text-sm" placeholder="บ้านเลขที่ ถนน ตำบล อำเภอ จังหวัด รหัสไปรษณีย์"></textarea>
+                        <div id="addressBox" class="hidden mt-4 pt-4 border-t border-neutral-border">
+                            <label class="label-text text-bec-red">ที่อยู่จัดส่ง *</label>
+                            <textarea name="shippingAddress" id="inputAddress" rows="3" class="w-full border-2 border-neutral-border rounded-xl p-4 bg-neutral-bg focus:border-black outline-none transition-colors text-sm font-medium" placeholder="บ้านเลขที่ หมู่ ซอย ถนน ตำบล อำเภอ จังหวัด รหัสไปรษณีย์"></textarea>
                         </div>
                     </div>
 
-                    <!-- Payment Card -->
-                    <div class="bg-black text-white p-6 rounded-3xl shadow-lg relative overflow-hidden">
-                        <div class="absolute top-0 right-0 w-32 h-32 bg-white/10 rounded-full blur-2xl -mr-10 -mt-10"></div>
-                        <h3 class="font-bold text-white/80 mb-4">ยอดที่ต้องชำระ</h3>
-                        <div class="text-5xl font-black italic tracking-tighter mb-6" id="grandTotalDisplayMain">0 <span class="text-xl">฿</span></div>
+                    <!-- Payment Card (Neo Brutalism Vibe) -->
+                    <div class="bg-zinc-950 text-white p-8 rounded-[2rem] shadow-float relative overflow-hidden">
+                        <div class="absolute -top-10 -right-10 w-40 h-40 bg-bec-blue/30 rounded-full blur-3xl"></div>
+                        <h3 class="font-bold text-zinc-400 mb-2 uppercase tracking-widest text-xs">ยอดที่ต้องชำระ</h3>
+                        <div class="text-6xl font-black italic tracking-tighter mb-8" id="grandTotalDisplayMain">0 <span class="text-2xl text-zinc-500">฿</span></div>
                         
-                        <div class="bg-white/10 rounded-2xl p-4 backdrop-blur-sm mb-4">
-                            <div class="flex items-center gap-3 mb-2">
-                                <img src="https://upload.wikimedia.org/wikipedia/en/thumb/5/5a/Kasikornbank_Logo.svg/1200px-Kasikornbank_Logo.svg.png" class="w-8 h-8 rounded-full bg-white p-1">
+                        <div class="bg-white/10 rounded-2xl p-5 backdrop-blur-md mb-6 border border-white/10">
+                            <div class="flex items-center gap-4 mb-4">
+                                <img src="https://upload.wikimedia.org/wikipedia/en/thumb/5/5a/Kasikornbank_Logo.svg/1200px-Kasikornbank_Logo.svg.png" class="w-10 h-10 rounded-full bg-white p-1">
                                 <div>
-                                    <div class="font-bold text-sm">ธนาคารกสิกรไทย</div>
-                                    <div class="text-[10px] text-white/70">น.ส. นภัสวรรณ ตุ้มพงษ์ และคณะ</div>
+                                    <div class="font-bold text-base">ธนาคารกสิกรไทย</div>
+                                    <div class="text-xs text-zinc-300">น.ส. นภัสวรรณ ตุ้มพงษ์ และคณะ</div>
                                 </div>
                             </div>
-                            <div class="flex justify-between items-center mt-2">
-                                <div class="font-mono text-lg font-bold tracking-widest">208-8-91057-8</div>
-                                <button type="button" class="text-xs bg-white text-black px-3 py-1 rounded-full font-bold hover:bg-gray-200" onclick="alert('Copied!')">COPY</button>
+                            <div class="flex justify-between items-center bg-black/30 p-3 rounded-xl border border-white/5">
+                                <div class="font-mono text-xl font-bold tracking-widest text-bec-green">208-8-91057-8</div>
+                                <button type="button" class="text-xs bg-white text-black px-4 py-2 rounded-lg font-bold hover:bg-gray-200 uppercase" onclick="alert('คัดลอกเลขบัญชีแล้ว')">Copy</button>
                             </div>
                         </div>
 
                         <div>
-                            <label class="block text-sm font-bold mb-2">อัปโหลดสลิปการโอน <span class="text-brand-red">*</span></label>
-                            <input type="file" id="slipFile" accept="image/*" class="w-full text-sm file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-bold file:bg-white file:text-black hover:file:bg-gray-200 cursor-pointer bg-white/10 rounded-full">
+                            <label class="block text-sm font-bold mb-3 uppercase tracking-wide">แนบสลิปโอนเงิน <span class="text-bec-red">*</span></label>
+                            <input type="file" id="slipFile" accept="image/*" class="w-full text-sm file:mr-4 file:py-3 file:px-6 file:rounded-xl file:border-0 file:text-sm file:font-black file:bg-white file:text-black hover:file:bg-gray-200 cursor-pointer bg-white/5 rounded-2xl border border-white/10">
                         </div>
                     </div>
                     
-                    <div class="bg-white p-5 rounded-3xl shadow-card border border-neutral-border">
-                        <label class="flex items-start gap-3 cursor-pointer">
-                            <input type="checkbox" id="confirmCheck" class="mt-1 w-5 h-5 accent-brand-green rounded">
-                            <span class="text-sm font-bold text-neutral-text">ข้าพเจ้าได้ตรวจสอบข้อมูลและสลิปโอนเงินถูกต้องเรียบร้อยแล้ว (ไม่สามารถแก้ไขได้)</span>
+                    <div class="bg-white p-6 rounded-[2rem] shadow-card border border-neutral-border">
+                        <label class="flex items-start gap-4 cursor-pointer">
+                            <input type="checkbox" id="confirmCheck" class="mt-1 w-6 h-6 accent-black rounded border-2 border-neutral-border cursor-pointer">
+                            <span class="text-sm font-bold text-neutral-text leading-relaxed">ข้าพเจ้าได้ตรวจสอบข้อมูลและแนบสลิปโอนเงินถูกต้องเรียบร้อยแล้ว (ข้อมูลไม่สามารถแก้ไขได้ภายหลัง)</span>
                         </label>
                     </div>
 
@@ -345,48 +358,48 @@
         </div>
 
         <!-- RIGHT: DESKTOP ORDER SUMMARY & MOBILE STICKY BOTTOM -->
-        <div class="w-full md:w-2/5 md:block">
-            <div id="orderSummarySticky" class="fixed bottom-0 left-0 w-full bg-white border-t border-neutral-border p-4 shadow-[0_-10px_20px_rgba(0,0,0,0.05)] md:relative md:border-t-0 md:bg-transparent md:shadow-none md:p-0 z-40 transform translate-y-full transition-transform duration-300 md:translate-y-0">
+        <div class="w-full md:w-2/5 md:block relative">
+            <div id="orderSummarySticky" class="fixed bottom-0 left-0 w-full bg-white border-t border-neutral-border px-6 py-4 pb-safe shadow-[0_-20px_40px_rgba(0,0,0,0.08)] md:relative md:border-none md:bg-transparent md:shadow-none md:p-0 z-40 transform translate-y-full transition-transform duration-300 md:translate-y-0">
                 
-                <div class="md:bg-white md:p-6 md:rounded-3xl md:shadow-card md:border md:border-neutral-border sticky top-24">
-                    <div class="hidden md:flex items-center justify-between border-b border-neutral-border pb-4 mb-4">
-                        <h3 class="font-bold text-lg">Order Summary</h3>
-                        <span class="bg-black text-white text-xs font-bold px-2 py-1 rounded-md" id="itemCountBadge">0 ITEMS</span>
+                <div class="md:bg-white md:p-8 md:rounded-[2rem] md:shadow-card md:border md:border-neutral-border sticky top-28">
+                    <div class="hidden md:flex items-center justify-between border-b-2 border-neutral-border pb-5 mb-5">
+                        <h3 class="font-black text-xl uppercase tracking-tight">Summary</h3>
+                        <span class="bg-black text-white text-xs font-bold px-3 py-1.5 rounded-lg tracking-widest" id="itemCountBadge">0 ITEMS</span>
                     </div>
                     
                     <!-- Item List Preview -->
-                    <div id="visualCart" class="hidden md:block max-h-60 overflow-y-auto space-y-3 mb-4 pr-2">
+                    <div id="visualCart" class="hidden md:block max-h-64 overflow-y-auto space-y-3 mb-6 pr-2">
                         <!-- Items injected here by JS -->
                     </div>
 
-                    <div class="flex justify-between items-center md:items-end mb-4 md:mb-6">
+                    <div class="flex justify-between items-center md:items-end mb-4 md:mb-8">
                         <div class="md:hidden">
-                            <div class="text-xs font-bold text-neutral-sub mb-1" id="mobileItemCount">0 ITEMS</div>
-                            <div class="text-2xl font-black leading-none" id="grandTotalDisplayMobile">0 ฿</div>
+                            <div class="text-xs font-bold text-neutral-sub mb-1 tracking-widest" id="mobileItemCount">0 ITEMS</div>
+                            <div class="text-3xl font-black italic tracking-tighter" id="grandTotalDisplayMobile">0 ฿</div>
                         </div>
                         <div class="hidden md:block w-full">
-                            <div class="flex justify-between text-sm text-neutral-sub mb-2">
+                            <div class="flex justify-between text-base font-medium text-neutral-sub mb-3">
                                 <span>Subtotal</span>
-                                <span id="subTotalDesktop">0 ฿</span>
+                                <span id="subTotalDesktop" class="font-bold text-black">0 ฿</span>
                             </div>
-                            <div class="flex justify-between text-sm text-neutral-sub mb-4 border-b border-neutral-border pb-4">
+                            <div class="flex justify-between text-base font-medium text-neutral-sub mb-5 border-b-2 border-neutral-border pb-5">
                                 <span>Shipping</span>
-                                <span id="shippingDesktop">0 ฿</span>
+                                <span id="shippingDesktop" class="font-bold text-black">0 ฿</span>
                             </div>
                             <div class="flex justify-between items-end">
-                                <span class="font-bold text-lg">Total</span>
-                                <span class="text-3xl font-black text-brand-blue" id="grandTotalDisplayDesktop">0 ฿</span>
+                                <span class="font-black text-xl uppercase tracking-tight">Total</span>
+                                <span class="text-4xl font-black italic tracking-tighter text-bec-blue" id="grandTotalDisplayDesktop">0 ฿</span>
                             </div>
                         </div>
                         
-                        <!-- Dynamic Context Button -->
-                        <div class="md:hidden w-1/2">
-                            <button type="button" id="stickyActionBtn" onclick="handleStickyAction()" class="btn-primary h-12">NEXT</button>
+                        <!-- Dynamic Context Button (Mobile) -->
+                        <div class="md:hidden w-[55%]">
+                            <button type="button" id="stickyActionBtn" onclick="handleStickyAction()" class="btn-primary w-full">NEXT</button>
                         </div>
                     </div>
                     
                     <div class="hidden md:block">
-                        <button type="button" id="desktopActionBtn" onclick="handleStickyAction()" class="btn-primary shadow-lg shadow-black/20">CONTINUE TO PAYMENT</button>
+                        <button type="button" id="desktopActionBtn" onclick="handleStickyAction()" class="btn-primary w-full">CHECKOUT</button>
                     </div>
                 </div>
             </div>
@@ -394,30 +407,33 @@
     </div>
 
     <!-- SUCCESS SCREEN -->
-    <div id="successScreen" class="hidden min-h-screen bg-brand-green flex flex-col items-center justify-center p-6 text-white text-center">
-        <div class="w-24 h-24 bg-white rounded-full flex items-center justify-center text-brand-green text-5xl mb-6 shadow-2xl pop-in">
-            <i class="ri-check-line font-bold"></i>
+    <div id="successScreen" class="hidden min-h-[100dvh] bg-bec-green flex flex-col items-center justify-center p-6 text-white text-center z-[100] relative">
+        <div class="w-28 h-28 bg-white rounded-[2rem] flex items-center justify-center text-bec-green text-6xl mb-8 shadow-2xl pop-in transform rotate-3">
+            <i class="ri-check-line font-black"></i>
         </div>
-        <h1 class="text-4xl font-black italic tracking-tight mb-2">ORDER COMPLETE</h1>
-        <p class="text-white/80 mb-8 font-semibold">ขอบคุณสำหรับการสั่งซื้อ BEC SPORTS DAY 14</p>
-        <div class="bg-black/20 backdrop-blur-md rounded-2xl p-6 mb-8 w-full max-w-sm border border-white/10">
-            <div class="text-sm text-white/60 mb-1">สถานะ</div>
-            <div class="font-bold text-xl">รอตรวจสอบการชำระเงิน</div>
+        <h1 class="text-5xl font-black italic tracking-tighter mb-4">ORDER<br>COMPLETE</h1>
+        <p class="text-white/90 mb-10 font-bold text-lg">ขอบคุณสำหรับการสั่งซื้อ BEC 14</p>
+        
+        <div class="bg-black/20 backdrop-blur-md rounded-3xl p-8 mb-10 w-full max-w-sm border border-white/20 shadow-xl">
+            <div class="text-xs text-white/70 mb-2 uppercase tracking-widest font-bold">Status</div>
+            <div class="font-black text-2xl tracking-tight">รอตรวจสอบสลิป</div>
         </div>
-        <button onclick="location.reload()" class="bg-white text-brand-green font-bold px-8 py-4 rounded-2xl hover:scale-105 transition-transform shadow-xl">กลับหน้าหลัก</button>
+        
+        <button onclick="location.reload()" class="bg-white text-black font-black px-10 py-5 rounded-2xl hover:scale-105 transition-transform shadow-xl uppercase tracking-widest">
+            กลับหน้าหลัก
+        </button>
     </div>
 
+    <!-- ========================================== -->
+    <!-- ⚙️ BACKEND & LOGIC (UNCHANGED 100%)       -->
+    <!-- ========================================== -->
     <script>
-        // ==========================================
-        // ⚙️ BACKEND CONFIGURATION (DO NOT CHANGE)
-        // ==========================================
         const supabaseUrl = 'https://dbebgpeilylrnsidform.supabase.co';
         const supabaseKey = 'sb_publishable_Y_Vppj0gv0Rh-OzmmX0gaA_Zq9Ji2SM';
         const supabaseClient = supabase.createClient(supabaseUrl, supabaseKey);
-        const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbw669TEuxBsWIZiucYhXGO9UJp0dpV4uVuQqoSVECDiseIDYYYaEQ1XhJy7T4j7b9wxQg/exec'; //
-        // ==========================================
+        
+        const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbw669TEuxBsWIZiucYhXGO9UJp0dpV4uVuQqoSVECDiseIDYYYaEQ1XhJy7T4j7b9wxQg/exec';
 
-        // --- Data & Logic Preservation ---
         const majorsData = {
             bachelor: [
                { val: "การเงิน (FIN)", th: "การเงิน (FIN)" }, { val: "การบัญชี (ACC)", th: "การบัญชี (ACC)" },
@@ -447,18 +463,14 @@
         ];
 
         let currentStep = 1;
-        let cartItems = []; // Visual cart state
+        let cartItems = [];
         let isBachelorGlobal = true;
 
-        // --- Initialization ---
         function startOrder() {
             document.getElementById('heroScreen').classList.add('hidden');
             document.getElementById('appScreen').classList.remove('hidden');
-            
-            // Populate Dropdowns
             const bachSelect = document.getElementById('inputBachelorMajor');
             majorsData.bachelor.forEach(m => bachSelect.innerHTML += `<option value="${m.val}">${m.th}</option>`);
-            
             toggleUserType();
             updateStickySummary();
         }
@@ -491,7 +503,6 @@
         function handleEduLevelChange() {
             const level = document.getElementById('inputEduLevel').value;
             const isGrad = (level === 'ปริญญาโท' || level === 'ปริญญาเอก');
-            
             isBachelorGlobal = !isGrad;
 
             if(isGrad) {
@@ -522,13 +533,10 @@
             const titleSel = document.getElementById('inputNameTitle');
             const isStudent = document.querySelector('input[name="userType"]:checked').value === 'นิสิตคณะบริหารธุรกิจฯ';
             const isBach = document.getElementById('inputEduLevel').value === 'ปริญญาตรี';
-            
             titleSel.innerHTML = `<option>นาย</option><option>นางสาว</option>` + (!(isStudent && isBach) ? `<option>นาง</option>` : ``);
         }
 
-        // --- Stepper Navigation ---
         function validateStep1() {
-            // Simplified for brevity, standard browser required attributes handle basics.
             const name = document.getElementById('inputFullName').value.trim();
             const phone = document.getElementById('phoneInput').value;
             if(!name || phone.length !== 10) { alert('กรุณากรอกชื่อและเบอร์โทร 10 หลัก'); return; }
@@ -547,9 +555,9 @@
             document.getElementById('step3').classList.add('hidden');
             document.getElementById(`step${step}`).classList.remove('hidden');
 
-            document.getElementById('stepIndicator1').className = step === 1 ? 'text-black' : 'text-neutral-sub';
-            document.getElementById('stepIndicator2').className = step === 2 ? 'text-black' : 'text-neutral-sub';
-            document.getElementById('stepIndicator3').className = step === 3 ? 'text-black' : 'text-neutral-sub';
+            document.getElementById('stepIndicator1').className = step === 1 ? 'step-active' : 'step-inactive';
+            document.getElementById('stepIndicator2').className = step === 2 ? 'step-active' : 'step-inactive';
+            document.getElementById('stepIndicator3').className = step === 3 ? 'step-active' : 'step-inactive';
 
             currentStep = step;
 
@@ -563,14 +571,12 @@
             window.scrollTo({top: 0, behavior: 'smooth'});
         }
 
-        // --- Visual UI Cart Logic (Replaces old dynamic HTML rows but keeps hidden inputs) ---
         function renderColorGrid() {
             const userType = document.querySelector('input[name="userType"]:checked').value;
             const grid = document.getElementById('colorGridUI');
             grid.innerHTML = '';
             
             if(isBachelorGlobal && userType === 'นิสิตคณะบริหารธุรกิจฯ') {
-                // Determine color based on major
                 document.getElementById('colorSelectionDiv').classList.add('hidden');
                 document.getElementById('shirtColorInput').value = "สีตามสาขา (ป.ตรี)";
             } else {
@@ -581,8 +587,8 @@
                     html += `
                     <label class="cursor-pointer">
                         <input type="radio" name="uiColor" value="${c.id}" class="peer sr-only color-radio">
-                        <div class="color-card bg-neutral-bg border border-neutral-border rounded-2xl p-3 flex items-center gap-3 transition-all">
-                            <div class="w-6 h-6 rounded-full shadow-inner" style="background-color: ${c.hex}"></div>
+                        <div class="color-card bg-neutral-bg border-2 border-transparent rounded-2xl p-4 flex items-center gap-3 transition-all">
+                            <div class="w-6 h-6 rounded-full shadow-inner border border-black/10" style="background-color: ${c.hex}"></div>
                             <span class="font-bold text-sm">${c.name}</span>
                         </div>
                     </label>`;
@@ -604,13 +610,10 @@
 
             if(!size) { alert('กรุณาเลือกไซซ์'); return; }
 
-            // Add to visual cart
             cartItems.push({ size, num, color: colorObj, price: prices[size] || 250 });
             
-            // Sync with hidden legacy DOM for backend compatibility
             const containerId = isBachelorGlobal ? 'studentItemList' : 'alumniItemList';
             const container = document.getElementById(containerId);
-            
             let colorSelectHtml = isBachelorGlobal ? '' : `<select name="itemColor"><option value="${colorObj.id}" selected></option></select>`;
             
             container.insertAdjacentHTML('beforeend', `
@@ -621,10 +624,10 @@
                 </div>
             `);
 
-            // Reset UI
             document.getElementById('uiNumber').value = '';
             document.getElementById('uiSizeMore').value = '';
-            document.querySelector('input[name="uiSize"][value="S"]').checked = true;
+            const defaultRadio = document.querySelector('input[name="uiSize"][value="S"]');
+            if(defaultRadio) defaultRadio.checked = true;
 
             updateStickySummary();
         }
@@ -635,38 +638,32 @@
 
             document.getElementById('itemCountBadge').innerText = `${qty} ITEMS`;
             document.getElementById('mobileItemCount').innerText = `${qty} ITEMS`;
-            
             document.getElementById('subTotalDesktop').innerText = `${total} ฿`;
             
-            // Update Visual Cart (Desktop)
             const vCart = document.getElementById('visualCart');
             vCart.innerHTML = '';
             cartItems.forEach((item, index) => {
-                let cDot = item.color.hex ? `<div class="w-3 h-3 rounded-full mr-2" style="background-color:${item.color.hex}"></div>` : '';
+                let cDot = item.color.hex ? `<div class="w-3 h-3 rounded-full mr-3 border border-black/10" style="background-color:${item.color.hex}"></div>` : '';
                 vCart.innerHTML += `
-                <div class="flex justify-between items-center bg-neutral-bg p-3 rounded-xl border border-neutral-border text-sm">
-                    <div class="flex items-center font-bold">${cDot} ${item.color.name} (ไซซ์ ${item.size})</div>
-                    <div class="text-neutral-sub">#${item.num}</div>
-                    <div class="font-bold">${item.price} ฿</div>
+                <div class="flex justify-between items-center bg-white p-4 rounded-2xl border border-neutral-border text-sm mb-2 shadow-sm">
+                    <div class="flex items-center font-bold">${cDot} ${item.color.name} <span class="text-neutral-sub ml-1 font-medium">(Size ${item.size})</span></div>
+                    <div class="font-mono text-neutral-sub font-bold px-2">#${item.num}</div>
+                    <div class="font-black text-lg">${item.price} ฿</div>
                 </div>`;
             });
 
-            // Context Buttons
             const btnM = document.getElementById('stickyActionBtn');
             const btnD = document.getElementById('desktopActionBtn');
             
             if(currentStep === 1) {
-                btnM.innerText = 'NEXT';
-                btnD.innerText = 'NEXT';
+                btnM.innerText = 'NEXT'; btnD.innerText = 'NEXT';
             } else if(currentStep === 2) {
-                btnM.innerHTML = `PAYMENT <i class="ri-arrow-right-line ml-1"></i>`;
-                btnD.innerHTML = `CONTINUE TO PAYMENT <i class="ri-arrow-right-line ml-2"></i>`;
+                btnM.innerHTML = `PAY <i class="ri-arrow-right-line ml-1"></i>`;
+                btnD.innerHTML = `CHECKOUT <i class="ri-arrow-right-line ml-2"></i>`;
             } else {
-                btnM.innerHTML = `CONFIRM ORDER`;
-                btnD.innerHTML = `CONFIRM ORDER`;
+                btnM.innerHTML = `CONFIRM`; btnD.innerHTML = `CONFIRM ORDER`;
             }
-
-            renderStep4(); // Updates Grand Total including shipping
+            renderStep4(); 
         }
 
         function handleStickyAction() {
@@ -688,12 +685,9 @@
             document.getElementById('shippingDesktop').innerText = `${shipping} ฿`;
             document.getElementById('grandTotalDisplayDesktop').innerText = `${grand} ฿`;
             document.getElementById('grandTotalDisplayMobile').innerText = `${grand} ฿`;
-            if(document.getElementById('grandTotalDisplayMain')) document.getElementById('grandTotalDisplayMain').innerHTML = `${grand} <span class="text-xl">฿</span>`;
+            if(document.getElementById('grandTotalDisplayMain')) document.getElementById('grandTotalDisplayMain').innerHTML = `${grand} <span class="text-2xl text-zinc-500 font-medium">฿</span>`;
         }
 
-        // ==========================================
-        // 🚀 SUBMIT LOGIC (PRESERVED BACKEND)
-        // ==========================================
         async function submitFinalOrder() {
             if(document.getElementById('shipPost').checked && !document.getElementById('inputAddress').value.trim()) {
                 alert('กรุณาระบุที่อยู่จัดส่ง'); document.getElementById('inputAddress').focus(); return;
@@ -712,13 +706,11 @@
             
             reader.onload = async function(e) {
                 try {
-                    // 1. Upload Slip
                     const fileData = { fileName: file.name, mimeType: file.type, base64: e.target.result.split(',')[1] };
                     const uploadRes = await fetch(GOOGLE_SCRIPT_URL, { method: 'POST', body: JSON.stringify(fileData) });
                     const uploadResult = await uploadRes.json();
                     if(uploadResult.status !== 'success') throw new Error("อัปโหลดสลิปไม่สำเร็จ");
 
-                    // 2. Prepare Data (Legacy matching)
                     const userType = document.querySelector('input[name="userType"]:checked').value;
                     let yearInfo = document.getElementById('inputStudentYear').value;
                     if (userType === "นิสิตคณะบริหารธุรกิจฯ" && document.getElementById('inputEduLevel').value !== "ปริญญาตรี") yearInfo = document.getElementById('inputEduLevel').value;
@@ -738,7 +730,6 @@
                     let shippingCost = document.getElementById('shipPost').checked ? 50 : 0;
                     let grandTotal = itemsTotal + shippingCost;
                     
-                    // 3. Supabase Insert
                     const { error } = await supabaseClient.from('shirt_orders').insert([{
                         order_type: userType,
                         student_id: document.getElementById('inputStudentId').value || "-",
@@ -761,7 +752,6 @@
 
                     if (error) throw error;
 
-                    // 4. Success Screen
                     document.getElementById('appScreen').classList.add('hidden');
                     document.getElementById('heroScreen').classList.add('hidden');
                     document.getElementById('successScreen').classList.remove('hidden');
@@ -770,7 +760,7 @@
                 } catch (err) {
                     alert("Error: " + err.message);
                     btnM.disabled = btnD.disabled = false;
-                    btnM.innerText = 'CONFIRM ORDER'; btnD.innerText = 'CONFIRM ORDER';
+                    btnM.innerText = 'CONFIRM'; btnD.innerText = 'CONFIRM ORDER';
                 }
             };
             reader.readAsDataURL(file);
