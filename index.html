@@ -1038,30 +1038,27 @@
 
             try {
                 const file = fileInput.files[0];
+                // 1. บีบอัดภาพให้อยู่ในขนาดที่ Google Apps Script รับได้สบายๆ
                 const fileData = await compressImage(file);
 
-                // ส่งแบบ form-urlencoded เพื่อเลี่ยง CORS และลดเวลารอของ Google Apps Script
-                const formData = new URLSearchParams();
-                formData.append('fileName', fileData.fileName);
-                formData.append('mimeType', fileData.mimeType);
-                formData.append('base64', fileData.base64);
-
+                // 2. ส่งแบบ JSON ตามที่ Google Apps Script ต้องการ
                 const uploadRes = await fetch(GOOGLE_SCRIPT_URL, { 
                     method: 'POST', 
-                    body: formData
+                    headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+                    body: JSON.stringify(fileData) 
                 });
 
+                // 3. ป้องกันปัญหา Safari JSON Parsing
                 const resText = await uploadRes.text();
-                let uploadResult = {};
+                let uploadResult = null;
                 try {
                     uploadResult = JSON.parse(resText);
                 } catch(e) {
-                    // หาก Script ตอบกลับมาเป็น HTML แต่มี URL สลิปแนบมาด้วย
                     const match = resText.match(/https:\/\/drive\.google\.com\/[^\s"']+/);
                     if (match) {
                         uploadResult = { status: 'success', url: match[0] };
                     } else {
-                        throw new Error("อัปโหลดสลิปไม่สำเร็จ กรุณาลองใหม่อีกครั้ง");
+                        throw new Error("ระบบสคริปต์ตอบกลับไม่ถูกต้อง: " + resText.slice(0, 100));
                     }
                 }
 
