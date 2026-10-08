@@ -526,19 +526,19 @@
                 { val: "นิเทศศาสตร์ (CA)", en: "Comm. Arts (CA)", th: "นิเทศศาสตร์ (CA)", color: "pink" }
             ],
             master: [
-                { val: "บริหารธุรกิจมหาบัณฑิต (M.B.A)", en: "Master of Business Administration (M.B.A)", th: "บริหารธุรกิจมหาบัณฑิต (M.B.A)" },
-                { val: "การบริหารธุรกิจดิจิทัลเชิงกลยุทธ์", en: "Strategic Digital Business Management", th: "การบริหารธุรกิจดิจิทัลเชิงกลยุทธ์" },
-                { val: "การจัดการการท่องเที่ยวและจิตบริการ", en: "Tourism and Hospitality Management", th: "การจัดการการท่องเที่ยวและจิตบริการ" },
-                { val: "เศรษฐศาสตรมหาบัณฑิต", en: "Master of Economics", th: "เศรษฐศาสตรมหาบัณฑิต" },
-                { val: "การสื่อสาร", en: "Master of Communication Arts", th: "การสื่อสาร" },
-                { val: "การตลาดอัจฉริยะเชิงนวัตกรรมและวิทยาการข้อมูล (พหุวิทยาการ)", en: "Innovative Intelligence Marketing (Multidisciplinary)", th: "การตลาดอัจฉริยะเชิงนวัตกรรมและวิทยาการข้อมูล (พหุวิทยาการ)" },
-                { val: "บัญชีมหาบัณฑิต", en: "Master of Accountancy", th: "บัญชีมหาบัณฑิต" }
+                { val: "บริหารธุรกิจมหาบัณฑิต (M.B.A.)", th: "บริหารธุรกิจมหาบัณฑิต (M.B.A.)" },
+                { val: "การบริหารธุรกิจดิจิทัลเชิงกลยุทธ์", th: "การบริหารธุรกิจดิจิทัลเชิงกลยุทธ์" },
+                { val: "การจัดการการท่องเที่ยวและจิตบริการ", th: "การจัดการการท่องเที่ยวและจิตบริการ" },
+                { val: "เศรษฐศาสตรมหาบัณฑิต (M.Econ.)", th: "เศรษฐศาสตรมหาบัณฑิต (M.Econ.)" },
+                { val: "นิเทศศาสตรมหาบัณฑิต (M.Com.Arts)", th: "นิเทศศาสตรมหาบัณฑิต (M.Com.Arts)" },
+                { val: "บัญชีมหาบัณฑิต (M.Acc.)", th: "บัญชีมหาบัณฑิต (M.Acc.)" },
+                { val: "การตลาดอัจฉริยะเชิงนวัตกรรมและวิทยาการข้อมูล", th: "การตลาดอัจฉริยะเชิงนวัตกรรมและวิทยาการข้อมูล" }
             ],
             doctor: [
-                { val: "การบริหารธุรกิจ", en: "Ph.D. in Business Administration", th: "การบริหารธุรกิจ" },
-                { val: "การสื่อสาร", en: "Ph.D. in Communication", th: "การสื่อสาร" },
-                { val: "การจัดการการท่องเที่ยวและจิตบริการ", en: "Ph.D. in Tourism and Hospitality", th: "การจัดการการท่องเที่ยวและจิตบริการ" },
-                { val: "เศรษฐศาสตร์", en: "Ph.D. in Economics", th: "เศรษฐศาสตร์" }
+                { val: "ปรัชญาดุษฎีบัณฑิต สาขาวิชาการบริหารธุรกิจ", th: "ปรัชญาดุษฎีบัณฑิต สาขาวิชาการบริหารธุรกิจ" },
+                { val: "ปรัชญาดุษฎีบัณฑิต สาขาวิชาเศรษฐศาสตร์", th: "ปรัชญาดุษฎีบัณฑิต สาขาวิชาเศรษฐศาสตร์" },
+                { val: "ปรัชญาดุษฎีบัณฑิต สาขาวิชาการสื่อสาร", th: "ปรัชญาดุษฎีบัณฑิต สาขาวิชาการสื่อสาร" },
+                { val: "ปรัชญาดุษฎีบัณฑิต สาขาวิชาการจัดการการท่องเที่ยวและจิตบริการ", th: "ปรัชญาดุษฎีบัณฑิต สาขาวิชาการจัดการการท่องเที่ยวและจิตบริการ" }
             ]
         };
 
@@ -611,14 +611,15 @@
             
             if(isGrad) {
                 const sel = document.getElementById('inputGradMajor');
-                if(sel.options.length <= 1) {
-                    sel.innerHTML = `<option value="" disabled selected>เลือกสาขาวิชา...</option>`;
-                    const dataList = level === 'ปริญญาโท' ? majorsData.master : majorsData.doctor;
-                    dataList.forEach(m => sel.innerHTML += `<option value="${m.val}">${m.th}</option>`);
-                }
+                // ล้างค่าและใส่ตัวเลือกใหม่เสมอตามระดับที่เลือก
+                sel.innerHTML = `<option value="" disabled selected>เลือกสาขาวิชา...</option>`;
+                const dataList = (level === 'ปริญญาโท') ? majorsData.master : majorsData.doctor;
+                dataList.forEach(m => {
+                    sel.innerHTML += `<option value="${m.val}">${m.th}</option>`;
+                });
             }
             renderTitleOptions();
-        }
+        }}
 
         function handleStaffTypeChange() {
             const isAcademic = document.getElementById('inputStaffType').value === 'สายวิชาการ';
