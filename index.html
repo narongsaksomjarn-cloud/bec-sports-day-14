@@ -137,9 +137,7 @@
                             <p class="text-[#86868B] text-[15px]">โปรดระบุข้อมูลของคุณสำหรับการจัดเตรียมสินค้า</p>
                         </div>
 
-                        <!-- 🟢 แก้ไขระยะห่างให้สมดุลเท่ากันเป๊ะด้วย flex-col gap-5 -->
                         <div class="flex flex-col gap-5">
-                            
                             <!-- User Type -->
                             <div class="mb-2">
                                 <h3 class="text-[14px] font-medium mb-3 text-center text-[#86868B]">ประเภทผู้สั่งซื้อ <span class="text-red-500">*</span></h3>
@@ -159,7 +157,7 @@
                                 </div>
                             </div>
 
-                            <!-- 1. Academic Info (Student Only) -->
+                            <!-- 1. Academic Info -->
                             <div id="row-student-academic" class="grid grid-cols-1 md:grid-cols-2 gap-5">
                                 <select name="eduLevel" id="inputEduLevel" class="input-field cursor-pointer" required onchange="handleEduLevelChange(); removeError(this)">
                                     <option value="" disabled>เลือกระดับการศึกษา... *</option>
@@ -175,7 +173,7 @@
                                 </select>
                             </div>
 
-                            <!-- 2. Staff Info (Staff Only) -->
+                            <!-- 2. Staff Info -->
                             <div id="row-staff" class="hidden grid grid-cols-1 md:grid-cols-2 gap-5">
                                 <select name="staffType" id="inputStaffType" class="input-field cursor-pointer" required onchange="handleStaffTypeChange(); removeError(this)">
                                     <option value="" disabled selected>เลือกประเภทบุคลากร... *</option>
@@ -187,7 +185,7 @@
                                 </select>
                             </div>
 
-                            <!-- 3. Student ID & Year (Student Only) -->
+                            <!-- 3. Student ID & Year -->
                             <div id="row-student-id" class="grid grid-cols-1 md:grid-cols-2 gap-5">
                                 <input type="text" id="inputStudentId" name="studentId" class="input-field font-mono" placeholder="รหัสนิสิต (8 หลัก) *" maxlength="8" oninput="this.value=this.value.replace(/[^0-9]/g,''); removeError(this)">
                                 <select name="yearLevel" id="inputStudentYear" class="input-field cursor-pointer" required onchange="removeError(this)">
@@ -198,12 +196,12 @@
                                 </select>
                             </div>
 
-                            <!-- 4. Alumni Info (Alumni Only) -->
+                            <!-- 4. Alumni Info -->
                             <div id="row-alumni" class="hidden">
                                 <input type="text" id="inputAlumniYear" name="alumniYear" class="input-field font-mono" placeholder="ปีที่เข้าศึกษา (เช่น 58) *" oninput="removeError(this)">
                             </div>
 
-                            <!-- 5. Name (Common) -->
+                            <!-- 5. Name -->
                             <div class="flex gap-3 md:gap-5">
                                 <div class="w-[110px] md:w-[130px] shrink-0">
                                     <select name="nameTitle" id="inputNameTitle" class="input-field px-3 cursor-pointer" required onchange="removeError(this)"></select>
@@ -213,12 +211,11 @@
                                 </div>
                             </div>
 
-                            <!-- 6. Phone (Common) -->
+                            <!-- 6. Phone -->
                             <div>
                                 <input type="tel" id="phoneInput" name="phone" class="input-field font-mono" placeholder="เบอร์โทรศัพท์ (10 หลัก) *" maxlength="10" required oninput="this.value=this.value.replace(/[^0-9]/g,''); removeError(this)">
                             </div>
 
-                            <!-- Button -->
                             <div class="pt-8 pb-10">
                                 <button type="button" onclick="validateStep1()" class="btn-primary shadow-lg shadow-blue-500/10">
                                     ดำเนินการต่อ
@@ -251,12 +248,10 @@
                                     <h2 class="text-3xl md:text-4xl font-semibold tracking-tight leading-tight">ปรับแต่งเสื้อของคุณ</h2>
                                 </div>
 
-                                <!-- Dynamic Color Selection Container -->
                                 <div id="colorSelectionContainer">
                                     <!-- UI injected by JS -->
                                 </div>
 
-                                <!-- Size Selection -->
                                 <div class="border-t border-gray-100 pt-6">
                                     <div class="flex justify-between items-center mb-4">
                                         <h3 class="text-[17px] font-semibold">ไซซ์ <span class="text-[13px] font-normal text-apple-sub ml-1">ขนาดที่พอดี</span></h3>
@@ -267,15 +262,12 @@
                                     </div>
                                 </div>
 
-                                <!-- 🟢 Number & Add to Cart (ปุ่มอยู่บรรทัดเดียวกัน) -->
                                 <div class="border-t border-gray-100 pt-6 pb-10">
                                     <h3 class="text-[17px] font-semibold mb-4">ระบุหมายเลข <span class="text-[13px] font-normal text-apple-sub ml-1">(01-99)</span></h3>
                                     
                                     <div class="flex items-center gap-3 md:gap-4">
-                                        <!-- Input เบอร์ -->
                                         <input type="text" id="uiNumber" class="input-field w-[80px] md:w-[100px] text-center font-mono text-xl !h-[56px] shrink-0" placeholder="33" maxlength="2" oninput="this.value=this.value.replace(/[^0-9]/g,'')">
                                         
-                                        <!-- ปุ่ม Add to Cart -->
                                         <button id="addToCartBtn" type="button" onclick="addVisualItem()" class="flex-1 bg-[#F5F5F7] border border-[#E5E5EA] text-[#0071E3] font-semibold h-[56px] rounded-full hover:bg-gray-200 active:scale-95 transition-all text-[15px] md:text-[16px]">
                                             เพิ่มลงในถุง
                                         </button>
@@ -285,7 +277,6 @@
                             </div>
                         </div>
 
-                        <!-- Hidden containers for form submission -->
                         <div id="studentItemList" class="hidden"></div>
                         <div id="alumniItemList" class="hidden"></div>
                         <input type="hidden" name="shirtColor" id="shirtColorInput">
@@ -299,13 +290,12 @@
                         
                         <div class="flex flex-col md:flex-row gap-10 lg:gap-16">
                             <!-- Left: Forms -->
-                            <div class="w-full md:w-[55%] lg:w-[60%] space-y-10">
+                            <div class="w-full space-y-10">
                                 <div>
                                     <h2 class="text-3xl md:text-4xl font-semibold tracking-tight mb-2">การชำระเงิน</h2>
                                     <p class="text-[#86868B] text-[15px]">กรุณาตรวจสอบและอัปโหลดหลักฐานการโอนเงิน</p>
                                 </div>
 
-                                <!-- Shipping Options -->
                                 <div class="border-t border-gray-200 pt-8">
                                     <h3 class="text-xl font-semibold mb-6">วิธีรับสินค้า</h3>
                                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -331,7 +321,6 @@
                                     </div>
                                 </div>
 
-                                <!-- Payment Box -->
                                 <div class="border-t border-gray-200 pt-8 pb-10">
                                     <h3 class="text-xl font-semibold mb-6">โอนเงิน</h3>
                                     <div class="bg-[#F5F5F7] rounded-3xl p-6 md:p-8 border border-gray-100">
@@ -360,48 +349,48 @@
                                     </div>
                                 </div>
                             </div>
-
-                            <!-- Right: Summary Bag -->
-                            <div class="w-full md:w-[45%] lg:w-[40%]">
-                                <div class="md:sticky md:top-24 bg-[#F5F5F7] rounded-3xl p-6 md:p-8 border border-gray-100">
-                                    <h3 class="text-2xl font-semibold tracking-tight mb-6">สรุปคำสั่งซื้อ</h3>
-                                    
-                                    <div id="visualCart" class="max-h-[35vh] overflow-y-auto mb-6 pr-2 -mx-2 px-2">
-                                        <!-- Items injected here by JS -->
-                                    </div>
-
-                                    <div class="border-t border-gray-300 pt-5 space-y-3">
-                                        <div class="flex justify-between text-[15px]">
-                                            <span>ยอดรวม</span>
-                                            <span id="subTotalDesktop" class="font-medium">฿0</span>
-                                        </div>
-                                        <div class="flex justify-between text-[15px]">
-                                            <span>การจัดส่ง</span>
-                                            <span id="shippingDesktop" class="font-medium">฿0</span>
-                                        </div>
-                                        <div class="flex justify-between items-end pt-4 pb-6">
-                                            <span class="font-semibold text-xl">ยอดชำระสุทธิ</span>
-                                            <span class="text-3xl font-semibold text-[#0071E3]" id="grandTotalDisplayDesktop">฿0</span>
-                                        </div>
-                                        
-                                        <div id="stickyActionContainer">
-                                            <!-- Button injected by JS -->
-                                        </div>
-                                    </div>
-                                </div>
-                            </div> <!-- End Summary Section -->
-
                         </div>
                     </div>
                 </form>
             </div>
+
+            <!-- RIGHT: SUMMARY SECTION (Global Sidebar for Step 2 & 3) -->
+            <div id="summarySection" class="hidden w-full lg:w-[320px] xl:w-[360px] shrink-0 transition-all duration-300">
+                <div class="md:sticky md:top-24 bg-[#F5F5F7] rounded-3xl p-6 md:p-8 border border-gray-100">
+                    <h3 class="text-2xl font-semibold tracking-tight mb-6">สรุปคำสั่งซื้อ</h3>
+                    
+                    <div id="visualCart" class="max-h-[35vh] overflow-y-auto mb-6 pr-2 -mx-2 px-2">
+                        <!-- Items injected here by JS -->
+                    </div>
+
+                    <div class="border-t border-gray-300 pt-5 space-y-3">
+                        <div class="flex justify-between text-[15px]">
+                            <span>ยอดรวม</span>
+                            <span id="subTotalDesktop" class="font-medium">฿0</span>
+                        </div>
+                        <div class="flex justify-between text-[15px]">
+                            <span>การจัดส่ง</span>
+                            <span id="shippingDesktop" class="font-medium">฿0</span>
+                        </div>
+                        <div class="flex justify-between items-end pt-4 pb-6">
+                            <span class="font-semibold text-xl">ยอดชำระสุทธิ</span>
+                            <span class="text-3xl font-semibold text-[#0071E3]" id="grandTotalDisplayDesktop">฿0</span>
+                        </div>
+                        
+                        <div id="stickyActionContainer">
+                            <!-- Button injected by JS -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+
         </div>
     </div>
 
     <!-- SIZE CHART MODAL -->
     <div id="sizeChartModal" class="fixed inset-0 bg-black/40 hidden z-[100] flex items-center justify-center p-4 backdrop-blur-sm transition-opacity">
         <div class="bg-white rounded-3xl max-w-sm w-full overflow-hidden relative shadow-2xl fade-in border border-gray-100">
-            <button onclick="document.getElementById('sizeChartModal').classList.add('hidden')" class="absolute top-4 right-4 bg-gray-100 text-[#86868B] rounded-full w-8 h-8 flex items-center justify-center hover:bg-gray-200 transition-colors z-10"><i class="ri-close-line text-lg"></i></button>
+            <button onclick="document.getElementById('sizeChartModal').classList.add('hidden')" class="absolute top-4 right-4 bg-gray-100 text-[#86868B] rounded-full w-8 h-8 flex items-center justify-center hover:bg-gray-200 transition-colors z-10"><i class="ri-close-line text-xl"></i></button>
             <div class="p-6 pb-2 bg-white text-center text-[17px] font-semibold">ตารางไซซ์เสื้อ</div>
             <div class="p-6">
                 <img src="https://i.postimg.cc/nLqKjm2t/unnamed.png" class="w-full object-contain rounded-xl border border-gray-100">
@@ -485,7 +474,7 @@
             sizeGrid.innerHTML += `
                 <label class="cursor-pointer relative group">
                     <input type="radio" name="uiSize" value="${s}" class="peer sr-only" ${idx===1?'checked':''}>
-                    <div class="border border-[#E5E5EA] bg-white rounded-xl py-3 text-center font-medium text-[14px] text-apple-text peer-checked:border-[#0071E3] peer-checked:ring-1 peer-checked:ring-[#0071E3] peer-checked:text-[#0071E3] transition-all hover:border-gray-400">${s}</div>
+                    <div class="border border-[#E5E5EA] bg-white rounded-xl py-3.5 text-center font-medium text-[14px] text-apple-text peer-checked:border-[#0071E3] peer-checked:ring-1 peer-checked:ring-[#0071E3] peer-checked:text-[#0071E3] transition-all hover:border-gray-400">${s}</div>
                 </label>
             `;
         });
