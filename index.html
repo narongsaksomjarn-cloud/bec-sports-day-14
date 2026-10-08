@@ -289,7 +289,6 @@
                                     </div>
                                 </div>
 
-                                <!-- 🟢 Number & Add to Cart (Responsive layout fix) -->
                                 <div class="border-t border-gray-100 pt-6 pb-10">
                                     <h3 class="text-[17px] font-semibold mb-4">ระบุหมายเลข <span class="text-[13px] font-normal text-apple-sub ml-1">(01-99)</span></h3>
                                     
@@ -310,109 +309,123 @@
                         <input type="hidden" name="shirtColor" id="shirtColorInput">
                     </div>
 
-                    <!-- STEP 3: PAYMENT -->
+                    <!-- STEP 3: PAYMENT (🔴 ปรับแก้ตาม 11 ข้อล่าสุด 🔴) -->
                     <div id="step3" class="hidden fade-in">
-                        <div class="flex items-center gap-3 mb-6 md:mb-10">
-                            <button type="button" onclick="goToStep(2)" class="text-apple-blue hover:underline text-[15px] font-medium flex items-center"><i class="ri-arrow-left-s-line text-xl"></i> ย้อนกลับ</button>
+                        <div class="flex items-center gap-3 mb-5 md:mb-6">
+                            <button type="button" onclick="goToStep(2)" class="text-[#0071E3] hover:underline text-[15px] font-medium flex items-center"><i class="ri-arrow-left-s-line text-xl"></i> ย้อนกลับ</button>
                         </div>
                         
-                        <div class="flex flex-col md:flex-row gap-10 lg:gap-16">
+                        <div class="flex flex-col md:flex-row gap-8 lg:gap-12">
                             <!-- Left: Forms -->
-                            <div class="w-full space-y-10">
+                            <div class="w-full md:w-[60%] lg:w-[65%] space-y-6 md:space-y-8">
                                 <div>
-                                    <h2 class="text-3xl md:text-4xl font-semibold tracking-tight mb-2">การชำระเงิน</h2>
+                                    <h2 class="text-3xl font-semibold tracking-tight mb-2">การชำระเงิน</h2>
                                     <p class="text-[#86868B] text-[15px]">กรุณาตรวจสอบและอัปโหลดหลักฐานการโอนเงิน</p>
                                 </div>
 
-                                <div class="border-t border-gray-200 pt-8">
-                                    <h3 class="text-xl font-semibold mb-6">วิธีรับสินค้า</h3>
-                                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                                        <label class="cursor-pointer relative group">
+                                <!-- Shipping Options (Compact Cards) -->
+                                <div class="border-t border-gray-200 pt-6">
+                                    <h3 class="text-[17px] font-semibold mb-4 text-[#1D1D1F]">วิธีรับสินค้า</h3>
+                                    
+                                    <div class="flex flex-col gap-3">
+                                        <label class="cursor-pointer relative flex items-center p-4 border border-[#E5E5EA] rounded-xl hover:border-gray-300 transition-all has-[:checked]:border-[#0071E3] has-[:checked]:ring-1 has-[:checked]:ring-[#0071E3] has-[:checked]:bg-[#F5F9FF] min-h-[82px] md:min-h-[88px]">
                                             <input type="radio" name="shippingMethod" id="shipPickup" value="pickup" checked class="peer sr-only" onchange="renderStep4()">
-                                            <div class="border border-[#E5E5EA] bg-white rounded-xl p-5 flex flex-col peer-checked:border-[#0071E3] peer-checked:ring-1 peer-checked:ring-[#0071E3] transition-all hover:border-gray-300">
-                                                <div class="font-semibold text-[15px] mb-1">รับที่คณะ</div>
-                                                <div class="text-[13px] text-[#86868B] mb-3">รอประกาศวันรับเสื้ออีกครั้ง</div>
-                                                <div class="text-[15px] font-medium mt-auto text-[#0071E3]">ฟรี</div>
+                                            <div class="w-5 h-5 rounded-full border border-[#D2D2D7] peer-checked:border-[#0071E3] peer-checked:border-[6px] mr-4 shrink-0 transition-all"></div>
+                                            <div class="flex-1 flex justify-between items-center">
+                                                <div>
+                                                    <div class="font-semibold text-[15px] mb-0.5 text-[#1D1D1F]">รับที่คณะ</div>
+                                                    <div class="text-[13px] text-[#86868B]">รอประกาศวันรับเสื้ออีกครั้ง</div>
+                                                </div>
+                                                <div class="text-[15px] font-medium text-[#0071E3]">ฟรี</div>
                                             </div>
                                         </label>
-                                        <label class="cursor-pointer relative group">
+                                        <label class="cursor-pointer relative flex items-center p-4 border border-[#E5E5EA] rounded-xl hover:border-gray-300 transition-all has-[:checked]:border-[#0071E3] has-[:checked]:ring-1 has-[:checked]:ring-[#0071E3] has-[:checked]:bg-[#F5F9FF] min-h-[82px] md:min-h-[88px]">
                                             <input type="radio" name="shippingMethod" id="shipPost" value="post" class="peer sr-only" onchange="renderStep4()">
-                                            <div class="border border-[#E5E5EA] bg-white rounded-xl p-5 flex flex-col peer-checked:border-[#0071E3] peer-checked:ring-1 peer-checked:ring-[#0071E3] transition-all hover:border-gray-300">
-                                                <div class="font-semibold text-[15px] mb-1">จัดส่งไปรษณีย์</div>
-                                                <div class="text-[13px] text-[#86868B] mb-3">จัดส่งแบบลงทะเบียน</div>
-                                                <div class="text-[15px] font-medium mt-auto text-[#0071E3]">+ ฿50</div>
+                                            <div class="w-5 h-5 rounded-full border border-[#D2D2D7] peer-checked:border-[#0071E3] peer-checked:border-[6px] mr-4 shrink-0 transition-all"></div>
+                                            <div class="flex-1 flex justify-between items-center">
+                                                <div>
+                                                    <div class="font-semibold text-[15px] mb-0.5 text-[#1D1D1F]">จัดส่งไปรษณีย์</div>
+                                                    <div class="text-[13px] text-[#86868B]">จัดส่งแบบลงทะเบียนทั่วประเทศ</div>
+                                                </div>
+                                                <div class="text-[15px] font-medium text-[#0071E3]">+ ฿50</div>
                                             </div>
                                         </label>
                                     </div>
-                                    <div id="addressBox" class="hidden mt-4 pt-2">
-                                        <textarea name="shippingAddress" id="inputAddress" rows="3" class="input-field py-3 min-h-[100px] !h-auto !bg-white border-gray-300" placeholder="ที่อยู่สำหรับจัดส่ง (บ้านเลขที่ หมู่ ซอย ถนน ตำบล อำเภอ จังหวัด รหัสไปรษณีย์) *"></textarea>
+                                    
+                                    <!-- Address Section (Reduced Height) -->
+                                    <div id="addressBox" class="hidden mt-4">
+                                        <textarea name="shippingAddress" id="inputAddress" class="input-field py-3 min-h-[80px] md:min-h-[85px] !h-auto !bg-white border-gray-300 resize-none w-full" placeholder="ที่อยู่สำหรับจัดส่ง *"></textarea>
+                                        <p class="text-[12px] text-[#86868B] mt-2 ml-1 leading-relaxed">บ้านเลขที่ / หมู่ / ซอย / ถนน / ตำบล / อำเภอ / จังหวัด / รหัสไปรษณีย์</p>
                                     </div>
                                 </div>
 
-                                <div class="border-t border-gray-200 pt-8 pb-10">
-                                    <h3 class="text-xl font-semibold mb-6">โอนเงิน</h3>
-                                    <div class="bg-[#F5F5F7] rounded-3xl p-6 md:p-8 border border-gray-100">
-                                        
-                                        <div class="flex flex-col sm:flex-row sm:items-center justify-between bg-white border border-gray-200 rounded-2xl p-5 mb-6 shadow-sm gap-4">
-                                            <div class="flex items-center gap-4 min-w-0">
-                                                <img src="https://upload.wikimedia.org/wikipedia/en/thumb/5/5a/Kasikornbank_Logo.svg/1200px-Kasikornbank_Logo.svg.png" class="w-10 h-10 border border-gray-100 p-1 rounded-full shrink-0">
-                                                <div class="min-w-0">
-                                                    <div class="font-semibold text-[15px] text-apple-text truncate">ธนาคารกสิกรไทย</div>
-                                                    <div class="text-[11px] text-apple-sub truncate">น.ส. นภัสวรรณ ตุ้มพงษ์ และคณะ</div>
-                                                </div>
-                                            </div>
-                                            <div class="font-mono text-[16px] font-semibold text-apple-text shrink-0">
-                                                208-8-91057-8
+                                <!-- Payment Box (Compact) -->
+                                <div class="border-t border-gray-200 pt-6 pb-8">
+                                    <h3 class="text-[17px] font-semibold mb-4 text-[#1D1D1F]">โอนเงินเข้าบัญชีธนาคาร</h3>
+                                    
+                                    <div class="bg-white border border-[#E5E5EA] rounded-xl p-4 md:p-5 mb-5 shadow-sm min-h-[80px] flex flex-col sm:flex-row sm:items-center justify-between gap-4 relative">
+                                        <div class="flex items-start sm:items-center gap-3.5 min-w-0 w-full sm:w-auto">
+                                            <img src="https://upload.wikimedia.org/wikipedia/en/thumb/5/5a/Kasikornbank_Logo.svg/1200px-Kasikornbank_Logo.svg.png" onerror="this.style.display='none'" class="w-10 h-10 border border-gray-100 p-1 rounded-full shrink-0 object-contain">
+                                            <div class="min-w-0 pr-2">
+                                                <div class="font-semibold text-[15px] text-[#1D1D1F] truncate">ธนาคารกสิกรไทย</div>
+                                                <div class="text-[12px] text-[#86868B] leading-[1.5] mt-1 whitespace-normal">ชื่อบัญชี: น.ส.ณภัทร บุญชู และน.ส. ชินสรา หลิวเจริญทรัพย์ และ น.ส.ชนาภัทร์ เจตนา</div>
                                             </div>
                                         </div>
                                         
-                                        <label class="block text-[15px] font-semibold mb-3">อัปโหลดสลิป <span class="text-red-500">*</span></label>
-                                        <input type="file" id="slipFile" accept="image/*" class="w-full text-sm file:mr-4 file:py-2.5 file:px-6 file:rounded-full file:border file:border-[#D2D2D7] file:bg-white file:text-[#1D1D1F] file:font-medium hover:file:bg-gray-50 cursor-pointer bg-white rounded-xl border border-[#D2D2D7] p-2 outline-none focus:border-apple-blue focus:ring-1 focus:ring-apple-blue">
-                                        
-                                        <div class="mt-6">
-                                            <label class="flex items-start gap-3 cursor-pointer">
-                                                <input type="checkbox" id="confirmCheck" class="mt-1 w-4 h-4 accent-[#0071E3] rounded border-gray-300 cursor-pointer">
-                                                <span class="text-[13px] text-[#86868B] pt-0.5">ฉันได้ตรวจสอบความถูกต้องของข้อมูลทั้งหมดและสลิปโอนเงินเรียบร้อยแล้ว (ไม่สามารถแก้ไขได้ในภายหลัง)</span>
-                                            </label>
+                                        <div class="flex items-center justify-between sm:justify-end gap-3 shrink-0 bg-[#F5F5F7] sm:bg-transparent p-2 sm:p-0 rounded-lg">
+                                            <div class="font-mono text-[16px] font-bold text-[#1D1D1F]">231-1-39199-5</div>
+                                            <button type="button" onclick="navigator.clipboard.writeText('2311391995'); this.innerText='คัดลอกแล้ว'; setTimeout(() => this.innerText='คัดลอก', 2000);" class="text-[#0071E3] bg-[#E8F2FC] hover:bg-[#D1E4FA] px-3 py-1.5 rounded-full text-[12px] font-semibold transition-colors active:scale-95 border border-transparent">คัดลอก</button>
                                         </div>
+                                    </div>
+                                    
+                                    <div class="mb-5">
+                                        <label class="block text-[13px] font-semibold mb-2 text-[#1D1D1F] ml-1">อัปโหลดหลักฐานการโอน <span class="text-red-500">*</span></label>
+                                        <input type="file" id="slipFile" accept="image/*" class="w-full text-[14px] file:mr-3 file:py-2.5 file:px-5 file:rounded-full file:border file:border-[#D2D2D7] file:bg-white file:text-[#1D1D1F] file:font-medium hover:file:bg-gray-50 cursor-pointer bg-white rounded-xl border border-[#D2D2D7] p-1.5 outline-none focus:border-[#0071E3] focus:ring-1 focus:ring-[#0071E3] transition-all">
+                                    </div>
+                                    
+                                    <div class="pt-2">
+                                        <label class="flex items-start gap-3 cursor-pointer p-1">
+                                            <input type="checkbox" id="confirmCheck" class="mt-[3px] w-5 h-5 accent-[#0071E3] rounded border-gray-300 cursor-pointer shrink-0">
+                                            <span class="text-[13px] md:text-[14px] font-medium text-[#86868B] leading-[1.6]">ฉันได้ตรวจสอบความถูกต้องของข้อมูลทั้งหมดและสลิปโอนเงินเรียบร้อยแล้ว (ไม่สามารถแก้ไขได้ในภายหลัง)</span>
+                                        </label>
                                     </div>
                                 </div>
                             </div>
+
+                            <!-- Right: Summary Bag (Reduced width) -->
+                            <div id="summarySection" class="hidden w-full md:w-[40%] lg:w-[35%] max-w-[360px] mx-auto md:mx-0 shrink-0 transition-all duration-300">
+                                <div class="md:sticky md:top-24 bg-[#F5F5F7] rounded-3xl p-6 md:p-8 border border-gray-100">
+                                    <h3 class="text-2xl font-semibold tracking-tight mb-6">สรุปคำสั่งซื้อ</h3>
+                                    
+                                    <div id="visualCart" class="max-h-[35vh] overflow-y-auto mb-6 pr-2 -mx-2 px-2">
+                                        <!-- Items injected here by JS -->
+                                    </div>
+
+                                    <div class="border-t border-gray-300 pt-5 space-y-3">
+                                        <div class="flex justify-between text-[15px]">
+                                            <span>ยอดรวม</span>
+                                            <span id="subTotalDesktop" class="font-medium">฿0</span>
+                                        </div>
+                                        <div class="flex justify-between text-[15px]">
+                                            <span>การจัดส่ง</span>
+                                            <span id="shippingDesktop" class="font-medium">฿0</span>
+                                        </div>
+                                        <div class="flex justify-between items-end pt-4 pb-6">
+                                            <span class="font-semibold text-xl">ยอดชำระสุทธิ</span>
+                                            <span class="text-3xl font-semibold text-[#0071E3]" id="grandTotalDisplayDesktop">฿0</span>
+                                        </div>
+                                        
+                                        <div id="stickyActionContainer">
+                                            <!-- Button injected by JS -->
+                                        </div>
+                                    </div>
+                                </div>
+                            </div> <!-- End Summary Section -->
+
                         </div>
                     </div>
                 </form>
-            </div> <!-- End Form Section -->
-
-            <!-- RIGHT: SUMMARY SECTION (Global Sidebar for Step 2 & 3) -->
-            <div id="summarySection" class="hidden w-full lg:w-[320px] xl:w-[340px] shrink-0 transition-all duration-300">
-                <div class="md:sticky md:top-24 bg-[#F5F5F7] rounded-3xl p-6 md:p-8 border border-gray-100">
-                    <h3 class="text-2xl font-semibold tracking-tight mb-6">สรุปคำสั่งซื้อ</h3>
-                    
-                    <div id="visualCart" class="max-h-[35vh] overflow-y-auto mb-6 pr-2 -mx-2 px-2">
-                        <!-- Items injected here by JS -->
-                    </div>
-
-                    <div class="border-t border-gray-300 pt-5 space-y-3">
-                        <div class="flex justify-between text-[15px]">
-                            <span>ยอดรวม</span>
-                            <span id="subTotalDesktop" class="font-medium">฿0</span>
-                        </div>
-                        <div class="flex justify-between text-[15px]">
-                            <span>การจัดส่ง</span>
-                            <span id="shippingDesktop" class="font-medium">฿0</span>
-                        </div>
-                        <div class="flex justify-between items-end pt-4 pb-6">
-                            <span class="font-semibold text-xl">ยอดชำระสุทธิ</span>
-                            <span class="text-3xl font-semibold text-[#0071E3]" id="grandTotalDisplayDesktop">฿0</span>
-                        </div>
-                        
-                        <div id="stickyActionContainer">
-                            <!-- Button injected by JS -->
-                        </div>
-                    </div>
-                </div>
-            </div> <!-- End Summary Section -->
-
+            </div>
         </div>
     </div>
 
@@ -553,7 +566,7 @@
             if(isGrad) {
                 const sel = document.getElementById('inputGradMajor');
                 if(sel.options.length <= 1) {
-                    sel.innerHTML = `<option value="" disabled selected>เลือกสาขาวิชา... *</option>`;
+                    sel.innerHTML = `<option value="" disabled selected>เลือกสาขาวิชา...</option>`;
                     const dataList = level === 'ปริญญาโท' ? majorsData.master : majorsData.doctor;
                     dataList.forEach(m => sel.innerHTML += `<option value="${m.val}">${m.th}</option>`);
                 }
@@ -641,7 +654,6 @@
             if(!isValid) {
                 if(firstErrorEl) {
                     firstErrorEl.focus();
-                    // Optional alert: alert('กรุณากรอกข้อมูลในช่องที่มีขอบสีแดงให้ครบถ้วนและถูกต้อง');
                 }
                 return;
             }
