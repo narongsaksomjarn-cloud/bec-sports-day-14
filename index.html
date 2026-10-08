@@ -511,8 +511,6 @@
         const supabaseUrl = 'https://dbebgpeilylrnsidform.supabase.co';
         const supabaseKey = 'sb_publishable_Y_Vppj0gv0Rh-OzmmX0gaA_Zq9Ji2SM';
         const supabaseClient = supabase.createClient(supabaseUrl, supabaseKey);
-        
-        const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbw669TEuxBsWIZiucYhXGO9UJp0dpV4uVuQqoSVECDiseIDYYYaEQ1XhJy7T4j7b9wxQg/exec';
 
         const majorsData = {
             bachelor: [
@@ -611,7 +609,6 @@
             
             if(isGrad) {
                 const sel = document.getElementById('inputGradMajor');
-                // ล้างค่าและใส่ตัวเลือกใหม่เสมอตามระดับที่เลือก
                 sel.innerHTML = `<option value="" disabled selected>เลือกสาขาวิชา...</option>`;
                 const dataList = (level === 'ปริญญาโท') ? majorsData.master : majorsData.doctor;
                 dataList.forEach(m => {
