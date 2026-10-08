@@ -1071,9 +1071,20 @@
                 else if (userType === "บุคลากรคณะบริหารธุรกิจฯ") yearInfo = document.getElementById('inputStaffType').value;
                 else if (userType === "ศิษย์เก่าคณะบริหารธุรกิจฯ") yearInfo = "เข้าปี " + (document.getElementById('inputAlumniYear').value || "-");
 
-                let majorInfo = document.getElementById('inputBachelorMajor').value;
-                if(document.getElementById('inputEduLevel').value !== "ปริญญาตรี") majorInfo = document.getElementById('inputGradMajor').value;
-                if(document.getElementById('inputStaffType').value === "สายสนับสนุน") majorInfo = "-";
+                let majorInfo = "-";
+if (userType === "นิสิตคณะบริหารธุรกิจฯ") {
+    const eduLevel = document.getElementById('inputEduLevel').value;
+    majorInfo = (eduLevel === "ปริญญาตรี") 
+        ? document.getElementById('inputBachelorMajor').value 
+        : document.getElementById('inputGradMajor').value;
+} else if (userType === "บุคลากรคณะบริหารธุรกิจฯ") {
+    const staffType = document.getElementById('inputStaffType').value;
+    majorInfo = (staffType === "สายวิชาการ") 
+        ? document.getElementById('inputStaffMajor').value 
+        : "-";
+} else if (userType === "ศิษย์เก่าคณะบริหารธุรกิจฯ") {
+    majorInfo = "-";
+}
 
                 const isPost = document.getElementById('shipPost').checked;
                 const shippingCost = isPost ? 50 : 0;
