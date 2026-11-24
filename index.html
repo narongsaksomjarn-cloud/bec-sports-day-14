@@ -575,6 +575,27 @@
         </div>
     </div>
 
+    <!-- RECEIPT IMAGE PREVIEW MODAL (FOR SAVING DIRECTLY TO MOBILE PHOTOS ALBUM) -->
+    <div id="receiptImageModal" class="fixed inset-0 bg-black/75 hidden z-[150] flex flex-col items-center justify-center p-4 backdrop-blur-sm overflow-y-auto">
+        <div class="bg-white rounded-3xl max-w-sm w-full overflow-hidden relative shadow-2xl fade-in border border-gray-100 my-auto">
+            <div class="p-3.5 px-4 bg-[#E8F2FC] border-b border-blue-100 flex items-center justify-between gap-2">
+                <div class="flex items-center gap-2 text-[#0071E3] text-[13px] font-semibold text-left leading-snug">
+                    <i class="ri-smartphone-line text-lg shrink-0"></i>
+                    <span data-i18n="receipt_modal_hint">แตะค้างที่รูปภาพด้านล่าง แล้วกด "บันทึกรูปภาพ" เพื่อเก็บเข้าอัลบั้มรูป</span>
+                </div>
+                <button type="button" onclick="document.getElementById('receiptImageModal').classList.add('hidden')" class="bg-white text-[#1D1D1F] rounded-full w-8 h-8 flex items-center justify-center hover:bg-gray-100 transition-colors shrink-0 shadow-sm">
+                    <i class="ri-close-line text-xl"></i>
+                </button>
+            </div>
+            <div class="p-3 bg-[#F5F5F7] flex justify-center max-h-[75dvh] overflow-y-auto">
+                <img id="receiptPreviewImgEl" src="" class="w-full h-auto object-contain rounded-2xl shadow-sm select-auto" alt="Order Summary Receipt">
+            </div>
+            <div class="p-3 bg-white border-t border-gray-100 flex justify-center">
+                <button type="button" onclick="document.getElementById('receiptImageModal').classList.add('hidden')" class="w-full bg-[#1D1D1F] text-white font-medium h-[44px] rounded-full text-[14px] hover:bg-black/80 transition-colors" data-i18n="btn_close_modal">ปิดหน้าต่างนี้</button>
+            </div>
+        </div>
+    </div>
+
     <!-- SUCCESS SCREEN -->
     <div id="successScreen" class="hidden min-h-[100dvh] bg-[#F5F5F7] flex flex-col items-center justify-center px-4 py-10 text-center z-[100] relative">
         <div class="bg-white rounded-3xl p-6 sm:p-8 max-w-md w-full shadow-[0_20px_40px_rgba(0,0,0,0.04)] border border-gray-100">
@@ -758,6 +779,8 @@
                 status_value_pending: "รอตรวจสอบสลิปการโอนเงิน",
                 btn_save_receipt: "บันทึกภาพสรุปคำสั่งซื้อ",
                 btn_saved_receipt: "บันทึกภาพเรียบร้อยแล้ว",
+                receipt_modal_hint: "แตะค้างที่รูปภาพด้านล่าง แล้วกด \"บันทึกรูปภาพ\" เพื่อเก็บเข้าอัลบั้มรูป",
+                btn_close_modal: "ปิดหน้าต่างนี้",
                 receipt_ref_label: "รหัสอ้างอิง",
                 receipt_buyer_label: "ผู้สั่งซื้อ",
                 receipt_address_label: "ที่อยู่จัดส่ง:",
@@ -900,6 +923,8 @@
                 status_value_pending: "Pending slip verification",
                 btn_save_receipt: "Save Order Summary Image",
                 btn_saved_receipt: "Image Saved",
+                receipt_modal_hint: "Long-press the image below and tap \"Save to Photos\" to save to your album",
+                btn_close_modal: "Close",
                 receipt_ref_label: "Order Ref",
                 receipt_buyer_label: "Customer",
                 receipt_address_label: "Address:",
@@ -1635,7 +1660,7 @@
                 const payload = {
                     user_info: {
                         order_type: userType,
-                        student_id: document.getElementById('inputStudentId').value || "-",
+                        student_id: (userType === "นิสิตคณะบริหารธุรกิจฯ" && document.getElementById('inputStudentId').value) ? document.getElementById('inputStudentId').value : "-",
                         title: document.getElementById('inputNameTitle').value,
                         full_name: document.getElementById('inputFullName').value,
                         phone_number: document.getElementById('phoneInput').value,
@@ -1810,10 +1835,6 @@
             const dateStr = o.timestamp.toLocaleString(currentLang === 'en' ? 'en-GB' : 'th-TH', {
                 day: '2-digit', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit'
             });
-
-            if (document.fonts && document.fonts.ready) {
-                await document.fonts.ready;
-            }
 
             const fontFam = '"Noto Sans Thai", -apple-system, BlinkMacSystemFont, sans-serif';
             const scale = 2;
@@ -2008,14 +2029,65 @@
             ctx.font = `700 24px ${fontFam}`;
             ctx.fillText(`฿${o.grandTotal.toLocaleString()}`, rightX, curY);
 
-            // Trigger Download
+            // Generate Image Data & File synchronously (preserves iOS user gesture)
             const dataUrl = canvas.toDataURL('image/png');
+            const fileName = `BEC14_Order_${refCode}.png`;
+            const binStr = atob(dataUrl.split(',')[1]);
+            const len = binStr.length;
+            const bytes = new Uint8Array(len);
+            for (let i = 0; i < len; i++) bytes[i] = binStr.charCodeAt(i);
+            const blob = new Blob([bytes], { type: 'image/png' });
+            const imageFile = new File([blob], fileName, { type: 'image/png' });
+
+            const isMobileOrTablet = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent) ||
+                (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+
+            const showReceiptPreviewModal = () => {
+                const modalEl = document.getElementById('receiptImageModal');
+                const imgEl = document.getElementById('receiptPreviewImgEl');
+                if (modalEl && imgEl) {
+                    imgEl.src = dataUrl;
+                    modalEl.classList.remove('hidden');
+                }
+            };
+
+            // On Mobile/Tablet: use Web Share API (Save Image -> Photos Album) + Long-Press Image Modal fallback (for Messenger/LINE In-App Browsers)
+            if (isMobileOrTablet) {
+                if (navigator.canShare && navigator.canShare({ files: [imageFile] })) {
+                    try {
+                        await navigator.share({
+                            files: [imageFile],
+                            title: fileName
+                        });
+                        const btn = document.getElementById('saveReceiptBtn');
+                        if (btn) {
+                            const origHtml = btn.innerHTML;
+                            btn.innerHTML = `<i class="ri-check-line text-lg"></i> <span>${t('btn_saved_receipt', 'บันทึกภาพเรียบร้อยแล้ว')}</span>`;
+                            btn.classList.add('!bg-green-600');
+                            setTimeout(() => {
+                                btn.innerHTML = origHtml;
+                                btn.classList.remove('!bg-green-600');
+                            }, 2000);
+                        }
+                        return;
+                    } catch (err) {
+                        if (err && err.name === 'AbortError') return;
+                    }
+                }
+                // Fallback for Messenger / LINE / IG In-App Browsers: open image modal for 1-sec long-press -> Save to Photos
+                showReceiptPreviewModal();
+                return;
+            }
+
+            // On Desktop PC/Mac: direct file download
+            const blobUrl = URL.createObjectURL(blob);
             const link = document.createElement('a');
-            link.download = `BEC14_Order_${refCode}.png`;
-            link.href = dataUrl;
+            link.download = fileName;
+            link.href = blobUrl;
             document.body.appendChild(link);
             link.click();
             document.body.removeChild(link);
+            setTimeout(() => URL.revokeObjectURL(blobUrl), 3000);
 
             const btn = document.getElementById('saveReceiptBtn');
             if (btn) {
