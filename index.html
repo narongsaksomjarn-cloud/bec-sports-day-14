@@ -1736,6 +1736,10 @@
 
         function renderSuccessSummary() {
             if (!lastSubmittedOrder) return;
+            if (document.fonts && document.fonts.load) {
+                document.fonts.load('700 24px "Noto Sans Thai"');
+                document.fonts.load('600 24px "Noto Sans Thai"');
+            }
             const o = lastSubmittedOrder;
             const refCode = o.orderGroupId ? o.orderGroupId.split('-')[0].toUpperCase() : 'BEC14';
             const dateStr = o.timestamp.toLocaleString(currentLang === 'en' ? 'en-GB' : 'th-TH', {
@@ -1799,6 +1803,26 @@
             ctx.arcTo(x, y + h, x, y, r);
             ctx.arcTo(x, y, x + w, y, r);
             ctx.closePath();
+        }
+
+        function fillTextCenter(ctx, text, cx, y) {
+            ctx.textAlign = 'left';
+            ctx.direction = 'ltr';
+            const w = ctx.measureText(text).width;
+            ctx.fillText(text, cx - (w / 2), y);
+        }
+
+        function fillTextRight(ctx, text, rightX, y) {
+            ctx.textAlign = 'left';
+            ctx.direction = 'ltr';
+            const w = ctx.measureText(text).width;
+            ctx.fillText(text, rightX - w, y);
+        }
+
+        function fillTextLeft(ctx, text, leftX, y) {
+            ctx.textAlign = 'left';
+            ctx.direction = 'ltr';
+            ctx.fillText(text, leftX, y);
         }
 
         function wrapCanvasLines(ctx, text, maxWidth) {
@@ -1895,19 +1919,18 @@
             ctx.lineTo(cx + 11, cy - 7);
             ctx.stroke();
 
-            // Title & Subtitle
-            ctx.textAlign = 'center';
+            // Title & Subtitle (using manual left-aligned centering to avoid iPadOS WebKit textAlign bug)
             ctx.fillStyle = '#1D1D1F';
             ctx.font = `600 24px ${fontFam}`;
-            ctx.fillText(t('success_title', 'สั่งซื้อสำเร็จ'), cx, cardY + 110);
+            fillTextCenter(ctx, t('success_title', 'สั่งซื้อสำเร็จ'), cx, cardY + 110);
 
             ctx.fillStyle = '#86868B';
             ctx.font = `400 14px ${fontFam}`;
-            ctx.fillText(t('success_subtitle_actual', 'ขอบคุณที่สั่งซื้อเสื้อ BEC Sports Day 14'), cx, cardY + 134);
+            fillTextCenter(ctx, t('success_subtitle_actual', 'ขอบคุณที่สั่งซื้อเสื้อ BEC Sports Day 14'), cx, cardY + 134);
 
             ctx.fillStyle = '#86868B';
-            ctx.font = `400 12px monospace, ${fontFam}`;
-            ctx.fillText(`${t('receipt_ref_label', 'รหัสอ้างอิง')} #${refCode} · ${dateStr}`, cx, cardY + 156);
+            ctx.font = `400 12px ${fontFam}`;
+            fillTextCenter(ctx, `${t('receipt_ref_label', 'รหัสอ้างอิง')} #${refCode} · ${dateStr}`, cx, cardY + 156);
 
             // Summary Grey Box
             const boxX = cardX + 20;
@@ -1922,10 +1945,9 @@
             // Summary Header + Delivery Badge
             const padX = boxX + 20;
             const rightX = boxX + boxW - 20;
-            ctx.textAlign = 'left';
             ctx.fillStyle = '#1D1D1F';
             ctx.font = `600 17px ${fontFam}`;
-            ctx.fillText(t('order_summary_title', 'สรุปคำสั่งซื้อ'), padX, boxY + 32);
+            fillTextLeft(ctx, t('order_summary_title', 'สรุปคำสั่งซื้อ'), padX, boxY + 32);
 
             const delivTxt = o.shippingMethod === 'post'
                 ? t('shipping_post_title', 'จัดส่งไปรษณีย์')
@@ -1936,22 +1958,20 @@
             drawRoundedRect(ctx, rightX - badgeW, boxY + 15, badgeW, 24, 12);
             ctx.fill();
             ctx.fillStyle = '#0071E3';
-            ctx.textAlign = 'center';
-            ctx.fillText(delivTxt, rightX - badgeW / 2, boxY + 31);
+            fillTextCenter(ctx, delivTxt, rightX - (badgeW / 2), boxY + 31);
 
             // Customer Info
-            ctx.textAlign = 'left';
             ctx.fillStyle = '#1D1D1F';
             ctx.font = `500 13px ${fontFam}`;
             const idText = o.studentId ? ` (${o.studentId})` : '';
-            ctx.fillText(`${o.fullName}${idText}`, padX, boxY + 58);
+            fillTextLeft(ctx, `${o.fullName}${idText}`, padX, boxY + 58);
 
             ctx.fillStyle = '#86868B';
             ctx.font = `400 12px ${fontFam}`;
-            ctx.fillText(o.phone, padX, boxY + 76);
+            fillTextLeft(ctx, o.phone, padX, boxY + 76);
 
             addressLines.forEach((line, aIdx) => {
-                ctx.fillText(line, padX, boxY + 95 + (aIdx * 18));
+                fillTextLeft(ctx, line, padX, boxY + 95 + (aIdx * 18));
             });
 
             // Divider below customer info
@@ -1965,19 +1985,17 @@
             // Items
             o.items.forEach((item, idx) => {
                 const rowTop = curY + 24;
-                ctx.textAlign = 'left';
                 ctx.fillStyle = '#1D1D1F';
                 ctx.font = `600 14px ${fontFam}`;
-                ctx.fillText(getShirtColorName(item.color), padX, rowTop);
+                fillTextLeft(ctx, getShirtColorName(item.color), padX, rowTop);
 
                 ctx.fillStyle = '#86868B';
                 ctx.font = `400 13px ${fontFam}`;
-                ctx.fillText(`${t('item_spec_size', 'ไซซ์')} ${item.size} | ${t('item_spec_num', 'เบอร์')} #${item.num}`, padX, rowTop + 20);
+                fillTextLeft(ctx, `${t('item_spec_size', 'ไซซ์')} ${item.size} | ${t('item_spec_num', 'เบอร์')} #${item.num}`, padX, rowTop + 20);
 
-                ctx.textAlign = 'right';
                 ctx.fillStyle = '#1D1D1F';
                 ctx.font = `600 14px ${fontFam}`;
-                ctx.fillText(`฿${item.price.toLocaleString()}`, rightX, rowTop);
+                fillTextRight(ctx, `฿${item.price.toLocaleString()}`, rightX, rowTop);
 
                 curY += itemRowH;
                 if (idx < o.items.length - 1) {
@@ -1998,36 +2016,30 @@
 
             // Subtotal
             curY += 24;
-            ctx.textAlign = 'left';
             ctx.fillStyle = '#86868B';
             ctx.font = `400 14px ${fontFam}`;
-            ctx.fillText(t('label_subtotal', 'ยอดรวม'), padX, curY);
-            ctx.textAlign = 'right';
+            fillTextLeft(ctx, t('label_subtotal', 'ยอดรวม'), padX, curY);
             ctx.fillStyle = '#1D1D1F';
             ctx.font = `500 14px ${fontFam}`;
-            ctx.fillText(`฿${o.itemsTotal.toLocaleString()}`, rightX, curY);
+            fillTextRight(ctx, `฿${o.itemsTotal.toLocaleString()}`, rightX, curY);
 
             // Shipping
             curY += 24;
-            ctx.textAlign = 'left';
             ctx.fillStyle = '#86868B';
             ctx.font = `400 14px ${fontFam}`;
-            ctx.fillText(t('label_shipping', 'การจัดส่ง'), padX, curY);
-            ctx.textAlign = 'right';
+            fillTextLeft(ctx, t('label_shipping', 'การจัดส่ง'), padX, curY);
             ctx.fillStyle = '#1D1D1F';
             ctx.font = `500 14px ${fontFam}`;
-            ctx.fillText(`฿${o.shippingCost.toLocaleString()}`, rightX, curY);
+            fillTextRight(ctx, `฿${o.shippingCost.toLocaleString()}`, rightX, curY);
 
             // Grand Total
             curY += 34;
-            ctx.textAlign = 'left';
             ctx.fillStyle = '#1D1D1F';
             ctx.font = `600 17px ${fontFam}`;
-            ctx.fillText(t('label_grand_total', 'ยอดชำระสุทธิ'), padX, curY);
-            ctx.textAlign = 'right';
+            fillTextLeft(ctx, t('label_grand_total', 'ยอดชำระสุทธิ'), padX, curY);
             ctx.fillStyle = '#0071E3';
             ctx.font = `700 24px ${fontFam}`;
-            ctx.fillText(`฿${o.grandTotal.toLocaleString()}`, rightX, curY);
+            fillTextRight(ctx, `฿${o.grandTotal.toLocaleString()}`, rightX, curY);
 
             // Generate Image Data & File synchronously (preserves iOS user gesture)
             const dataUrl = canvas.toDataURL('image/png');
