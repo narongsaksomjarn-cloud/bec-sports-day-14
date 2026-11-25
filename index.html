@@ -4,80 +4,384 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="robots" content="noindex, nofollow" />
-  <title>BEC Sports Day 14 — เตรียมเปิดรับคำสั่งซื้อเร็วๆ นี้</title>
+  <title>BEC Sports Day 14 — เร็วๆ นี้</title>
 
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@400;500;600;700&display=swap" rel="stylesheet" />
-  <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Noto+Sans+Thai:wght@300;400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Rokkitt:wght@600;700;800&family=Arvo:wght@700&display=swap" rel="stylesheet" />
   <script src="https://cdn.tailwindcss.com"></script>
   <style>
     html, body {
-      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Noto Sans Thai", sans-serif;
-      background-color: #F5F5F7;
-      color: #1D1D1F;
+      font-family: "Plus Jakarta Sans", "Noto Sans Thai", -apple-system, BlinkMacSystemFont, sans-serif;
+      background-color: #ffffff;
+      color: #111113;
       -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      overflow-x: hidden;
+    }
+
+    .font-serif-editorial {
+      font-family: "Instrument Serif", Georgia, serif;
+      font-weight: 400;
+    }
+
+    .font-rockwell {
+      font-family: "Rockwell Condensed", "Rockwell", "Rokkitt", "Arvo", Georgia, serif;
+      font-weight: 700;
+      font-stretch: condensed;
+      letter-spacing: 0.01em;
+    }
+
+    /* Official Sports Day BEC PNG tinted to deep Bonnie Belle navy (#182B65) */
+    .bec-logo-ink {
+      filter: brightness(0) saturate(100%) invert(13%) sepia(54%) saturate(1650%) hue-rotate(205deg) brightness(92%) contrast(98%) drop-shadow(0 10px 24px rgba(24, 43, 101, 0.12));
+    }
+
+    /* Apple Thailand smooth luminous gradient typography */
+    .apple-thai-gradient {
+      background: linear-gradient(90deg, #A26BC9 0%, #767AC6 50%, #587D9B 100%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+
+    /* Architectural Swiss Hairline Grid */
+    .swiss-grid-bg {
+      background-image:
+        linear-gradient(to right, rgba(17, 17, 19, 0.032) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(17, 17, 19, 0.032) 1px, transparent 1px);
+      background-size: 64px 64px;
+      background-position: center top;
+    }
+
+    /* Living 4-Color Silk Aurora Layer */
+    .aurora-layer {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      pointer-events: none;
+      overflow: hidden;
+    }
+
+    .aurora-blob {
+      position: absolute;
+      border-radius: 9999px;
+      filter: blur(82px);
+      will-change: transform, opacity;
+      transition: opacity 0.65s cubic-bezier(0.22, 1, 0.36, 1), transform 0.65s ease;
+    }
+
+    /* 1. Bonnie Belle (#182B65) */
+    .blob-blue {
+      width: 54vw;
+      height: 54vw;
+      max-width: 680px;
+      max-height: 680px;
+      min-width: 280px;
+      min-height: 280px;
+      top: -12%;
+      left: -10%;
+      background: radial-gradient(circle, rgba(24, 43, 101, 0.36) 0%, rgba(24, 43, 101, 0.08) 52%, transparent 74%);
+      animation: driftOne 18s ease-in-out infinite alternate;
+    }
+
+    /* 2. Peony (#E7C0D3) */
+    .blob-pink {
+      width: 58vw;
+      height: 58vw;
+      max-width: 740px;
+      max-height: 740px;
+      min-width: 300px;
+      min-height: 300px;
+      top: 4%;
+      right: -12%;
+      background: radial-gradient(circle, rgba(231, 192, 211, 0.72) 0%, rgba(231, 192, 211, 0.22) 55%, transparent 76%);
+      animation: driftTwo 21s ease-in-out infinite alternate;
+    }
+
+    /* 3. Plum Mauve (#C9B6DD) */
+    .blob-purple {
+      width: 60vw;
+      height: 60vw;
+      max-width: 760px;
+      max-height: 760px;
+      min-width: 300px;
+      min-height: 300px;
+      bottom: -16%;
+      left: 16%;
+      background: radial-gradient(circle, rgba(201, 182, 221, 0.66) 0%, rgba(201, 182, 221, 0.2) 55%, transparent 76%);
+      animation: driftThree 23s ease-in-out infinite alternate;
+    }
+
+    /* 4. Cranberry (#630C10) */
+    .blob-red {
+      width: 48vw;
+      height: 48vw;
+      max-width: 620px;
+      max-height: 620px;
+      min-width: 250px;
+      min-height: 250px;
+      bottom: -10%;
+      right: -8%;
+      background: radial-gradient(circle, rgba(99, 12, 16, 0.28) 0%, rgba(99, 12, 16, 0.07) 52%, transparent 74%);
+      animation: driftFour 19s ease-in-out infinite alternate;
+    }
+
+    /* Interactive focus tint from hovered color row */
+    .aurora-focus {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      pointer-events: none;
+      opacity: 0;
+      transition: opacity 0.6s cubic-bezier(0.22, 1, 0.36, 1), background 0.6s ease;
+    }
+
+    /* Razor-thin Geometric Orbital Arcs (Inspired by Reference 2) */
+    .orbital-arc {
+      position: absolute;
+      border-radius: 9999px;
+      border: 1px solid rgba(255, 255, 255, 0.72);
+      box-shadow: 0 0 0 1px rgba(17, 17, 19, 0.04);
+    }
+
+    .arc-1 {
+      width: 82vw;
+      height: 82vw;
+      max-width: 1120px;
+      max-height: 1120px;
+      top: -34%;
+      right: -18%;
+    }
+
+    .arc-2 {
+      width: 62vw;
+      height: 62vw;
+      max-width: 860px;
+      max-height: 860px;
+      top: 14%;
+      left: -22%;
+    }
+
+    .arc-3 {
+      width: 48vw;
+      height: 48vw;
+      max-width: 680px;
+      max-height: 680px;
+      bottom: -24%;
+      right: 12%;
+    }
+
+    @keyframes driftOne {
+      0% { transform: translate3d(0, 0, 0) scale(1); }
+      100% { transform: translate3d(14vw, 8vh, 0) scale(1.14); }
+    }
+    @keyframes driftTwo {
+      0% { transform: translate3d(0, 0, 0) scale(1.04); }
+      100% { transform: translate3d(-14vw, 10vh, 0) scale(0.96); }
+    }
+    @keyframes driftThree {
+      0% { transform: translate3d(0, 0, 0) scale(1); }
+      100% { transform: translate3d(10vw, -12vh, 0) scale(1.1); }
+    }
+    @keyframes driftFour {
+      0% { transform: translate3d(0, 0, 0) scale(1.06); }
+      100% { transform: translate3d(-12vw, -10vh, 0) scale(0.95); }
+    }
+
+    @keyframes pulseDot {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.35; transform: scale(0.8); }
+    }
+    .status-pulse {
+      animation: pulseDot 2.2s ease-in-out infinite;
+    }
+
+    .hero-headline {
+      font-size: clamp(1.95rem, 5.4vw, 4.4rem);
+      line-height: 1.12;
+      letter-spacing: -0.032em;
+    }
+
+    /* Boxless Typographic Color Row */
+    .color-line {
+      position: relative;
+      transition: background-color 0.35s ease;
+    }
+
+    .color-line:hover {
+      background-color: rgba(255, 255, 255, 0.45);
+    }
+
+    .color-name {
+      font-size: clamp(1.75rem, 3.8vw, 3.25rem);
+      line-height: 1.02;
+      letter-spacing: -0.03em;
+      transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1), color 0.3s ease;
+    }
+
+    .color-line:hover .color-name {
+      transform: translateX(8px);
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .aurora-blob, .status-pulse { animation: none !important; }
+      .color-line:hover .color-name { transform: none; }
     }
   </style>
 </head>
-<body class="min-h-screen flex flex-col items-center justify-center p-4 sm:p-6">
-  <main class="w-full max-w-[480px] bg-white rounded-[28px] border border-black/[0.06] shadow-[0_24px_60px_rgba(0,0,0,0.06)] p-7 sm:p-10 text-center space-y-6">
-    <!-- App Icon -->
-    <div class="w-16 h-16 mx-auto rounded-[20px] bg-gradient-to-b from-[#0077ED] to-[#005BBF] text-white flex items-center justify-center text-3xl shadow-lg shadow-blue-500/25">
-      <i class="ri-t-shirt-2-line"></i>
+<body class="min-h-screen flex flex-col swiss-grid-bg relative selection:bg-[#111113] selection:text-white">
+  <!-- LIVING 4-COLOR BEC AURORA + GEOMETRIC ARCS -->
+  <div class="aurora-layer" aria-hidden="true">
+    <div class="aurora-blob blob-blue"></div>
+    <div class="aurora-blob blob-pink"></div>
+    <div class="aurora-blob blob-purple"></div>
+    <div class="aurora-blob blob-red"></div>
+    <div id="auroraFocus" class="aurora-focus"></div>
+    <div class="orbital-arc arc-1"></div>
+    <div class="orbital-arc arc-2"></div>
+    <div class="orbital-arc arc-3"></div>
+  </div>
+
+  <!-- SWISS CORNER REGISTRATION BAR -->
+  <header class="relative z-10 max-w-6xl w-full mx-auto px-6 sm:px-10 pt-6 sm:pt-8 flex items-center justify-between gap-4 text-xs">
+    <div class="flex items-center gap-3">
+      <span class="font-semibold tracking-tight text-[#111113] text-sm">BEC Sports Day <span class="font-rockwell text-base">14</span></span>
+      <span class="hidden sm:inline text-[#111113]/25">/</span>
+      <span class="hidden sm:inline text-[#6e6e73] tracking-wide">Four Colors Edition</span>
     </div>
 
-    <!-- Badge + Headline -->
-    <div class="space-y-2.5">
-      <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-blue-50 text-[#0071E3] text-xs font-semibold tracking-wide">
-        <i class="ri-time-line"></i>
-        COMING SOON
-      </span>
-      <h1 class="text-xl sm:text-2xl font-bold tracking-tight text-[#1D1D1F] leading-snug">
-        ระบบสั่งซื้อเสื้อ BEC Sports Day 14<br />กำลังเตรียมความพร้อม
+    <div class="inline-flex items-center gap-2 font-medium text-[#111113]">
+      <span class="w-2 h-2 rounded-full bg-[#f59e0b] status-pulse"></span>
+      <span>เร็วๆ นี้</span>
+    </div>
+  </header>
+
+  <!-- MAIN EDITORIAL POSTER -->
+  <main class="relative z-10 flex-1 max-w-6xl w-full mx-auto px-6 sm:px-10 pt-10 sm:pt-14 pb-10 flex flex-col justify-between gap-12 sm:gap-16">
+    <!-- MONUMENTAL HERO WITH OFFICIAL SPORTS DAY BEC LOGO -->
+    <section class="max-w-4xl w-full mx-auto text-center flex flex-col items-center space-y-5 sm:space-y-6">
+      <div class="flex items-center justify-center gap-3 text-[11px] font-semibold tracking-[0.2em] uppercase text-[#6e6e73]">
+        <span>THE <span class="font-rockwell text-xs tracking-normal">14</span>TH EDITION</span>
+        <span class="w-6 h-px bg-[#111113]/20"></span>
+        <span>COMING SOON</span>
+      </div>
+
+      <div>
+        <img src="./sports-day-bec-logo.png" alt="Sports Day BEC 14" class="bec-logo-ink mx-auto w-[300px] sm:w-[440px] md:w-[500px] max-w-full h-auto -mt-3 -mb-4 sm:-mt-5 sm:-mb-6 select-none" />
+      </div>
+
+      <h1 class="hero-headline font-bold text-[#111113] flex flex-wrap items-baseline justify-center gap-x-2.5 sm:gap-x-3.5 gap-y-1">
+        <span class="whitespace-nowrap">เปิดสั่งจองเสื้อกีฬา</span>
+        <span class="whitespace-nowrap font-bold apple-thai-gradient">เร็วๆ นี้</span>
       </h1>
-      <p class="text-sm text-[#6E6E73] leading-relaxed">
-        จะเปิดรับคำสั่งซื้ออย่างเป็นทางการเร็วๆ นี้<br />
-        กรุณาติดตามประกาศวันและเวลาเปิดระบบจากทางสโมสรนิสิตฯ
-      </p>
-    </div>
 
-    <!-- 4 Official BEC Colors -->
-    <div class="rounded-2xl bg-[#F5F5F7] p-4 space-y-2.5">
-      <div class="text-[11px] font-semibold uppercase tracking-wider text-[#6E6E73]">
-        4 สีประจำคณะ BEC Sports Day 14
+      <div class="pt-1 sm:pt-2 space-y-1.5 max-w-2xl mx-auto">
+        <p class="text-base sm:text-2xl font-semibold tracking-tight text-[#111113] leading-snug" style="text-wrap: balance;">
+          โปรดติดตามประกาศวันและเวลา <span class="whitespace-nowrap">เปิดระบบอย่างเป็นทางการ</span>
+        </p>
+        <p class="text-xs sm:text-sm text-[#515154]">
+          จากสโมสรนิสิตคณะบริหารธุรกิจ เศรษฐศาสตร์และการสื่อสาร มหาวิทยาลัยนเรศวร
+        </p>
       </div>
-      <div class="grid grid-cols-2 gap-2 text-xs font-medium text-[#1D1D1F]">
-        <div class="flex items-center gap-2 bg-white rounded-xl px-3 py-2 border border-black/[0.05]">
-          <span class="w-3.5 h-3.5 rounded-full shrink-0 border border-black/15" style="background-color:#182B65"></span>
-          <span class="truncate">Bonnie Belle</span>
-        </div>
-        <div class="flex items-center gap-2 bg-white rounded-xl px-3 py-2 border border-black/[0.05]">
-          <span class="w-3.5 h-3.5 rounded-full shrink-0 border border-black/15" style="background-color:#E7C0D3"></span>
-          <span class="truncate">Peony</span>
-        </div>
-        <div class="flex items-center gap-2 bg-white rounded-xl px-3 py-2 border border-black/[0.05]">
-          <span class="w-3.5 h-3.5 rounded-full shrink-0 border border-black/15" style="background-color:#C9B6DD"></span>
-          <span class="truncate">Plum Mauve</span>
-        </div>
-        <div class="flex items-center gap-2 bg-white rounded-xl px-3 py-2 border border-black/[0.05]">
-          <span class="w-3.5 h-3.5 rounded-full shrink-0 border border-black/15" style="background-color:#630C10"></span>
-          <span class="truncate">Cranberry</span>
-        </div>
-      </div>
-    </div>
+    </section>
 
-    <!-- Important Safety Notice -->
-    <div class="rounded-2xl bg-amber-50 border border-amber-200/80 px-4 py-3 text-left flex items-start gap-2.5">
-      <i class="ri-error-warning-line text-amber-600 text-lg shrink-0 mt-0.5"></i>
-      <div class="text-xs text-amber-900 leading-relaxed">
-        <strong>ยังไม่เปิดรับโอนเงินในขณะนี้</strong> กรุณารอเปิดฟอร์มสั่งซื้ออย่างเป็นทางการก่อนดำเนินการโอนเงินทุกครั้ง
+    <!-- BOXLESS SWISS TYPOGRAPHIC 4-COLOR INDEX -->
+    <section aria-label="งานกีฬาสี BEC 14 · 4 เฉดสี">
+      <div class="flex items-center justify-between pb-3 border-b border-[#111113]/15 text-[11px] font-semibold tracking-[0.16em] uppercase text-[#6e6e73]">
+        <span>งานกีฬาสี BEC <span class="font-rockwell text-xs tracking-normal text-[#111113]/75">14</span> · <span class="font-rockwell text-xs tracking-normal text-[#111113]/75">4</span> เฉดสี</span>
+        <span class="hidden sm:inline font-rockwell tracking-wider text-xs text-[#6e6e73]">XS – 10XL · #01–99</span>
       </div>
-    </div>
 
-    <p class="text-[11px] text-[#6E6E73] pt-1">
-      สโมสรนิสิตคณะบริหารธุรกิจ เศรษฐศาสตร์และการสื่อสาร<br />มหาวิทยาลัยนเรศวร
-    </p>
+      <div id="colorIndex" class="divide-y divide-[#111113]/10 border-b border-[#111113]/15">
+        <div class="color-line py-4 sm:py-5 flex flex-col sm:flex-row sm:items-baseline justify-between gap-1.5 sm:gap-6 cursor-default"
+             data-glow="rgba(24, 43, 101, 0.20)">
+          <div class="flex items-baseline gap-4 sm:gap-7">
+            <span class="font-rockwell text-sm sm:text-base text-[#111113]/45">01</span>
+            <span class="color-name font-rockwell" style="color:#182B65;">
+              Bonnie Belle
+            </span>
+          </div>
+          <div class="pl-8 sm:pl-0 flex flex-wrap items-baseline sm:justify-end gap-x-2.5 text-xs sm:text-sm">
+            <span class="font-semibold text-[#182B65]">สีน้ำเงิน</span>
+            <span class="text-[#111113]/25">·</span>
+            <span class="text-[#3a3a3c]">การบัญชี (ACC) · บริหารธุรกิจ (BA)</span>
+          </div>
+        </div>
+
+        <div class="color-line py-4 sm:py-5 flex flex-col sm:flex-row sm:items-baseline justify-between gap-1.5 sm:gap-6 cursor-default"
+             data-glow="rgba(231, 192, 211, 0.55)">
+          <div class="flex items-baseline gap-4 sm:gap-7">
+            <span class="font-rockwell text-sm sm:text-base text-[#111113]/45">02</span>
+            <span class="color-name font-rockwell" style="color:#A84B78;">
+              Peony
+            </span>
+          </div>
+          <div class="pl-8 sm:pl-0 flex flex-wrap items-baseline sm:justify-end gap-x-2.5 text-xs sm:text-sm">
+            <span class="font-semibold" style="color:#A84B78;">สีชมพู</span>
+            <span class="text-[#111113]/25">·</span>
+            <span class="text-[#3a3a3c]">การเงิน (FIN) · นวัตกรรมฯ (ICM) · การท่องเที่ยว (TOUR)</span>
+          </div>
+        </div>
+
+        <div class="color-line py-4 sm:py-5 flex flex-col sm:flex-row sm:items-baseline justify-between gap-1.5 sm:gap-6 cursor-default"
+             data-glow="rgba(201, 182, 221, 0.55)">
+          <div class="flex items-baseline gap-4 sm:gap-7">
+            <span class="font-rockwell text-sm sm:text-base text-[#111113]/45">03</span>
+            <span class="color-name font-rockwell" style="color:#6D4E94;">
+              Plum Mauve
+            </span>
+          </div>
+          <div class="pl-8 sm:pl-0 flex flex-wrap items-baseline sm:justify-end gap-x-2.5 text-xs sm:text-sm">
+            <span class="font-semibold" style="color:#6D4E94;">สีม่วง</span>
+            <span class="text-[#111113]/25">·</span>
+            <span class="text-[#3a3a3c]">ธุรกิจดิจิทัล (DB) · เศรษฐศาสตร์ (ECON)</span>
+          </div>
+        </div>
+
+        <div class="color-line py-4 sm:py-5 flex flex-col sm:flex-row sm:items-baseline justify-between gap-1.5 sm:gap-6 cursor-default"
+             data-glow="rgba(99, 12, 16, 0.22)">
+          <div class="flex items-baseline gap-4 sm:gap-7">
+            <span class="font-rockwell text-sm sm:text-base text-[#111113]/45">04</span>
+            <span class="color-name font-rockwell" style="color:#630C10;">
+              Cranberry
+            </span>
+          </div>
+          <div class="pl-8 sm:pl-0 flex flex-wrap items-baseline sm:justify-end gap-x-2.5 text-xs sm:text-sm">
+            <span class="font-semibold text-[#630C10]">สีแดง</span>
+            <span class="text-[#111113]/25">·</span>
+            <span class="text-[#3a3a3c]">นิเทศศาสตร์ (CA)</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SWISS EDITORIAL COLOPHON FOOTER (CENTERED) -->
+    <footer class="flex flex-col items-center text-center gap-2 text-[11px] sm:text-xs text-[#515154]">
+      <div class="inline-flex items-center justify-center gap-2 font-medium text-[#111113]">
+        <span class="w-1.5 h-1.5 rounded-full bg-[#f59e0b] shrink-0"></span>
+        <span>ยังไม่เปิดรับโอนเงิน โปรดรอประกาศเปิดระบบอย่างเป็นทางการก่อนดำเนินการทุกครั้ง</span>
+      </div>
+      <div class="text-[#6e6e73]">
+        สโมสรนิสิตคณะบริหารธุรกิจ เศรษฐศาสตร์และการสื่อสาร · มหาวิทยาลัยนเรศวร
+      </div>
+    </footer>
   </main>
+
+  <script>
+    (() => {
+      const auroraFocus = document.getElementById('auroraFocus');
+      document.querySelectorAll('#colorIndex .color-line').forEach((row) => {
+        const glow = row.getAttribute('data-glow');
+        row.addEventListener('mouseenter', () => {
+          auroraFocus.style.background = `radial-gradient(circle at 50% 62%, ${glow} 0%, transparent 65%)`;
+          auroraFocus.style.opacity = '1';
+        });
+        row.addEventListener('mouseleave', () => {
+          auroraFocus.style.opacity = '0';
+        });
+      });
+    })();
+  </script>
 </body>
 </html>
