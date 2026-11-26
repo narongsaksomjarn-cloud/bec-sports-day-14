@@ -37,8 +37,13 @@
       filter: brightness(0) saturate(100%) invert(13%) sepia(54%) saturate(1650%) hue-rotate(205deg) brightness(92%) contrast(98%) drop-shadow(0 10px 24px rgba(24, 43, 101, 0.12));
     }
 
-    /* Apple Thailand smooth luminous gradient typography */
+    /* Apple Thailand smooth luminous gradient typography (with top/bottom padding so Thai tone marks like ไม้โท on "นี้" are never clipped) */
     .apple-thai-gradient {
+      display: inline-block;
+      padding-top: 0.24em;
+      padding-bottom: 0.1em;
+      margin-top: -0.24em;
+      margin-bottom: -0.1em;
       background: linear-gradient(90deg, #A26BC9 0%, #767AC6 50%, #587D9B 100%);
       -webkit-background-clip: text;
       background-clip: text;
@@ -137,7 +142,7 @@
       transition: opacity 0.6s cubic-bezier(0.22, 1, 0.36, 1), background 0.6s ease;
     }
 
-    /* Razor-thin Geometric Orbital Arcs (Inspired by Reference 2) */
+    /* Razor-thin Geometric Orbital Arcs */
     .orbital-arc {
       position: absolute;
       border-radius: 9999px;
@@ -199,7 +204,7 @@
 
     .hero-headline {
       font-size: clamp(1.95rem, 5.4vw, 4.4rem);
-      line-height: 1.12;
+      line-height: 1.32;
       letter-spacing: -0.032em;
     }
 
@@ -267,21 +272,24 @@
         <span>COMING SOON</span>
       </div>
 
-      <div>
-        <img src="./sports-day-bec-logo.png" alt="Sports Day BEC 14" class="bec-logo-ink mx-auto w-[300px] sm:w-[440px] md:w-[500px] max-w-full h-auto -mt-3 -mb-4 sm:-mt-5 sm:-mb-6 select-none" />
+      <div class="py-1">
+        <img src="./sports-day-bec-logo.png" alt="Sports Day BEC 14" class="bec-logo-ink mx-auto w-[290px] sm:w-[440px] md:w-[500px] max-w-full h-auto -mt-2 mb-0 sm:-mt-4 sm:-mb-2 select-none" />
       </div>
 
-      <h1 class="hero-headline font-bold text-[#111113] flex flex-wrap items-baseline justify-center gap-x-2.5 sm:gap-x-3.5 gap-y-1">
+      <h1 class="hero-headline font-bold text-[#111113] flex flex-wrap items-baseline justify-center gap-x-2.5 sm:gap-x-3.5 gap-y-1 pt-1">
         <span class="whitespace-nowrap">เปิดสั่งจองเสื้อกีฬา</span>
         <span class="whitespace-nowrap font-bold apple-thai-gradient">เร็วๆ นี้</span>
       </h1>
 
-      <div class="pt-1 sm:pt-2 space-y-1.5 max-w-2xl mx-auto">
-        <p class="text-base sm:text-2xl font-semibold tracking-tight text-[#111113] leading-snug" style="text-wrap: balance;">
-          โปรดติดตามประกาศวันและเวลา <span class="whitespace-nowrap">เปิดระบบอย่างเป็นทางการ</span>
+      <div class="pt-1 sm:pt-2 space-y-2 max-w-2xl mx-auto">
+        <p class="text-base sm:text-2xl font-semibold tracking-tight text-[#111113] leading-relaxed">
+          <span class="inline-block">โปรดติดตามประกาศวันและเวลา</span>
+          <span class="inline-block">เปิดระบบอย่างเป็นทางการ</span>
         </p>
-        <p class="text-xs sm:text-sm text-[#515154]">
-          จากสโมสรนิสิตคณะบริหารธุรกิจ เศรษฐศาสตร์และการสื่อสาร มหาวิทยาลัยนเรศวร
+        <p class="text-xs sm:text-sm text-[#515154] leading-relaxed">
+          <span class="inline-block">จากสโมสรนิสิตคณะบริหารธุรกิจ</span>
+          <span class="inline-block">เศรษฐศาสตร์และการสื่อสาร</span>
+          <span class="inline-block">มหาวิทยาลัยนเรศวร</span>
         </p>
       </div>
     </section>
@@ -302,10 +310,12 @@
               Bonnie Belle
             </span>
           </div>
-          <div class="pl-8 sm:pl-0 flex flex-wrap items-baseline sm:justify-end gap-x-2.5 text-xs sm:text-sm">
-            <span class="font-semibold text-[#182B65]">สีน้ำเงิน</span>
+          <div class="pl-8 sm:pl-0 flex flex-wrap items-baseline sm:justify-end gap-x-2 text-xs sm:text-sm leading-relaxed">
+            <span class="font-semibold text-[#182B65] inline-block">สีน้ำเงิน</span>
             <span class="text-[#111113]/25">·</span>
-            <span class="text-[#3a3a3c]">การบัญชี (ACC) · บริหารธุรกิจ (BA)</span>
+            <span class="text-[#3a3a3c] inline-block">การบัญชี (ACC)</span>
+            <span class="text-[#111113]/25">·</span>
+            <span class="text-[#3a3a3c] inline-block">บริหารธุรกิจ (BA)</span>
           </div>
         </div>
 
@@ -317,10 +327,14 @@
               Peony
             </span>
           </div>
-          <div class="pl-8 sm:pl-0 flex flex-wrap items-baseline sm:justify-end gap-x-2.5 text-xs sm:text-sm">
-            <span class="font-semibold" style="color:#A84B78;">สีชมพู</span>
+          <div class="pl-8 sm:pl-0 flex flex-wrap items-baseline sm:justify-end gap-x-2 text-xs sm:text-sm leading-relaxed">
+            <span class="font-semibold inline-block" style="color:#A84B78;">สีชมพู</span>
             <span class="text-[#111113]/25">·</span>
-            <span class="text-[#3a3a3c]">การเงิน (FIN) · นวัตกรรมฯ (ICM) · การท่องเที่ยว (TOUR)</span>
+            <span class="text-[#3a3a3c] inline-block">การเงิน (FIN)</span>
+            <span class="text-[#111113]/25">·</span>
+            <span class="text-[#3a3a3c] inline-block">นวัตกรรมฯ (ICM)</span>
+            <span class="text-[#111113]/25">·</span>
+            <span class="text-[#3a3a3c] inline-block">การท่องเที่ยว (TOUR)</span>
           </div>
         </div>
 
@@ -332,10 +346,12 @@
               Plum Mauve
             </span>
           </div>
-          <div class="pl-8 sm:pl-0 flex flex-wrap items-baseline sm:justify-end gap-x-2.5 text-xs sm:text-sm">
-            <span class="font-semibold" style="color:#6D4E94;">สีม่วง</span>
+          <div class="pl-8 sm:pl-0 flex flex-wrap items-baseline sm:justify-end gap-x-2 text-xs sm:text-sm leading-relaxed">
+            <span class="font-semibold inline-block" style="color:#6D4E94;">สีม่วง</span>
             <span class="text-[#111113]/25">·</span>
-            <span class="text-[#3a3a3c]">ธุรกิจดิจิทัล (DB) · เศรษฐศาสตร์ (ECON)</span>
+            <span class="text-[#3a3a3c] inline-block">ธุรกิจดิจิทัล (DB)</span>
+            <span class="text-[#111113]/25">·</span>
+            <span class="text-[#3a3a3c] inline-block">เศรษฐศาสตร์ (ECON)</span>
           </div>
         </div>
 
@@ -347,10 +363,10 @@
               Cranberry
             </span>
           </div>
-          <div class="pl-8 sm:pl-0 flex flex-wrap items-baseline sm:justify-end gap-x-2.5 text-xs sm:text-sm">
-            <span class="font-semibold text-[#630C10]">สีแดง</span>
+          <div class="pl-8 sm:pl-0 flex flex-wrap items-baseline sm:justify-end gap-x-2 text-xs sm:text-sm leading-relaxed">
+            <span class="font-semibold text-[#630C10] inline-block">สีแดง</span>
             <span class="text-[#111113]/25">·</span>
-            <span class="text-[#3a3a3c]">นิเทศศาสตร์ (CA)</span>
+            <span class="text-[#3a3a3c] inline-block">นิเทศศาสตร์ (CA)</span>
           </div>
         </div>
       </div>
@@ -358,12 +374,17 @@
 
     <!-- SWISS EDITORIAL COLOPHON FOOTER (CENTERED) -->
     <footer class="flex flex-col items-center text-center gap-2 text-[11px] sm:text-xs text-[#515154]">
-      <div class="inline-flex items-center justify-center gap-2 font-medium text-[#111113]">
-        <span class="w-1.5 h-1.5 rounded-full bg-[#f59e0b] shrink-0"></span>
-        <span>ยังไม่เปิดรับโอนเงิน โปรดรอประกาศเปิดระบบอย่างเป็นทางการก่อนดำเนินการทุกครั้ง</span>
+      <div class="inline-flex flex-wrap items-center justify-center gap-x-1.5 gap-y-1 font-medium text-[#111113] leading-relaxed">
+        <span class="inline-flex items-center gap-1.5">
+          <span class="w-1.5 h-1.5 rounded-full bg-[#f59e0b] shrink-0"></span>
+          <span>ยังไม่เปิดรับโอนเงิน</span>
+        </span>
+        <span class="inline-block">โปรดรอประกาศเปิดระบบอย่างเป็นทางการ</span>
+        <span class="inline-block">ก่อนดำเนินการทุกครั้ง</span>
       </div>
-      <div class="text-[#6e6e73]">
-        สโมสรนิสิตคณะบริหารธุรกิจ เศรษฐศาสตร์และการสื่อสาร · มหาวิทยาลัยนเรศวร
+      <div class="text-[#6e6e73] leading-relaxed">
+        <span class="inline-block">สโมสรนิสิตคณะบริหารธุรกิจ เศรษฐศาสตร์และการสื่อสาร</span>
+        <span class="inline-block">· มหาวิทยาลัยนเรศวร</span>
       </div>
     </footer>
   </main>
@@ -385,3 +406,4 @@
   </script>
 </body>
 </html>
+```'][]}]}}
