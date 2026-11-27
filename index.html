@@ -488,7 +488,7 @@
             <div class="bg-white rounded-[28px] border border-gray-200/85 shadow-[0_12px_36px_-14px_rgba(15,23,42,0.08)] overflow-hidden">
                 <!-- 1. TOP HIGHLIGHT BAND: PRE-ORDER PERIOD & EVENT DATES -->
                 <div class="bg-gradient-to-r from-[#FFF5F5] via-white to-[#F4F8FF] border-b border-gray-200/80 px-5 py-4 sm:px-7 sm:py-5">
-                    <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-3.5">
+                    <div class="flex flex-col items-center text-center md:flex-row md:items-center md:justify-between md:text-left gap-3.5">
                         <div>
                             <span id="preorderStatusTag" class="text-[11px] font-semibold uppercase tracking-wider text-[#D92D20]" data-i18n="preorder_status_tag">เปิดรับพรีออเดอร์</span>
                             <h2 class="text-lg sm:text-xl md:text-[22px] font-bold text-[#D92D20] tracking-tight leading-snug mt-0.5">
@@ -496,7 +496,7 @@
                             </h2>
                         </div>
 
-                        <div class="inline-flex items-center gap-3 bg-white/95 border border-gray-200/80 rounded-2xl px-4 py-2.5 shadow-sm shrink-0 self-start md:self-auto">
+                        <div class="inline-flex items-center gap-3 bg-white/95 border border-gray-200/80 rounded-2xl px-4 py-2.5 shadow-sm shrink-0 self-center md:self-auto text-left">
                             <div class="w-9 h-9 rounded-xl bg-[#F5F5F7] flex items-center justify-center text-[#0071E3] shrink-0">
                                 <i class="ri-calendar-event-fill text-xl leading-none"></i>
                             </div>
@@ -542,7 +542,7 @@
                             <div class="text-xs font-semibold uppercase tracking-wider text-[#86868B] mb-2.5" data-i18n="price_tier_title">ราคาตามขนาดไซซ์</div>
                             <div class="grid grid-cols-3 gap-2.5 text-center">
                                 <div class="bg-white rounded-2xl py-3 px-2 border border-gray-200/80 shadow-sm">
-                                    <div class="text-[11px] sm:text-xs text-[#6E6E73] font-medium">2S – XL</div>
+                                    <div class="text-[11px] sm:text-xs text-[#6E6E73] font-medium">XS – XL</div>
                                     <div class="text-base sm:text-lg font-bold text-[#1D1D1F] mt-0.5">฿239</div>
                                 </div>
                                 <div class="bg-white rounded-2xl py-3 px-2 border border-gray-200/80 shadow-sm">
@@ -1073,7 +1073,7 @@
                 view_front: "ด้านหน้า",
                 view_back: "ด้านหลัง",
                 hero_hint: "เลื่อนเมาส์หรือแตะที่แถบสีเสื้อเพื่อขยายดูรายละเอียดแต่ละสี",
-                hero_spec_line: "SPORTS POLO · 2S – 10XL · เบอร์ 1–99",
+                hero_spec_line: "SPORTS POLO · XS – 10XL · เบอร์ 1–99",
                 major_blue: "การบัญชี (ACC) · บริหารธุรกิจ (BA)",
                 major_pink: "การเงิน (FIN) · นวัตกรรมฯ (ICM) · การท่องเที่ยว (TOUR)",
                 major_purple: "ธุรกิจดิจิทัล (DB) · เศรษฐศาสตร์ (ECON)",
@@ -1236,7 +1236,7 @@
                 view_front: "Front",
                 view_back: "Back",
                 hero_hint: "Hover or tap a color strip to expand and preview each jersey colorway",
-                hero_spec_line: "SPORTS POLO · 2S – 10XL · No. 1–99",
+                hero_spec_line: "SPORTS POLO · XS – 10XL · No. 1–99",
                 major_blue: "Accounting (ACC) · Business Administration (BA)",
                 major_pink: "Finance (FIN) · Innovation (ICM) · Tourism (TOUR)",
                 major_purple: "Digital Business (DB) · Economics (ECON)",
@@ -1478,7 +1478,7 @@
             ]
         };
 
-        const prices = {'2S':239,'XS':239,'S':239,'M':239,'L':239,'XL':239,'2XL':249,'3XL':249,'4XL':249,'5XL':259,'6XL':259,'7XL':259,'8XL':259,'9XL':259,'10XL':259};
+        const prices = {'XS':239,'S':239,'M':239,'L':239,'XL':239,'2XL':249,'3XL':249,'4XL':249,'5XL':259,'6XL':259,'7XL':259,'8XL':259,'9XL':259,'10XL':259};
         
         const shirtData = {
             'blue': {
@@ -1597,10 +1597,19 @@
         });
 
         const STORE_OPEN_AT_MS = new Date('2026-12-01T18:00:00+07:00').getTime();
+        const STAFF_TEST_CODE = 'smobec14';
         let storeCountdownTimer = null;
 
+        function isStaffTestMode() {
+            try {
+                return new URLSearchParams(window.location.search).get('test') === STAFF_TEST_CODE;
+            } catch (e) {
+                return false;
+            }
+        }
+
         function isStoreOpen() {
-            return Date.now() >= STORE_OPEN_AT_MS;
+            return Date.now() >= STORE_OPEN_AT_MS || isStaffTestMode();
         }
 
         function setI18nContent(el, txt) {
@@ -1673,7 +1682,15 @@
                     btnEl.innerHTML = `<span data-i18n="btn_start_order">${t('btn_start_order', 'ดำเนินการสั่งซื้อ')}</span> <i class="ri-arrow-right-s-line ml-1 text-xl"></i>`;
                 }
                 if (cdEl) {
-                    cdEl.classList.add('hidden');
+                    if (isStaffTestMode() && Date.now() < STORE_OPEN_AT_MS) {
+                        cdEl.textContent = currentLang === 'en'
+                            ? 'Staff Test Mode · Public orders stay locked until 1 Dec 2026 18:00'
+                            : 'โหมดทดสอบทีมงาน · หน้าหลักสำหรับบุคคลทั่วไปยังล็อกถึง 1 ธ.ค. 69 18.00 น.';
+                        cdEl.className = 'text-xs font-semibold text-amber-600 text-center mt-2';
+                        cdEl.classList.remove('hidden');
+                    } else {
+                        cdEl.classList.add('hidden');
+                    }
                 }
             }
         }
