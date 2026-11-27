@@ -285,10 +285,15 @@
         .fade-in { animation: fadeIn 0.3s ease-out forwards; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
+        .hero-panel.is-active .hero-jersey-img {
+            cursor: zoom-in;
+        }
+
         /* Step 2 Scoped Styles */
         .jersey-customization-page .product-preview-box {
             width: 100%;
             max-width: 340px;
+            height: 390px;
             background: radial-gradient(circle at 50% 45%, #3153AA 0%, #182B65 58%, #101D47 100%);
             border-radius: 1.75rem;
             padding: 1.5rem 1.25rem;
@@ -305,7 +310,7 @@
         @media (min-width: 1024px) {
             .jersey-customization-page .product-preview-box {
                 max-width: 360px;
-                min-height: 440px;
+                height: 440px;
             }
         }
 
@@ -372,7 +377,7 @@
                     </div>
 
                     <div class="hero-jersey-wrap pt-8 sm:pt-9 pb-1">
-                        <img src="./images/jersey-blue-front.png" data-color="blue" class="hero-jersey-img" alt="Bonnie Belle Jersey">
+                        <img src="./images/jersey-blue-front.png" data-color="blue" onclick="handleHeroJerseyClick(event, 'blue')" class="hero-jersey-img" alt="Bonnie Belle Jersey">
                     </div>
 
                     <div class="hero-panel-strip-label font-rockwell uppercase">BONNIE BELLE</div>
@@ -398,7 +403,7 @@
                     </div>
 
                     <div class="hero-jersey-wrap pt-8 sm:pt-9 pb-1">
-                        <img src="./images/jersey-pink-front.png" data-color="pink" class="hero-jersey-img" alt="Peony Jersey">
+                        <img src="./images/jersey-pink-front.png" data-color="pink" onclick="handleHeroJerseyClick(event, 'pink')" class="hero-jersey-img" alt="Peony Jersey">
                     </div>
 
                     <div class="hero-panel-strip-label font-rockwell uppercase">PEONY</div>
@@ -424,7 +429,7 @@
                     </div>
 
                     <div class="hero-jersey-wrap pt-8 sm:pt-9 pb-1">
-                        <img src="./images/jersey-purple-front.png" data-color="purple" class="hero-jersey-img" alt="Plum Mauve Jersey">
+                        <img src="./images/jersey-purple-front.png" data-color="purple" onclick="handleHeroJerseyClick(event, 'purple')" class="hero-jersey-img" alt="Plum Mauve Jersey">
                     </div>
 
                     <div class="hero-panel-strip-label font-rockwell uppercase">PLUM MAUVE</div>
@@ -450,7 +455,7 @@
                     </div>
 
                     <div class="hero-jersey-wrap pt-8 sm:pt-9 pb-1">
-                        <img src="./images/jersey-red-front.png" data-color="red" class="hero-jersey-img" alt="Cranberry Jersey">
+                        <img src="./images/jersey-red-front.png" data-color="red" onclick="handleHeroJerseyClick(event, 'red')" class="hero-jersey-img" alt="Cranberry Jersey">
                     </div>
 
                     <div class="hero-panel-strip-label font-rockwell uppercase">CRANBERRY</div>
@@ -737,9 +742,10 @@
                     <div class="flex flex-col lg:flex-row items-start gap-8 xl:gap-10 w-full">
                         <div class="w-full lg:w-[32%] xl:w-[34%] flex flex-col items-center justify-start shrink-0">
                             <div class="lg:sticky lg:top-24 w-full flex flex-col items-center">
-                                <div id="step2PreviewBox" class="product-preview-box">
-                                    <div id="step2Watermark" class="font-rockwell uppercase text-white/15 text-4xl sm:text-5xl tracking-wider select-none pointer-events-none mb-2 text-center leading-none">BONNIE BELLE</div>
-                                    <img id="shirtPreviewImg" src="./images/jersey-blue-front.png" class="relative z-10 w-full h-auto max-h-[360px] object-contain transition-opacity duration-300 drop-shadow-[0_18px_28px_rgba(0,0,0,0.28)]" alt="Preview Shirt">
+                                <div id="step2PreviewBox" onclick="openJerseyZoom(currentStep2Color, step2ViewSide)" class="product-preview-box cursor-zoom-in group">
+                                    <div id="step2Watermark" class="font-rockwell uppercase text-white/15 text-[32px] sm:text-[36px] tracking-wider whitespace-nowrap select-none pointer-events-none absolute top-5 left-1/2 -translate-x-1/2 leading-none">BONNIE BELLE</div>
+                                    <img id="shirtPreviewImg" src="./images/jersey-blue-front.png" class="relative z-10 h-[310px] lg:h-[355px] w-auto object-contain mt-6 transition-transform duration-300 group-hover:scale-[1.03] drop-shadow-[0_18px_28px_rgba(0,0,0,0.28)]" alt="Preview Shirt">
+                                    <span class="absolute bottom-3.5 right-3.5 z-20 w-9 h-9 rounded-full bg-black/25 backdrop-blur-md border border-white/25 text-white flex items-center justify-center shadow-sm group-hover:bg-black/40 transition-colors" aria-hidden="true"><i class="ri-zoom-in-line text-lg"></i></span>
                                 </div>
                                 <div class="inline-flex items-center bg-[#F5F5F7] border border-[#E5E5EA] rounded-full p-1 mt-3 shadow-sm">
                                     <button type="button" id="step2FrontBtn" onclick="setStep2ViewSide('front')" class="px-4 py-1.5 rounded-full text-xs font-semibold bg-white text-[#1D1D1F] shadow-sm transition-all" data-i18n="view_front">ด้านหน้า</button>
@@ -952,6 +958,21 @@
             <div class="p-6 pb-2 bg-white text-center text-[17px] font-semibold" data-i18n="size_chart_title">ตารางไซซ์เสื้อ</div>
             <div class="p-6">
                 <img src="https://i.postimg.cc/nLqKjm2t/unnamed.png" class="w-full object-contain rounded-xl border border-gray-100" alt="Size Chart">
+            </div>
+        </div>
+    </div>
+
+    <!-- JERSEY FULL-SIZE ZOOM MODAL -->
+    <div id="jerseyZoomModal" onclick="closeJerseyZoom()" class="fixed inset-0 bg-black/80 hidden z-[120] flex items-center justify-center p-4 backdrop-blur-md transition-opacity">
+        <div id="jerseyZoomCard" onclick="event.stopPropagation()" class="relative w-full max-w-2xl rounded-[32px] p-5 sm:p-8 flex flex-col items-center justify-between overflow-hidden shadow-2xl border border-white/20" style="background: radial-gradient(circle at 50% 45%, #3153AA 0%, #182B65 58%, #101D47 100%);">
+            <button type="button" onclick="closeJerseyZoom()" aria-label="Close zoom preview" class="absolute top-4 right-4 z-20 w-10 h-10 rounded-full bg-black/30 hover:bg-black/50 text-white flex items-center justify-center transition-colors">
+                <i class="ri-close-line text-2xl"></i>
+            </button>
+            <div id="jerseyZoomTitle" class="font-rockwell uppercase text-white/90 text-3xl sm:text-4xl tracking-wider whitespace-nowrap mb-2 select-none">BONNIE BELLE</div>
+            <img id="jerseyZoomImg" src="./images/jersey-blue-front.png" class="w-full max-h-[68vh] object-contain drop-shadow-[0_24px_40px_rgba(0,0,0,0.38)] select-none" alt="Full Size Jersey Preview">
+            <div class="inline-flex items-center bg-black/25 backdrop-blur-md border border-white/25 rounded-full p-1 mt-4">
+                <button type="button" id="zoomFrontBtn" onclick="setZoomModalSide('front')" class="px-4 py-1.5 rounded-full text-xs font-semibold bg-white text-[#1D1D1F] shadow-sm transition-all" data-i18n="view_front">ด้านหน้า</button>
+                <button type="button" id="zoomBackBtn" onclick="setZoomModalSide('back')" class="px-4 py-1.5 rounded-full text-xs font-medium text-white/90 hover:text-white transition-all" data-i18n="view_back">ด้านหลัง</button>
             </div>
         </div>
     </div>
@@ -1567,6 +1588,58 @@
             }
             changeShirtPreview(currentStep2Color);
         }
+
+        let zoomModalColor = 'blue';
+        let zoomModalSide = 'front';
+
+        function handleHeroJerseyClick(ev, colorId) {
+            if (activeHeroColor === colorId) {
+                ev.stopPropagation();
+                openJerseyZoom(colorId, heroViewSide);
+            }
+        }
+
+        function openJerseyZoom(colorId, side) {
+            const c = shirtData[colorId] || shirtData['blue'];
+            zoomModalColor = shirtData[colorId] ? colorId : 'blue';
+            zoomModalSide = (side === 'back') ? 'back' : 'front';
+
+            const card = document.getElementById('jerseyZoomCard');
+            const title = document.getElementById('jerseyZoomTitle');
+            const modal = document.getElementById('jerseyZoomModal');
+            if (card && c.bgStyle) card.style.background = c.bgStyle;
+            if (title && c.enLabel) title.textContent = c.enLabel;
+            setZoomModalSide(zoomModalSide);
+            if (modal) modal.classList.remove('hidden');
+        }
+
+        function setZoomModalSide(side) {
+            zoomModalSide = (side === 'back') ? 'back' : 'front';
+            const c = shirtData[zoomModalColor] || shirtData['blue'];
+            const img = document.getElementById('jerseyZoomImg');
+            if (img && c) {
+                img.src = zoomModalSide === 'back' ? c.backImg : c.frontImg;
+            }
+            const fBtn = document.getElementById('zoomFrontBtn');
+            const bBtn = document.getElementById('zoomBackBtn');
+            if (fBtn && bBtn) {
+                fBtn.className = zoomModalSide === 'front'
+                    ? 'px-4 py-1.5 rounded-full text-xs font-semibold bg-white text-[#1D1D1F] shadow-sm transition-all'
+                    : 'px-4 py-1.5 rounded-full text-xs font-medium text-white/90 hover:text-white transition-all';
+                bBtn.className = zoomModalSide === 'back'
+                    ? 'px-4 py-1.5 rounded-full text-xs font-semibold bg-white text-[#1D1D1F] shadow-sm transition-all'
+                    : 'px-4 py-1.5 rounded-full text-xs font-medium text-white/90 hover:text-white transition-all';
+            }
+        }
+
+        function closeJerseyZoom() {
+            const modal = document.getElementById('jerseyZoomModal');
+            if (modal) modal.classList.add('hidden');
+        }
+
+        document.addEventListener('keydown', (ev) => {
+            if (ev.key === 'Escape') closeJerseyZoom();
+        });
 
         function getShirtColorName(colorObj) {
             if (!colorObj) return '';
